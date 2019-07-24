@@ -1,0 +1,15 @@
+//
+// Created by Vladyslav USLYSTYI on 2019-07-24.
+//
+
+#ifndef ABSTRACTVM_MODINSTRUCTION_HPP
+#define ABSTRACTVM_MODINSTRUCTION_HPP
+
+
+class ModInstruction
+{
+
+};
+
+
+#endif //ABSTRACTVM_MODINSTRUCTION_HPP

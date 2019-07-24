@@ -1,0 +1,15 @@
+//
+// Created by Vladyslav USLYSTYI on 2019-07-24.
+//
+
+#ifndef ABSTRACTVM_POPINSTRUCTION_HPP
+#define ABSTRACTVM_POPINSTRUCTION_HPP
+
+
+class PopInstruction
+{
+
+};
+
+
+#endif //ABSTRACTVM_POPINSTRUCTION_HPP

@@ -1,0 +1,15 @@
+//
+// Created by Vladyslav USLYSTYI on 2019-07-24.
+//
+
+#ifndef ABSTRACTVM_PUSHINSTRUCTION_HPP
+#define ABSTRACTVM_PUSHINSTRUCTION_HPP
+
+
+class PushInstruction
+{
+
+};
+
+
+#endif //ABSTRACTVM_PUSHINSTRUCTION_HPP

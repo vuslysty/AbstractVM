@@ -1,0 +1,15 @@
+//
+// Created by Vladyslav USLYSTYI on 2019-07-24.
+//
+
+#ifndef ABSTRACTVM_EXITINSTRUCTION_HPP
+#define ABSTRACTVM_EXITINSTRUCTION_HPP
+
+
+class ExitInstruction
+{
+
+};
+
+
+#endif //ABSTRACTVM_EXITINSTRUCTION_HPP

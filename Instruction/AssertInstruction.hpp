@@ -1,0 +1,15 @@
+//
+// Created by Vladyslav USLYSTYI on 2019-07-24.
+//
+
+#ifndef ABSTRACTVM_ASSERTINSTRUCTION_HPP
+#define ABSTRACTVM_ASSERTINSTRUCTION_HPP
+
+
+class AssertInstruction
+{
+
+};
+
+
+#endif //ABSTRACTVM_ASSERTINSTRUCTION_HPP

@@ -1,0 +1,15 @@
+//
+// Created by Vladyslav USLYSTYI on 2019-07-24.
+//
+
+#ifndef ABSTRACTVM_DIVINSTRUCTION_HPP
+#define ABSTRACTVM_DIVINSTRUCTION_HPP
+
+
+class DivInstruction
+{
+
+};
+
+
+#endif //ABSTRACTVM_DIVINSTRUCTION_HPP

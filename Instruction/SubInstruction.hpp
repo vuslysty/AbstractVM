@@ -1,0 +1,15 @@
+//
+// Created by Vladyslav USLYSTYI on 2019-07-24.
+//
+
+#ifndef ABSTRACTVM_SUBINSTRUCTION_HPP
+#define ABSTRACTVM_SUBINSTRUCTION_HPP
+
+
+class SubInstruction
+{
+
+};
+
+
+#endif //ABSTRACTVM_SUBINSTRUCTION_HPP

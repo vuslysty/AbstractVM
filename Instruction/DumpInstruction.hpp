@@ -1,0 +1,15 @@
+//
+// Created by Vladyslav USLYSTYI on 2019-07-24.
+//
+
+#ifndef ABSTRACTVM_DUMPINSTRUCTION_HPP
+#define ABSTRACTVM_DUMPINSTRUCTION_HPP
+
+
+class DumpInstruction
+{
+
+};
+
+
+#endif //ABSTRACTVM_DUMPINSTRUCTION_HPP

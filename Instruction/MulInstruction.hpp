@@ -1,0 +1,15 @@
+//
+// Created by Vladyslav USLYSTYI on 2019-07-24.
+//
+
+#ifndef ABSTRACTVM_MULINSTRUCTION_HPP
+#define ABSTRACTVM_MULINSTRUCTION_HPP
+
+
+class MulInstruction
+{
+
+};
+
+
+#endif //ABSTRACTVM_MULINSTRUCTION_HPP
