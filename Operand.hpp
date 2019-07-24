@@ -10,6 +10,7 @@
 #include "Fsm additions/Fsm.hpp"
 #include "IOperand.hpp"
 #include "ExceptionAVM.hpp"
+#include "OperandFactory/OperandCreator.hpp"
 
 template <class T>
 class 	Operand : public IOperand
@@ -35,7 +36,14 @@ public:
 
 	IOperand const		*operator+(IOperand const &rhs) const
 	{
+		if (this->type == rhs.getType()) {
+			OperandCreator	*creator = OperandCreator::getInstance();
+			T 				result = this->value + *reinterpret_cast<T*>(rhs.getValue());
+			return (creator->createOperand(this->type, &result));
+		}
+		else {
 
+		}
 	}
 	IOperand const		*operator-(IOperand const &rhs) const;
 	IOperand const		*operator*(IOperand const &rhs) const;
