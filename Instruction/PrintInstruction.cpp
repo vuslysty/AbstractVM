@@ -11,11 +11,12 @@ PrintInstruction::PrintInstruction(int line)
 	this->line = line;
 }
 
-void PrintInstruction::doInstruction(std::deque<IOperand> &stack)
+void PrintInstruction::doInstruction(std::deque<IOperand*> &stack)
 {
 	if (stack.empty())
 		throw ExceptionAVM::EmptyStack();
-	if (stack.front().getType() == Int8)
-		std::cout << *reinterpret_cast<char*>(stack.front().getValue());
-
+	if (stack.front()->getType() == Int8)
+		std::cout << *reinterpret_cast<char*>(stack.front()->getValue());
+	else
+		throw ExceptionAVM::ValueIsNotASCII();
 }
