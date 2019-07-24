@@ -6,9 +6,13 @@
 #define ABSTRACTVM_ASSERTINSTRUCTION_HPP
 
 
-class AssertInstruction
-{
+#include "Instruction.hpp"
 
+class AssertInstruction : Instruction
+{
+public:
+	AssertInstruction(int line);
+	void doInstruction(std::deque<IOperand> &stack);
 };
 
 

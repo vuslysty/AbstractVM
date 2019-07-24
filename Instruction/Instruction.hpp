@@ -6,10 +6,31 @@
 #define ABSTRACTVM_INSTRUCTION_HPP
 
 
+#include <deque>
+#include "../IOperand.hpp"
+#include "../Fsm additions/Fsm.hpp"
+
 class Instruction
 {
-	bool	error;
-	std::string
+protected:
+	int	line;
+
+	Instruction();
+	Instruction(int line);
+	Instruction(Instruction const &src);
+	Instruction &operator=(Instruction const &rhs);
+
+public:
+
+	virtual ~Instruction();
+
+	virtual	void doInstruction(std::deque<IOperand> &stack);
+	static	Instruction *createInstruction(int line);
+	static	Instruction *createInstruction(eInstruction instruction, int line);
+	static	Instruction *createInstruction(eInstruction, eOperandType,
+			eNumberType, std::string, int line);
+
+
 };
 
 

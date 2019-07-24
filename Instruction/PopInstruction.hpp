@@ -6,9 +6,13 @@
 #define ABSTRACTVM_POPINSTRUCTION_HPP
 
 
-class PopInstruction
-{
+#include "Instruction.hpp"
 
+class PopInstruction : Instruction
+{
+public:
+	PopInstruction(int line);
+	void doInstruction(std::deque<IOperand> &stack);
 };
 
 

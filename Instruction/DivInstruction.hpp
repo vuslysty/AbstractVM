@@ -5,10 +5,13 @@
 #ifndef ABSTRACTVM_DIVINSTRUCTION_HPP
 #define ABSTRACTVM_DIVINSTRUCTION_HPP
 
+#include "Instruction.hpp"
 
-class DivInstruction
+class DivInstruction : Instruction
 {
-
+public:
+	DivInstruction(int line);
+	void doInstruction(std::deque<IOperand> &stack);
 };
 
 

@@ -6,9 +6,13 @@
 #define ABSTRACTVM_ADDINSTRUCTION_HPP
 
 
-class AddInstruction
-{
+#include "Instruction.hpp"
 
+class AddInstruction : Instruction
+{
+public:
+	AddInstruction(int line);
+	void doInstruction(std::deque<IOperand> &stack);
 };
 
 

@@ -5,7 +5,7 @@
 #ifndef ABSTRACTVM_FSM_HPP
 #define ABSTRACTVM_FSM_HPP
 
-
+#include <iostream>
 #include <iterator>
 #include <string>
 #include <queue>

@@ -5,11 +5,13 @@
 #ifndef ABSTRACTVM_DUMPINSTRUCTION_HPP
 #define ABSTRACTVM_DUMPINSTRUCTION_HPP
 
+#include "Instruction.hpp"
 
-class DumpInstruction
+class DumpInstruction : Instruction
 {
-
+public:
+	DumpInstruction(int line);
+	void doInstruction(std::deque<IOperand> &stack);
 };
-
 
 #endif //ABSTRACTVM_DUMPINSTRUCTION_HPP

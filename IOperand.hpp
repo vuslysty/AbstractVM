@@ -5,14 +5,24 @@
 #ifndef ABSTRACTVM_IOPERAND_HPP
 #define ABSTRACTVM_IOPERAND_HPP
 
-enum	eOperandType{};
+
+#include "Fsm additions/Fsm.hpp"
 
 class IOperand
 {
 public:
 
-	virtual int 			getPrecision(void) const = 0;
-	virtual eOperandType
+	virtual int 				getPrecision(void) const = 0;
+	virtual eOperandType		getType() const = 0;
+	virtual	void				*getValue() const = 0;
+	virtual	const std::string	&toString() const = 0;
+	virtual	IOperand const		*operator+(IOperand const &rhs) const = 0;
+	virtual	IOperand const		*operator-(IOperand const &rhs) const = 0;
+	virtual	IOperand const		*operator*(IOperand const &rhs) const = 0;
+	virtual	IOperand const		*operator/(IOperand const &rhs) const = 0;
+	virtual	IOperand const		*operator%(IOperand const &rhs) const = 0;
+
+	virtual ~IOperand() {};
 };
 
 #endif //ABSTRACTVM_IOPERAND_HPP
