@@ -166,6 +166,17 @@ public:
 
 		const char 			*what(void) const throw();
 	};
+
+	class	InvalidBinaryOperation : public std::exception
+	{
+	public:
+		InvalidBinaryOperation();
+		InvalidBinaryOperation(InvalidBinaryOperation const &src) throw();
+		InvalidBinaryOperation &operator=(InvalidBinaryOperation const &rhs);
+		~InvalidBinaryOperation() throw();
+
+		const char 			*what(void) const throw();
+	};
 	
 };
 

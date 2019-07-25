@@ -147,3 +147,15 @@ ExceptionAVM::ValueIsNotASCII& ExceptionAVM::ValueIsNotASCII::operator=(const Ex
 
 
 ExceptionAVM::ValueIsNotASCII::~ValueIsNotASCII() throw() {}
+
+
+const char* ExceptionAVM::InvalidBinaryOperation::what() const throw()
+{
+	return ("  ");
+}
+ExceptionAVM::InvalidBinaryOperation::InvalidBinaryOperation() {}
+ExceptionAVM::InvalidBinaryOperation::InvalidBinaryOperation(const ExceptionAVM::InvalidBinaryOperation &) throw() {}
+ExceptionAVM::InvalidBinaryOperation& ExceptionAVM::InvalidBinaryOperation::operator=(const ExceptionAVM::InvalidBinaryOperation &){return *this;}
+
+
+ExceptionAVM::InvalidBinaryOperation::~InvalidBinaryOperation() throw() {}

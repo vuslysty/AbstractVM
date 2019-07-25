@@ -11,8 +11,8 @@
 class AssertInstruction : Instruction
 {
 public:
-	AssertInstruction(int line);
-	void doInstruction(std::deque<IOperand> &stack);
+	explicit AssertInstruction(int line);
+	void doInstruction(std::deque<const IOperand*> &stack) final;
 };
 
 

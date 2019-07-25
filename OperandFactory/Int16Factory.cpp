@@ -11,7 +11,7 @@ const IOperand* Int16Factory::createOperand(std::string value) const
 	return new Operand<int16_t >(value);
 }
 
-const IOperand* Int16Factory::createOperand(void *value) const
+const IOperand* Int16Factory::createOperand(const void *value) const
 {
-	return new Operand<int16_t >(value);
+	return new Operand<int16_t >(const_cast<void *>(value));
 }

@@ -26,10 +26,7 @@ public:
 
 	explicit Operand<T>(void *value);
 
-	explicit Operand<T>(Operand const &src)
-	{
-		*this = src;
-	}
+	Operand<T>(Operand const &src) : type(src.type), value(src.value) {}
 
 	Operand<T>	&operator=(Operand const &rhs)
 	{
@@ -40,24 +37,24 @@ public:
 		}
 	}
 
-	~Operand<T>() {};
+	~Operand<T>() final = default;
 
-	int 				getPrecision() const
+	int 				getPrecision() const final
 	{
 		return static_cast<int>(type);
 	}
 
-	eOperandType 		getType() const
+	eOperandType 		getType() const final
 	{
 		return type;
 	}
 
-	const void				*getValue() const
+	const void				*getValue() const final
 	{
 		return (&value);
 	}
 
-	const std::string	&toString() const
+	const std::string	&toString() const final
 	{
 		static bool			wasWriting = false;
 		static std::string	str;
@@ -71,11 +68,21 @@ public:
 		return str;
 	}
 
-	IOperand const		*operator+(IOperand const &rhs) const
+	IOperand const		*operator+(IOperand const &rhs) const final
 	{
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
-			T 				result = this->value + *reinterpret_cast<const T*>(rhs.getValue());
+			T				value2 = *reinterpret_cast<const T*>(rhs.getValue());
+			T 				result = this->value + value2;
+
+			if (result - value2 != this->value)
+			{
+				if (this->value < 0 && value2 < 0)
+					throw ExceptionAVM::ValueUnderflow();
+				else
+					throw ExceptionAVM::ValueOverflow();
+			}
+
 			return (creator->createOperand(this->type, &result));
 		}
 		else {
@@ -84,11 +91,21 @@ public:
 		}
 	}
 
-	IOperand const		*operator-(IOperand const &rhs) const
+	IOperand const		*operator-(IOperand const &rhs) const final
 	{
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
-			T 				result = this->value - *reinterpret_cast<const T*>(rhs.getValue());
+			T				value2 = *reinterpret_cast<const T*>(rhs.getValue());
+			T 				result = this->value - value2;
+
+			if (result + value2 != this->value)
+			{
+				if (this->value < 0 && value2 > 0)
+					throw ExceptionAVM::ValueUnderflow();
+				else
+					throw ExceptionAVM::ValueOverflow();
+			}
+
 			return (creator->createOperand(this->type, &result));
 		}
 		else {
@@ -97,11 +114,21 @@ public:
 		}
 	}
 
-	IOperand const		*operator*(IOperand const &rhs) const
+	IOperand const		*operator*(IOperand const &rhs) const final
 	{
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
-			T 				result = this->value * *reinterpret_cast<const T*>(rhs.getValue());
+			T				value2 = *reinterpret_cast<const T*>(rhs.getValue());
+			T 				result = this->value * value2;
+
+			if (result / value2 != this->value)
+			{
+				if ((this->value < 0 && value2 < 0) || (this->value > 0 && (value2 > 0 && value2 <= 1)))
+					throw ExceptionAVM::ValueOverflow();
+				else
+					throw ExceptionAVM::ValueUnderflow();
+			}
+
 			return (creator->createOperand(this->type, &result));
 		}
 		else {
@@ -110,11 +137,24 @@ public:
 		}
 	}
 
-	IOperand const		*operator/(IOperand const &rhs) const
+	IOperand const		*operator/(IOperand const &rhs) const final
 	{
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
-			T 				result = this->value / *reinterpret_cast<const T*>(rhs.getValue());
+			T				value2 = *reinterpret_cast<const T*>(rhs.getValue());
+			if (value2 == 0)
+				throw ExceptionAVM::DivisionByZero();
+
+			T 				result = this->value / value2;
+
+			if (result * value2 != this->value)
+			{
+				if ((this->value > 0 && (value2 > 0 && value2 <= 1)))
+					throw ExceptionAVM::ValueOverflow();
+				else
+					throw ExceptionAVM::ValueUnderflow();
+			}
+
 			return (creator->createOperand(this->type, &result));
 		}
 		else {
@@ -123,11 +163,16 @@ public:
 		}
 	}
 
-	IOperand const		*operator%(IOperand const &rhs) const
+	IOperand const		*operator%(IOperand const &rhs) const final
 	{
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
-			T 				result = this->value % *reinterpret_cast<const T*>(rhs.getValue());
+			T				value2 = *reinterpret_cast<const T*>(rhs.getValue());
+			if (value2 == 0)
+				throw ExceptionAVM::ModuloByZero();
+
+			T 				result = this->value % value2;
+
 			return (creator->createOperand(this->type, &result));
 		}
 		else {
@@ -140,20 +185,30 @@ public:
 template<>
 const		IOperand *Operand<float >::operator%(IOperand const &rhs) const
 {
-		return *this / rhs;
+	throw ExceptionAVM::InvalidBinaryOperation();
 }
 
 template<>
 const		IOperand *Operand<double >::operator%(IOperand const &rhs) const
 {
-	return *this / rhs;
+	throw ExceptionAVM::InvalidBinaryOperation();
 }
 
 
 template <>
 Operand<int8_t>::Operand(std::string const &value)
 {
-	long tmp = std::stol(value);
+	int tmp;
+
+	try{
+		tmp = std::stoi(value);
+	} catch (std::exception &e){
+		if (value[0] == '-')
+			throw ExceptionAVM::ValueUnderflow();
+		else
+			throw ExceptionAVM::ValueOverflow();
+	}
+
 	if (tmp > INT8_MAX)
 		throw ExceptionAVM::ValueOverflow();
 	else if (tmp < INT8_MIN)
@@ -179,7 +234,17 @@ Operand<int8_t >::Operand(void *value) : type(Int8)
 template <>
 Operand<int16_t>::Operand(std::string const &value)
 {
-	long tmp = std::stol(value);
+	int tmp;
+
+	try{
+		tmp = std::stoi(value);
+	} catch (std::exception &e){
+		if (value[0] == '-')
+			throw ExceptionAVM::ValueUnderflow();
+		else
+			throw ExceptionAVM::ValueOverflow();
+	}
+
 	if (tmp > INT16_MAX)
 		throw ExceptionAVM::ValueOverflow();
 	else if (tmp < INT16_MIN)
@@ -205,13 +270,17 @@ Operand<int16_t >::Operand(void *value) : type(Int16)
 template <>
 Operand<int32_t>::Operand(std::string const &value)
 {
-	long tmp = std::stol(value);
-	if (tmp > INT32_MAX)
-		throw ExceptionAVM::ValueOverflow();
-	else if (tmp < INT32_MIN)
-		throw ExceptionAVM::ValueUnderflow();
+	int tmp;
 
-	this->value = static_cast<int32_t >(tmp);
+	try{
+		tmp = std::stoi(value);
+	} catch (std::exception &e){
+		if (value[0] == '-')
+			throw ExceptionAVM::ValueUnderflow();
+		else
+			throw ExceptionAVM::ValueOverflow();
+	}
+	this->value = tmp;
 	type = Int32;
 }
 
@@ -231,7 +300,17 @@ Operand<int32_t >::Operand(void *value) : type(Int32)
 template <>
 Operand<float>::Operand(std::string const &value)
 {
-	long double tmp = std::stold(value);
+	double tmp;
+
+	try{
+		tmp = std::stod(value);
+	} catch (std::exception &e){
+		if (value[0] == '-')
+			throw ExceptionAVM::ValueUnderflow();
+		else
+			throw ExceptionAVM::ValueOverflow();
+	}
+
 	if (tmp > FLT_MAX)
 		throw ExceptionAVM::ValueOverflow();
 	else if (tmp < -FLT_MAX)
@@ -258,13 +337,18 @@ Operand<float >::Operand(void *value) : type(Float)
 template <>
 Operand<double >::Operand(std::string const &value)
 {
-	long double tmp = std::stold(value);
-	if (tmp > DBL_MAX)
-		throw ExceptionAVM::ValueOverflow();
-	else if (tmp < -DBL_MAX)
-		throw ExceptionAVM::ValueUnderflow();
+	double tmp;
 
-	this->value = static_cast<double >(tmp);
+	try{
+		tmp = std::stod(value);
+	} catch (std::exception &e){
+		if (value[0] == '-')
+			throw ExceptionAVM::ValueUnderflow();
+		else
+			throw ExceptionAVM::ValueOverflow();
+	}
+
+	this->value = tmp;
 	type = Double;
 }
 

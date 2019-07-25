@@ -11,8 +11,8 @@
 class ExitInstruction : Instruction
 {
 public:
-	ExitInstruction(int line);
-	void doInstruction(std::deque<IOperand> &stack);
+	explicit ExitInstruction(int line);
+	void doInstruction(std::deque<const IOperand*> &stack) final;
 };
 
 

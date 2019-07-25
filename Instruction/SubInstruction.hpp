@@ -11,8 +11,8 @@
 class SubInstruction : Instruction
 {
 public:
-	SubInstruction(int line);
-	void doInstruction(std::deque<IOperand> &stack);
+	explicit SubInstruction(int line);
+	void doInstruction(std::deque<const IOperand*> &stack) final;
 };
 
 

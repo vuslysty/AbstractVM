@@ -10,8 +10,8 @@
 class DumpInstruction : Instruction
 {
 public:
-	DumpInstruction(int line);
-	void doInstruction(std::deque<IOperand> &stack);
+	explicit DumpInstruction(int line);
+	void doInstruction(std::deque<const IOperand*> &stack) final;
 };
 
 #endif //ABSTRACTVM_DUMPINSTRUCTION_HPP

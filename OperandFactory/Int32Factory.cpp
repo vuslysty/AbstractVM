@@ -10,7 +10,7 @@ const IOperand* Int32Factory::createOperand(std::string value) const
 	return new Operand<int32_t >(value);
 }
 
-const IOperand* Int32Factory::createOperand(void *value) const
+const IOperand* Int32Factory::createOperand(const void *value) const
 {
-	return new Operand<int32_t >(value);
+	return new Operand<int32_t >(const_cast<void *>(value));
 }

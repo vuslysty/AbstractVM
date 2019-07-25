@@ -14,7 +14,7 @@ class OperandFactory
 public:
 
 	virtual const IOperand	*createOperand(std::string) const = 0;
-	virtual const IOperand	*createOperand(void*) const = 0;
+	virtual const IOperand	*createOperand(const void*) const = 0;
 	virtual ~OperandFactory() {};
 };
 

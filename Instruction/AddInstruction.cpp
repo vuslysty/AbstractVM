@@ -10,20 +10,20 @@ AddInstruction::AddInstruction(int line)
 	this->line = line;
 }
 
-void AddInstruction::doInstruction(std::deque<IOperand*> &stack)
+void AddInstruction::doInstruction(std::deque<const IOperand*> &stack)
 {
 	if (stack.size() < 2)
 		throw ExceptionAVM::LessThanTwoElem();
 	else
 	{
-		IOperand	*first = stack.front();
+		const IOperand	*first = stack.front();
 		stack.pop_front();
 
-		IOperand	*second = stack.front();
+		const IOperand	*second = stack.front();
 		stack.pop_front();
 
-		stack.push_front(*second + *first);
+		const IOperand	*result = *second + *first;
 
-		first = static_cast<IOperand*>(stack.pop_front());
+		stack.push_front(result);
 	}
 }

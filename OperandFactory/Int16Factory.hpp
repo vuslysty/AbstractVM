@@ -13,7 +13,7 @@ class Int16Factory : public OperandFactory
 public:
 
 	const IOperand	*createOperand(std::string) const;
-	const IOperand	*createOperand(void*) const;
+	const IOperand	*createOperand(const void*) const;
 };
 
 

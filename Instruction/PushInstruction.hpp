@@ -11,7 +11,7 @@ class PushInstruction : Instruction
 {
 public:
 	explicit PushInstruction(int line);
-	void doInstruction(std::deque<IOperand> &stack);
+	void doInstruction(std::deque<const IOperand*> &stack) final;
 };
 
 

@@ -12,7 +12,7 @@ class AddInstruction : Instruction
 {
 public:
 	AddInstruction(int line);
-	void doInstruction(std::deque<IOperand> &stack);
+	void doInstruction(std::deque<const IOperand*> &stack);
 };
 
 

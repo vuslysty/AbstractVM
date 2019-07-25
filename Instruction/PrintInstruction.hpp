@@ -11,8 +11,8 @@
 class PrintInstruction : Instruction
 {
 public:
-	PrintInstruction(int line);
-	void doInstruction(std::deque<IOperand> &stack);
+	explicit PrintInstruction(int line);
+	void doInstruction(std::deque<const IOperand*> &stack) final;
 };
 
 #endif //ABSTRACTVM_PRINTINSTRUCTION_HPP

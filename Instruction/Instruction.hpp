@@ -12,24 +12,15 @@
 
 class Instruction
 {
-protected:
-	int	line;
-
-	Instruction();
-	Instruction(int line);
-	Instruction(Instruction const &src);
-	Instruction &operator=(Instruction const &rhs);
-
 public:
 
 	virtual ~Instruction();
 
-	virtual	void doInstruction(std::deque<IOperand> &stack);
-	static	Instruction *createInstruction(int line);
-	static	Instruction *createInstruction(eInstruction instruction, int line);
-	static	Instruction *createInstruction(eInstruction, eOperandType,
-			eNumberType, std::string, int line);
-
+	virtual	void doInstruction(std::deque<const IOperand*> &stack) const = 0;
+//	static	Instruction *createInstruction(int line);
+//	static	Instruction *createInstruction(eInstruction instruction, int line);
+//	static	Instruction *createInstruction(eInstruction, eOperandType,
+//			eNumberType, std::string, int line);
 
 };
 

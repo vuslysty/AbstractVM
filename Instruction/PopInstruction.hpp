@@ -11,8 +11,8 @@
 class PopInstruction : Instruction
 {
 public:
-	PopInstruction(int line);
-	void doInstruction(std::deque<IOperand> &stack);
+	explicit PopInstruction(int line);
+	void doInstruction(std::deque<const IOperand*> &stack) final;
 };
 
 

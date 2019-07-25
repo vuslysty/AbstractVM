@@ -12,7 +12,7 @@ class Int32Factory : public OperandFactory
 public:
 
 	const IOperand	*createOperand(std::string) const;
-	const IOperand	*createOperand(void*) const;
+	const IOperand	*createOperand(const void*) const;
 };
 
 #endif //ABSTRACTVM_INT32FACTORY_HPP

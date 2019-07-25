@@ -10,7 +10,7 @@ const IOperand* DoubleFactory::createOperand(std::string value) const
 	return new Operand<double >(value);
 }
 
-const IOperand* DoubleFactory::createOperand(void *value) const
+const IOperand* DoubleFactory::createOperand(const void *value) const
 {
-	return new Operand<double >(value);
+	return new Operand<double >(const_cast<void *>(value));
 }

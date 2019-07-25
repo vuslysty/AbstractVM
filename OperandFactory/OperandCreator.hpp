@@ -23,9 +23,9 @@ public:
 	~OperandCreator();
 
 	static void				cleanInstance();
-	static OperandCreator	*getInstance(void);
+	static OperandCreator	*getInstance();
 	IOperand const *createOperand(eOperandType type, std::string const &value);
-	IOperand const *createOperand(eOperandType type, void *value);
+	IOperand const *createOperand(eOperandType type, void const *value);
 };
 
 

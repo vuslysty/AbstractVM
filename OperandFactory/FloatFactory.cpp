@@ -10,7 +10,7 @@ const IOperand* FloatFactory::createOperand(std::string value) const
 	return new Operand<float >(value);
 }
 
-const IOperand* FloatFactory::createOperand(void *value) const
+const IOperand* FloatFactory::createOperand(const void *value) const
 {
-	return new Operand<float >(value);
+	return new Operand<float >(const_cast<void *>(value));
 }

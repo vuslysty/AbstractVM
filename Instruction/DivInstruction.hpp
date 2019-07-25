@@ -10,8 +10,8 @@
 class DivInstruction : Instruction
 {
 public:
-	DivInstruction(int line);
-	void doInstruction(std::deque<IOperand> &stack);
+	explicit DivInstruction(int line);
+	void doInstruction(std::deque<const IOperand*> &stack) final;
 };
 
 

@@ -11,8 +11,8 @@
 class ModInstruction : Instruction
 {
 public:
-	ModInstruction(int line);
-	void doInstruction(std::deque<IOperand> &stack);
+	explicit ModInstruction(int line);
+	void doInstruction(std::deque<const IOperand*> &stack) final;
 };
 
 

@@ -55,7 +55,7 @@ IOperand const* OperandCreator::createOperand(eOperandType type,
 }
 
 IOperand const* OperandCreator::createOperand(eOperandType type,
-											  void *value)
+											  void const *value)
 {
 	factories[type]->createOperand(value);
 }
