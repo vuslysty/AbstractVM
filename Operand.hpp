@@ -5,12 +5,12 @@
 #ifndef ABSTRACTVM_OPERAND_HPP
 #define ABSTRACTVM_OPERAND_HPP
 
-#include <sstream>
 #include <cfloat>
 #include "Fsm additions/Fsm.hpp"
 #include "IOperand.hpp"
 #include "ExceptionAVM.hpp"
 #include "OperandFactory/OperandCreator.hpp"
+#include "Convertor.hpp"
 
 template <class T>
 class 	Operand : public IOperand
@@ -18,41 +18,140 @@ class 	Operand : public IOperand
 	eOperandType	type;
 	T				value;
 
+	Operand<T>() : type(Int32), value(0) {};
+
 public:
 
-	Operand<T>();
+	explicit Operand<T>(std::string const &value);
 
-	Operand<T>(std::string);
-	Operand<T>(void *value);
+	explicit Operand<T>(void *value);
 
-	Operand<T>(Operand const &src);
-	Operand<T>	&operator=(Operand const &rhs);
-	~Operand<T>();
+	explicit Operand<T>(Operand const &src)
+	{
+		*this = src;
+	}
 
-	int 				getPrecision() const;
-	eOperandType 		getType() const;
-	void				*getValue() const;
-	const std::string	&toString() const;
+	Operand<T>	&operator=(Operand const &rhs)
+	{
+		if (this != &rhs)
+		{
+			this->value = rhs.getValue();
+			this->type = rhs;
+		}
+	}
+
+	~Operand<T>() {};
+
+	int 				getPrecision() const
+	{
+		return static_cast<int>(type);
+	}
+
+	eOperandType 		getType() const
+	{
+		return type;
+	}
+
+	const void				*getValue() const
+	{
+		return (&value);
+	}
+
+	const std::string	&toString() const
+	{
+		static bool			wasWriting = false;
+		static std::string	str;
+
+		if (!wasWriting)
+		{
+			wasWriting = true;
+			str = std::to_string(value);
+		}
+
+		return str;
+	}
 
 	IOperand const		*operator+(IOperand const &rhs) const
 	{
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
-			T 				result = this->value + *reinterpret_cast<T*>(rhs.getValue());
+			T 				result = this->value + *reinterpret_cast<const T*>(rhs.getValue());
 			return (creator->createOperand(this->type, &result));
 		}
 		else {
-
+			Convertor conv(*this, rhs);
+			return (conv.getLeft() + conv.getRight());
 		}
 	}
-	IOperand const		*operator-(IOperand const &rhs) const;
-	IOperand const		*operator*(IOperand const &rhs) const;
-	IOperand const		*operator/(IOperand const &rhs) const;
-	IOperand const		*operator%(IOperand const &rhs) const;
+
+	IOperand const		*operator-(IOperand const &rhs) const
+	{
+		if (this->type == rhs.getType()) {
+			OperandCreator	*creator = OperandCreator::getInstance();
+			T 				result = this->value - *reinterpret_cast<const T*>(rhs.getValue());
+			return (creator->createOperand(this->type, &result));
+		}
+		else {
+			Convertor conv(*this, rhs);
+			return (conv.getLeft() - conv.getRight());
+		}
+	}
+
+	IOperand const		*operator*(IOperand const &rhs) const
+	{
+		if (this->type == rhs.getType()) {
+			OperandCreator	*creator = OperandCreator::getInstance();
+			T 				result = this->value * *reinterpret_cast<const T*>(rhs.getValue());
+			return (creator->createOperand(this->type, &result));
+		}
+		else {
+			Convertor conv(*this, rhs);
+			return (conv.getLeft() * conv.getRight());
+		}
+	}
+
+	IOperand const		*operator/(IOperand const &rhs) const
+	{
+		if (this->type == rhs.getType()) {
+			OperandCreator	*creator = OperandCreator::getInstance();
+			T 				result = this->value / *reinterpret_cast<const T*>(rhs.getValue());
+			return (creator->createOperand(this->type, &result));
+		}
+		else {
+			Convertor conv(*this, rhs);
+			return (conv.getLeft() / conv.getRight());
+		}
+	}
+
+	IOperand const		*operator%(IOperand const &rhs) const
+	{
+		if (this->type == rhs.getType()) {
+			OperandCreator	*creator = OperandCreator::getInstance();
+			T 				result = this->value % *reinterpret_cast<const T*>(rhs.getValue());
+			return (creator->createOperand(this->type, &result));
+		}
+		else {
+			Convertor conv(*this, rhs);
+			return (conv.getLeft() % conv.getRight());
+		}
+	}
 };
 
+template<>
+const		IOperand *Operand<float >::operator%(IOperand const &rhs) const
+{
+		return *this / rhs;
+}
+
+template<>
+const		IOperand *Operand<double >::operator%(IOperand const &rhs) const
+{
+	return *this / rhs;
+}
+
+
 template <>
-Operand<int8_t>::Operand(std::string value)
+Operand<int8_t>::Operand(std::string const &value)
 {
 	long tmp = std::stol(value);
 	if (tmp > INT8_MAX)
@@ -78,7 +177,7 @@ Operand<int8_t >::Operand(void *value) : type(Int8)
 }
 
 template <>
-Operand<int16_t>::Operand(std::string value)
+Operand<int16_t>::Operand(std::string const &value)
 {
 	long tmp = std::stol(value);
 	if (tmp > INT16_MAX)
@@ -104,7 +203,7 @@ Operand<int16_t >::Operand(void *value) : type(Int16)
 }
 
 template <>
-Operand<int32_t>::Operand(std::string value)
+Operand<int32_t>::Operand(std::string const &value)
 {
 	long tmp = std::stol(value);
 	if (tmp > INT32_MAX)
@@ -130,7 +229,7 @@ Operand<int32_t >::Operand(void *value) : type(Int32)
 }
 
 template <>
-Operand<float>::Operand(std::string value)
+Operand<float>::Operand(std::string const &value)
 {
 	long double tmp = std::stold(value);
 	if (tmp > FLT_MAX)
@@ -157,7 +256,7 @@ Operand<float >::Operand(void *value) : type(Float)
 
 
 template <>
-Operand<double >::Operand(std::string value)
+Operand<double >::Operand(std::string const &value)
 {
 	long double tmp = std::stold(value);
 	if (tmp > DBL_MAX)

@@ -5,6 +5,18 @@
 #include "Convertor.hpp"
 #include "OperandFactory/OperandCreator.hpp"
 
+Convertor::Convertor() {}
+Convertor::Convertor(Convertor const &) {}
+Convertor& Convertor::operator=(Convertor const &) {return *this;}
+Convertor::~Convertor()
+{
+	if (delMode)
+		delete rightOperand;
+	else
+		delete leftOperand;
+}
+
+
 Convertor::Convertor(IOperand const &lhs, IOperand const &rhs)
 {
 	OperandCreator	*creator = OperandCreator::getInstance();
@@ -19,4 +31,14 @@ Convertor::Convertor(IOperand const &lhs, IOperand const &rhs)
 		rightOperand = &rhs;
 		delMode = false;
 	}
+}
+
+const IOperand& Convertor::getLeft()
+{
+	return *leftOperand;
+}
+
+const IOperand& Convertor::getRight()
+{
+	return *rightOperand;
 }
