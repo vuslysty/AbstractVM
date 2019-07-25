@@ -3,7 +3,6 @@
 //
 
 #include "Int16Factory.hpp"
-
 #include "../Operand.hpp"
 
 const IOperand* Int16Factory::createOperand(std::string value) const

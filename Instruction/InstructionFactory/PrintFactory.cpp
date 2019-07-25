@@ -5,7 +5,7 @@
 #include "PrintFactory.hpp"
 #include "../PrintInstruction.hpp"
 
-IInstruction* PrintFactory::createInstruction(Fsm const &fsm)
+IInstruction* PrintFactory::createInstruction(Fsm const &)
 {
 	return new PrintInstruction();
 }

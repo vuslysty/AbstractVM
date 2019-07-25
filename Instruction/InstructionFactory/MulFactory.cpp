@@ -5,7 +5,7 @@
 #include "MulFactory.hpp"
 #include "../MulInstruction.hpp"
 
-IInstruction* MulFactory::createInstruction(Fsm const &fsm)
+IInstruction* MulFactory::createInstruction(Fsm const &)
 {
 	return new MulInstruction();
 }

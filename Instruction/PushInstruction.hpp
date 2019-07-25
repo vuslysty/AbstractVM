@@ -9,7 +9,13 @@
 
 class PushInstruction : public IInstruction
 {
+	const IOperand	*operand;
+
 public:
+
+	PushInstruction();
+	PushInstruction(eOperandType type, std::string const &value);
+
 	void doInstruction(std::deque<const IOperand*> &stack) const;
 };
 

@@ -4,8 +4,9 @@
 
 #include "PushFactory.hpp"
 #include "../PushInstruction.hpp"
+#include "../AssertInstruction.hpp"
 
 IInstruction* PushFactory::createInstruction(Fsm const &fsm)
 {
-	return new PushInstruction();
+	return new PushInstruction(fsm.getOperandType(), fsm.getNumberInString());
 }

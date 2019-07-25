@@ -6,7 +6,11 @@
 #define ABSTRACTVM_IOPERAND_HPP
 
 
-#include "Fsm additions/Fsm.hpp"
+//#include "Fsm additions/Fsm.hpp"
+
+
+#include "AVM.hpp"
+#include <string>
 
 class IOperand
 {

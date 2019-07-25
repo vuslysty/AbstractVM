@@ -5,7 +5,7 @@
 #include "SubFactory.hpp"
 #include "../SubInstruction.hpp"
 
-IInstruction* SubFactory::createInstruction(Fsm const &fsm)
+IInstruction* SubFactory::createInstruction(Fsm const &)
 {
 	return new SubInstruction();
 }

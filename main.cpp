@@ -61,9 +61,9 @@ int main ()
 
 //	int tmp = std::stoi("        -999999999");
 
-	int a = -1;
-	int b = INT32_MAX;
-	int res = a * b;
+//	int a = -1;
+//	int b = INT32_MAX;
+//	int res = a * b;
 
 
 	std::cout << 0.1 / -10;

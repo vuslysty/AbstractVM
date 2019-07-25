@@ -14,14 +14,14 @@ const std::string Fsm::sOperandTypes[OPER_TYPE_COUNT] = {
 
 void Fsm::doFsm()
 {
-	int	currState = 1;
-
-	while (1)
-	{
-		if (stopFlag)
-			break ;
-
-	}
+//	int	currState = 1;
+//
+//	while (1)
+//	{
+//		if (stopFlag)
+//			break ;
+//
+//	}
 }
 
 eInstruction Fsm::getInstructionType() const

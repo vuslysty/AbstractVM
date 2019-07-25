@@ -5,7 +5,7 @@
 #include "PopFactory.hpp"
 #include "../PopInstruction.hpp"
 
-IInstruction* PopFactory::createInstruction(Fsm const &fsm)
+IInstruction* PopFactory::createInstruction(Fsm const &)
 {
 	return new PopInstruction();
 }

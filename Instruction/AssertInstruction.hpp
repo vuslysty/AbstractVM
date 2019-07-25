@@ -10,9 +10,13 @@
 
 class AssertInstruction : public IInstruction
 {
-	IOperand	*operand;
+	const IOperand	*operand;
 
 public:
+
+	AssertInstruction();
+	AssertInstruction(eOperandType type, std::string const &value);
+
 	void doInstruction(std::deque<const IOperand*> &stack) const;
 };
 

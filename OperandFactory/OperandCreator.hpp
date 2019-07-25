@@ -17,7 +17,6 @@ class OperandCreator
 	OperandCreator();
 	OperandCreator(OperandCreator const &src);
 	OperandCreator	&operator=(OperandCreator const &rhs);
-
 public:
 
 	~OperandCreator();

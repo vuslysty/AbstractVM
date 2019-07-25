@@ -11,21 +11,6 @@
 #include <map>
 #include "../Instruction/IInstruction.hpp"
 
-#define INSTR_COUNT 	11
-#define OPER_TYPE_COUNT 5
-
-enum	eInstruction{
-	Push, Assert, Pop, Dump, Add, Sub, Mul, Div, Mod, Print, Exit
-};
-
-enum	eOperandType{
-	Int8, Int16, Int32, Float, Double
-};
-
-enum	eNumberType{
-	N, Z
-};
-
 enum	eSyntax{
 	Zero = '\0', EndLine = '\n', Comment = ';'
 };
@@ -59,7 +44,7 @@ class Fsm
 	int 						tmpVar;
 	std::string					str;
 
-	std::map<int, *IInstruction>	instructionMap;
+//	std::map<int, *IInstruction>	instructionMap;
 
 	static const std::string sOperandTypes[OPER_TYPE_COUNT];
 	static const std::string sInstrutions[INSTR_COUNT];

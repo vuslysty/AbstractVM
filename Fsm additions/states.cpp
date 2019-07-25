@@ -49,13 +49,13 @@ void Fsm::endOfNumberZ()
 	numberType = Z;
 }
 
-void Fsm::changeInstruction()
-{
-	rowNum++;
-
-	if (str[carret] == Zero)
-		flags.stop = true;
-
-	if (flags.error)
-		instructionQueue.push(new )
-}
+//void Fsm::changeInstruction()
+//{
+//	rowNum++;
+//
+//	if (str[carret] == Zero)
+//		flags.stop = true;
+//
+//	if (flags.error)
+//		instructionQueue.push(new )
+//}

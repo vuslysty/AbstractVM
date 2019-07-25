@@ -5,7 +5,7 @@
 #include "DumpFactory.hpp"
 #include "../DumpInstruction.hpp"
 
-IInstruction* DumpFactory::createInstruction(Fsm const &fsm)
+IInstruction* DumpFactory::createInstruction(Fsm const &)
 {
 	return new DumpInstruction();
 }

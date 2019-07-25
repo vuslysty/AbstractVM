@@ -5,7 +5,7 @@
 #include "ModFactory.hpp"
 #include "../ModInstruction.hpp"
 
-IInstruction* ModFactory::createInstruction(Fsm const &fsm)
+IInstruction* ModFactory::createInstruction(Fsm const &)
 {
 	return new ModInstruction();
 }

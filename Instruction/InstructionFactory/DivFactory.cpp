@@ -5,7 +5,7 @@
 #include "DivFactory.hpp"
 #include "../DivInstruction.hpp"
 
-IInstruction* DivFactory::createInstruction(Fsm const &fsm)
+IInstruction* DivFactory::createInstruction(Fsm const &)
 {
 	return new DivInstruction();
 }

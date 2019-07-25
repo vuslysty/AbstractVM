@@ -5,7 +5,7 @@
 #include "ExitFactory.hpp"
 #include "../ExitInstruction.hpp"
 
-IInstruction* ExitFactory::createInstruction(Fsm const &fsm)
+IInstruction* ExitFactory::createInstruction(Fsm const &)
 {
 	return new ExitInstruction();
 }

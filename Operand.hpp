@@ -68,12 +68,17 @@ public:
 		return str;
 	}
 
-	bool                operator==(IOperand const &rhs)
+	bool                operator==(IOperand const &rhs) const final
 	{
-		if (this->type == rhs.getType() && this->value == rhs.getValue())
+		if (this->type == rhs.getType() && this->value == *reinterpret_cast<T*>(const_cast<void*>(rhs.getValue())))
 			return true;
 		else
 			return false;
+	}
+
+	bool                operator!=(IOperand const &rhs) const final
+	{
+		return !(*this == rhs);
 	}
 
 	IOperand const		*operator+(IOperand const &rhs) const final
@@ -191,13 +196,13 @@ public:
 };
 
 template<>
-const		IOperand *Operand<float >::operator%(IOperand const &rhs) const
+const		IOperand *Operand<float >::operator%(IOperand const &) const
 {
 	throw ExceptionAVM::InvalidBinaryOperation();
 }
 
 template<>
-const		IOperand *Operand<double >::operator%(IOperand const &rhs) const
+const		IOperand *Operand<double >::operator%(IOperand const &) const
 {
 	throw ExceptionAVM::InvalidBinaryOperation();
 }

@@ -7,5 +7,5 @@
 
 IInstruction* AssertFactory::createInstruction(Fsm const &fsm)
 {
-	return new AssertInstruction();
+	return new AssertInstruction(fsm.getOperandType(), fsm.getNumberInString());
 }

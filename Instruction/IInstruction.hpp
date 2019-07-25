@@ -13,15 +13,9 @@
 class IInstruction
 {
 public:
-
-	virtual ~IInstruction();
-
+	
 	virtual	void doInstruction(std::deque<const IOperand *> &stack) const = 0;
-//	static	IInstruction *createInstruction(int line);
-//	static	IInstruction *createInstruction(eInstruction instruction, int line);
-//	static	IInstruction *createInstruction(eInstruction, eOperandType,
-//			eNumberType, std::string, int line);
-
+	virtual ~IInstruction() {};
 };
 
 
