@@ -5,12 +5,7 @@
 #include "ModInstruction.hpp"
 #include "../ExceptionAVM.hpp"
 
-ModInstruction::ModInstruction(int line)
-{
-	this->line = line;
-}
-
-void ModInstruction::doInstruction(std::deque<const IOperand*> &stack)
+void ModInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	if (stack.size() < 2)
 		throw ExceptionAVM::LessThanTwoElem();

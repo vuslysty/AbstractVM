@@ -5,13 +5,12 @@
 #ifndef ABSTRACTVM_PUSHINSTRUCTION_HPP
 #define ABSTRACTVM_PUSHINSTRUCTION_HPP
 
-#include "Instruction.hpp"
+#include "IInstruction.hpp"
 
-class PushInstruction : Instruction
+class PushInstruction : public IInstruction
 {
 public:
-	explicit PushInstruction(int line);
-	void doInstruction(std::deque<const IOperand*> &stack) final;
+	void doInstruction(std::deque<const IOperand*> &stack) const;
 };
 
 

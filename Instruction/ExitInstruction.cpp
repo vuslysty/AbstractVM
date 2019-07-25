@@ -3,3 +3,8 @@
 //
 
 #include "ExitInstruction.hpp"
+
+void ExitInstruction::doInstruction(std::deque<const IOperand *> &stack) const
+{
+
+}

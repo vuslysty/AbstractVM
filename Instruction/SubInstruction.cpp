@@ -5,12 +5,7 @@
 #include "SubInstruction.hpp"
 #include "../ExceptionAVM.hpp"
 
-SubInstruction::SubInstruction(int line)
-{
-	this->line = line;
-}
-
-void SubInstruction::doInstruction(std::deque<const IOperand*> &stack)
+void SubInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	if (stack.size() < 2)
 		throw ExceptionAVM::LessThanTwoElem();

@@ -68,6 +68,14 @@ public:
 		return str;
 	}
 
+	bool                operator==(IOperand const &rhs)
+	{
+		if (this->type == rhs.getType() && this->value == rhs.getValue())
+			return true;
+		else
+			return false;
+	}
+
 	IOperand const		*operator+(IOperand const &rhs) const final
 	{
 		if (this->type == rhs.getType()) {

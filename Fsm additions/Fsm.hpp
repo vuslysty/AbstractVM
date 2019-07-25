@@ -8,7 +8,8 @@
 #include <iostream>
 #include <iterator>
 #include <string>
-#include <queue>
+#include <map>
+#include "../Instruction/IInstruction.hpp"
 
 #define INSTR_COUNT 	11
 #define OPER_TYPE_COUNT 5
@@ -58,7 +59,7 @@ class Fsm
 	int 						tmpVar;
 	std::string					str;
 
-	std::queue<*IInstruction>	instructionQueue;
+	std::map<int, *IInstruction>	instructionMap;
 
 	static const std::string sOperandTypes[OPER_TYPE_COUNT];
 	static const std::string sInstrutions[INSTR_COUNT];
@@ -86,14 +87,17 @@ class Fsm
 	void	changeInstruction();
 	void	error();
 
-
-
 public:
 
-	Fsm();
 	Fsm(std::string const &fileName);
-
 	void	doFsm();
+
+	eInstruction	getInstructionType() const;
+	eOperandType	getOperandType() const;
+	eNumberType		getNumberType() const;
+	std::string		getNumberInString() const;
+
+	Fsm();
 
 };
 

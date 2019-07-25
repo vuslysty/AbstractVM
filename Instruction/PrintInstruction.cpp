@@ -6,12 +6,7 @@
 #include "PrintInstruction.hpp"
 #include "../ExceptionAVM.hpp"
 
-PrintInstruction::PrintInstruction(int line)
-{
-	this->line = line;
-}
-
-void PrintInstruction::doInstruction(std::deque<const IOperand*> &stack)
+void PrintInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	if (stack.empty())
 		throw ExceptionAVM::EmptyStack();

@@ -6,13 +6,12 @@
 #define ABSTRACTVM_MULINSTRUCTION_HPP
 
 
-#include "Instruction.hpp"
+#include "IInstruction.hpp"
 
-class MulInstruction : Instruction
+class MulInstruction : public IInstruction
 {
 public:
-	explicit MulInstruction(int line);
-	void doInstruction(std::deque<const IOperand*> &stack) final;
+	void doInstruction(std::deque<const IOperand*> &stack) const;
 };
 
 

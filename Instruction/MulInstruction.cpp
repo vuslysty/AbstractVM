@@ -5,12 +5,7 @@
 #include "MulInstruction.hpp"
 #include "../ExceptionAVM.hpp"
 
-MulInstruction::MulInstruction(int line)
-{
-	this->line = line;
-}
-
-void MulInstruction::doInstruction(std::deque<const IOperand*> &stack)
+void MulInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	if (stack.size() < 2)
 		throw ExceptionAVM::LessThanTwoElem();

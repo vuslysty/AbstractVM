@@ -3,3 +3,8 @@
 //
 
 #include "PushInstruction.hpp"
+
+void PushInstruction::doInstruction(std::deque<const IOperand *> &stack) const
+{
+
+}

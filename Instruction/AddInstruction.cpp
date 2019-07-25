@@ -5,12 +5,7 @@
 #include "AddInstruction.hpp"
 #include "../ExceptionAVM.hpp"
 
-AddInstruction::AddInstruction(int line)
-{
-	this->line = line;
-}
-
-void AddInstruction::doInstruction(std::deque<const IOperand*> &stack)
+void AddInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	if (stack.size() < 2)
 		throw ExceptionAVM::LessThanTwoElem();

@@ -6,13 +6,12 @@
 #define ABSTRACTVM_PRINTINSTRUCTION_HPP
 
 
-#include "Instruction.hpp"
+#include "IInstruction.hpp"
 
-class PrintInstruction : Instruction
+class PrintInstruction : public IInstruction
 {
 public:
-	explicit PrintInstruction(int line);
-	void doInstruction(std::deque<const IOperand*> &stack) final;
+	void doInstruction(std::deque<const IOperand*> &stack) const;
 };
 
 #endif //ABSTRACTVM_PRINTINSTRUCTION_HPP

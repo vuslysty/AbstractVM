@@ -23,3 +23,24 @@ void Fsm::doFsm()
 
 	}
 }
+
+eInstruction Fsm::getInstructionType() const
+{
+	return (instruction);
+}
+
+eOperandType Fsm::getOperandType() const
+{
+	return operandType;
+}
+
+eNumberType Fsm::getNumberType() const
+{
+	return numberType;
+}
+
+std::string Fsm::getNumberInString() const
+{
+	std::string		number;
+	return number.assign(str, beginNum, endNum - beginNum + 1);
+}

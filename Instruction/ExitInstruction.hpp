@@ -6,13 +6,12 @@
 #define ABSTRACTVM_EXITINSTRUCTION_HPP
 
 
-#include "Instruction.hpp"
+#include "IInstruction.hpp"
 
-class ExitInstruction : Instruction
+class ExitInstruction : public IInstruction
 {
 public:
-	explicit ExitInstruction(int line);
-	void doInstruction(std::deque<const IOperand*> &stack) final;
+	void doInstruction(std::deque<const IOperand*> &stack) const;
 };
 
 
