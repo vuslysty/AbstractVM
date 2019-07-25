@@ -3,7 +3,7 @@
 //
 
 #include "AssertFactory.hpp"
-#include "../AssertInstruction.hpp"
+#include "../../Fsm additions/Fsm.hpp"
 
 IInstruction* AssertFactory::createInstruction(Fsm const &fsm)
 {

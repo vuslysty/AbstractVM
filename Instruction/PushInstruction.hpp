@@ -6,6 +6,7 @@
 #define ABSTRACTVM_PUSHINSTRUCTION_HPP
 
 #include "IInstruction.hpp"
+#include "../AVM.hpp"
 
 class PushInstruction : public IInstruction
 {

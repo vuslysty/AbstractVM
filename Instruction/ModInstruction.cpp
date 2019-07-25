@@ -4,6 +4,7 @@
 
 #include "ModInstruction.hpp"
 #include "../ExceptionAVM.hpp"
+#include "../IOperand.hpp"
 
 void ModInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {

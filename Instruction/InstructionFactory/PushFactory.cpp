@@ -5,6 +5,7 @@
 #include "PushFactory.hpp"
 #include "../PushInstruction.hpp"
 #include "../AssertInstruction.hpp"
+#include "../../Fsm additions/Fsm.hpp"
 
 IInstruction* PushFactory::createInstruction(Fsm const &fsm)
 {

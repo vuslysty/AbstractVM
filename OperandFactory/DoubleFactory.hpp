@@ -7,6 +7,7 @@
 
 
 #include "OperandFactory.hpp"
+#include "../Operand.hpp"
 
 class DoubleFactory : public OperandFactory
 {

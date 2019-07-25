@@ -7,6 +7,7 @@
 
 
 #include "InstructionFactory.hpp"
+#include "../AssertInstruction.hpp"
 
 class AssertFactory : public InstructionFactory
 {

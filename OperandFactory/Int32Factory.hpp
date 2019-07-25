@@ -6,6 +6,7 @@
 #define ABSTRACTVM_INT32FACTORY_HPP
 
 #include "OperandFactory.hpp"
+#include "../Operand.hpp"
 
 class Int32Factory : public OperandFactory
 {

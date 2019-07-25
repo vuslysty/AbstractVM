@@ -3,8 +3,7 @@
 //
 
 #include "AssertInstruction.hpp"
-#include "../ExceptionAVM.hpp"
-#include "../OperandFactory/OperandCreator.hpp"
+
 
 void AssertInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {

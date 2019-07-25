@@ -3,9 +3,9 @@
 //
 
 #include "Int16Factory.hpp"
-#include "../Operand.hpp"
 
-const IOperand* Int16Factory::createOperand(std::string value) const
+
+const inline IOperand* Int16Factory::createOperand(std::string value) const
 {
 	return new Operand<int16_t >(value);
 }

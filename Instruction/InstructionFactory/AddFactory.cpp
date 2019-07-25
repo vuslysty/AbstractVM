@@ -3,7 +3,6 @@
 //
 
 #include "AddFactory.hpp"
-#include "../AddInstruction.hpp"
 
 IInstruction* AddFactory::createInstruction(Fsm const &)
 {

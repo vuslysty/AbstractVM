@@ -3,9 +3,8 @@
 //
 
 #include "FloatFactory.hpp"
-#include "../Operand.hpp"
 
-const IOperand* FloatFactory::createOperand(std::string value) const
+const inline IOperand* FloatFactory::createOperand(std::string value) const
 {
 	return new Operand<float >(value);
 }

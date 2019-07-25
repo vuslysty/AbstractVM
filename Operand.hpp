@@ -6,8 +6,8 @@
 #define ABSTRACTVM_OPERAND_HPP
 
 #include <cfloat>
-#include "Fsm additions/Fsm.hpp"
-#include "IOperand.hpp"
+//#include "Fsm additions/Fsm.hpp"
+//#include "IOperand.hpp"
 #include "ExceptionAVM.hpp"
 #include "OperandFactory/OperandCreator.hpp"
 #include "Convertor.hpp"

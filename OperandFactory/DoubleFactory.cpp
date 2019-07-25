@@ -3,9 +3,8 @@
 //
 
 #include "DoubleFactory.hpp"
-#include "../Operand.hpp"
 
-const IOperand* DoubleFactory::createOperand(std::string value) const
+const inline IOperand* DoubleFactory::createOperand(std::string value) const
 {
 	return new Operand<double >(value);
 }

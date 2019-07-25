@@ -12,8 +12,8 @@ class Int8Factory : public OperandFactory
 {
 public:
 
-	const IOperand	*createOperand(std::string) const;
-	const IOperand	*createOperand(const void*) const;
+	const IOperand	*createOperand(std::string) const final;
+	const IOperand	*createOperand(const void*) const final;
 };
 
 
