@@ -3,11 +3,7 @@
 //
 
 #include "OperandCreator.hpp"
-#include "Int8Factory.hpp"
-#include "Int32Factory.hpp"
-#include "Int16Factory.hpp"
-#include "FloatFactory.hpp"
-#include "DoubleFactory.hpp"
+#include "OperandFactory.hpp"
 
 OperandCreator::OperandCreator()
 {
@@ -54,21 +50,8 @@ IOperand const* OperandCreator::createOperand(eOperandType type,
 	return factories[type]->createOperand(value);
 }
 
-IOperand const* OperandCreator::createOperand(eOperandType type,
-											  void const *value)
-{
-	return factories[type]->createOperand(value);
-}
-
 OperandCreator		*OperandCreator::instance = nullptr;
 
-//OperandFactory const *OperandCreator::factories[5] = {
-//		[0] = new Int8Factory(),
-//		[1] = new Int16Factory(),
-//		[2] = new Int32Factory(),
-//		[3] = new FloatFactory(),
-//		[4] = new DoubleFactory()
-//};
 
 OperandFactory const *OperandCreator::factories[5] = {
 		nullptr,

@@ -14,8 +14,42 @@ class OperandFactory
 public:
 
 	virtual const IOperand	*createOperand(std::string) const = 0;
-	virtual const IOperand	*createOperand(const void*) const = 0;
 	virtual ~OperandFactory() {};
+};
+
+class Int8Factory : public OperandFactory
+{
+public:
+
+	const IOperand	*createOperand(std::string) const;
+};
+
+class Int16Factory : public OperandFactory
+{
+public:
+
+	const IOperand	*createOperand(std::string) const;
+};
+
+class Int32Factory : public OperandFactory
+{
+public:
+
+	const IOperand	*createOperand(std::string) const;
+};
+
+class FloatFactory : public OperandFactory
+{
+public:
+
+	const IOperand	*createOperand(std::string) const;
+};
+
+class DoubleFactory : public OperandFactory
+{
+public:
+
+	const IOperand	*createOperand(std::string) const;
 };
 
 

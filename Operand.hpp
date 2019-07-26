@@ -6,11 +6,13 @@
 #define ABSTRACTVM_OPERAND_HPP
 
 #include <cfloat>
+#include <sstream>
 #include "Fsm additions/Fsm.hpp"
 #include "IOperand.hpp"
 #include "ExceptionAVM.hpp"
 #include "OperandFactory/OperandCreator.hpp"
 #include "Convertor.hpp"
+#include <iomanip>
 
 template <class T>
 class 	Operand : public IOperand
@@ -18,26 +20,37 @@ class 	Operand : public IOperand
 	eOperandType	type;
 	T				value;
 
-	Operand<T>() : type(Int32), value(0) {};
+	Operand() : type(Int32), value(0) {};
 
 public:
 
-	explicit Operand<T>(std::string const &value);
+	T getValue()
+	{
+		return value;
+	}
 
-	explicit Operand<T>(void *value);
+	explicit Operand(std::string const &value);
 
-	Operand<T>(Operand const &src) : type(src.type), value(src.value) {}
+	explicit Operand(int8_t value) : type(Int8), value(value) {}
+	explicit Operand(int16_t value) : type(Int16), value(value) {}
+	explicit Operand(int32_t value) : type(Int32), value(value) {}
+	explicit Operand(float value) : type(Float), value(value) {}
+	explicit Operand(double value) : type(Double), value(value) {}
 
-	Operand<T>	&operator=(Operand const &rhs)
+
+	Operand(Operand const &src) : type(src.type), value(src.value) {}
+
+	Operand	&operator=(Operand const &rhs)
 	{
 		if (this != &rhs)
 		{
-			this->value = rhs.getValue();
-			this->type = rhs;
+			this->value = *reinterpret_cast<T*>(const_cast<void*>(rhs.getValue()));
+			this->type = rhs.getType();
 		}
+		return (*this);
 	}
 
-	~Operand<T>() final = default;
+	~Operand() final = default;
 
 	int 				getPrecision() const final
 	{
@@ -49,20 +62,22 @@ public:
 		return type;
 	}
 
-	const void				*getValue() const final
-	{
-		return (&value);
-	}
+//	const void				*getValue() const final
+//	{
+//		return (&value);
+//	}
 
-	const std::string	&toString() const final
+	const std::string	&toString(int n = 20) const final
 	{
 		static bool			wasWriting = false;
 		static std::string	str;
 
 		if (!wasWriting)
 		{
+			std::ostringstream out;
+			out << std::fixed << std::showpoint << std::setprecision(n) << value;
+			str = out.str();
 			wasWriting = true;
-			str = std::to_string(value);
 		}
 
 		return str;
@@ -70,7 +85,8 @@ public:
 
 	bool                operator==(IOperand const &rhs) const final
 	{
-		if (this->type == rhs.getType() && this->value == *reinterpret_cast<T*>(const_cast<void*>(rhs.getValue())))
+		if (this->type == rhs.getType() &&
+			this->value == static_cast<T>(stod(rhs.toString())))
 			return true;
 		else
 			return false;
@@ -85,7 +101,7 @@ public:
 	{
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
-			T				value2 = *reinterpret_cast<const T*>(rhs.getValue());
+			T				value2 = static_cast<T>(stold(rhs.toString()));
 			T 				result = this->value + value2;
 
 			if (result - value2 != this->value)
@@ -96,7 +112,7 @@ public:
 					throw ExceptionAVM::ValueOverflow();
 			}
 
-			return (creator->createOperand(this->type, &result));
+			return (creator->createOperand(this->type, std::to_string(result)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -108,7 +124,7 @@ public:
 	{
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
-			T				value2 = *reinterpret_cast<const T*>(rhs.getValue());
+			T				value2 = static_cast<T>(stold(rhs.toString()));
 			T 				result = this->value - value2;
 
 			if (result + value2 != this->value)
@@ -119,7 +135,7 @@ public:
 					throw ExceptionAVM::ValueOverflow();
 			}
 
-			return (creator->createOperand(this->type, &result));
+			return (creator->createOperand(this->type, std::to_string(result)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -131,7 +147,7 @@ public:
 	{
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
-			T				value2 = *reinterpret_cast<const T*>(rhs.getValue());
+			T				value2 = static_cast<T>(stold(rhs.toString()));
 			T 				result = this->value * value2;
 
 			if (result / value2 != this->value)
@@ -142,7 +158,7 @@ public:
 					throw ExceptionAVM::ValueUnderflow();
 			}
 
-			return (creator->createOperand(this->type, &result));
+			return (creator->createOperand(this->type, std::to_string(result)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -154,7 +170,7 @@ public:
 	{
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
-			T				value2 = *reinterpret_cast<const T*>(rhs.getValue());
+			T				value2 = static_cast<T>(stold(rhs.toString()));
 			if (value2 == 0)
 				throw ExceptionAVM::DivisionByZero();
 
@@ -168,7 +184,7 @@ public:
 					throw ExceptionAVM::ValueUnderflow();
 			}
 
-			return (creator->createOperand(this->type, &result));
+			return (creator->createOperand(this->type, std::to_string(result)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -178,15 +194,20 @@ public:
 
 	IOperand const		*operator%(IOperand const &rhs) const final
 	{
+		if (type == Float || type == Double || rhs.getType() == Float || rhs.getType() == Double)
+			throw ExceptionAVM::InvalidBinaryOperation();
+
+
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
-			T				value2 = *reinterpret_cast<const T*>(rhs.getValue());
+			T	value2 = static_cast<T>(stold(rhs.toString()));
 			if (value2 == 0)
 				throw ExceptionAVM::ModuloByZero();
 
-			T 				result = this->value % value2;
+			int32_t tmp = static_cast<int32_t >(this->value) % static_cast<int32_t >(value2);
+			T 		result = static_cast<T>(tmp);
 
-			return (creator->createOperand(this->type, &result));
+			return (creator->createOperand(this->type, std::to_string(result)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -194,188 +215,5 @@ public:
 		}
 	}
 };
-
-template<>
-const		IOperand *Operand<float >::operator%(IOperand const &) const
-{
-	throw ExceptionAVM::InvalidBinaryOperation();
-}
-
-template<>
-const		IOperand *Operand<double >::operator%(IOperand const &) const
-{
-	throw ExceptionAVM::InvalidBinaryOperation();
-}
-
-
-template <>
-Operand<int8_t>::Operand(std::string const &value)
-{
-	int tmp;
-
-	try{
-		tmp = std::stoi(value);
-	} catch (std::exception &e){
-		if (value[0] == '-')
-			throw ExceptionAVM::ValueUnderflow();
-		else
-			throw ExceptionAVM::ValueOverflow();
-	}
-
-	if (tmp > INT8_MAX)
-		throw ExceptionAVM::ValueOverflow();
-	else if (tmp < INT8_MIN)
-		throw ExceptionAVM::ValueUnderflow();
-
-	this->value = static_cast<int8_t>(tmp);
-	type = Int8;
-}
-
-template <>
-Operand<int8_t >::Operand(void *value) : type(Int8)
-{
-	long tmp = *reinterpret_cast<int64_t*>(value);
-
-	if (tmp > INT8_MAX)
-		throw ExceptionAVM::ValueOverflow();
-	else if (tmp < INT8_MIN)
-		throw ExceptionAVM::ValueUnderflow();
-
-	this->value = static_cast<int8_t>(tmp);
-}
-
-template <>
-Operand<int16_t>::Operand(std::string const &value)
-{
-	int tmp;
-
-	try{
-		tmp = std::stoi(value);
-	} catch (std::exception &e){
-		if (value[0] == '-')
-			throw ExceptionAVM::ValueUnderflow();
-		else
-			throw ExceptionAVM::ValueOverflow();
-	}
-
-	if (tmp > INT16_MAX)
-		throw ExceptionAVM::ValueOverflow();
-	else if (tmp < INT16_MIN)
-		throw ExceptionAVM::ValueUnderflow();
-
-	this->value = static_cast<int16_t>(tmp);
-	type = Int16;
-}
-
-template <>
-Operand<int16_t >::Operand(void *value) : type(Int16)
-{
-	long tmp = *reinterpret_cast<int64_t*>(value);
-
-	if (tmp > INT16_MAX)
-		throw ExceptionAVM::ValueOverflow();
-	else if (tmp < INT16_MIN)
-		throw ExceptionAVM::ValueUnderflow();
-
-	this->value = static_cast<int16_t>(tmp);
-}
-
-template <>
-Operand<int32_t>::Operand(std::string const &value)
-{
-	int tmp;
-
-	try{
-		tmp = std::stoi(value);
-	} catch (std::exception &e){
-		if (value[0] == '-')
-			throw ExceptionAVM::ValueUnderflow();
-		else
-			throw ExceptionAVM::ValueOverflow();
-	}
-	this->value = tmp;
-	type = Int32;
-}
-
-template <>
-Operand<int32_t >::Operand(void *value) : type(Int32)
-{
-	long tmp = *reinterpret_cast<int64_t*>(value);
-
-	if (tmp > INT32_MAX)
-		throw ExceptionAVM::ValueOverflow();
-	else if (tmp < INT32_MIN)
-		throw ExceptionAVM::ValueUnderflow();
-
-	this->value = static_cast<int32_t>(tmp);
-}
-
-template <>
-Operand<float>::Operand(std::string const &value)
-{
-	double tmp;
-
-	try{
-		tmp = std::stod(value);
-	} catch (std::exception &e){
-		if (value[0] == '-')
-			throw ExceptionAVM::ValueUnderflow();
-		else
-			throw ExceptionAVM::ValueOverflow();
-	}
-
-	if (tmp > FLT_MAX)
-		throw ExceptionAVM::ValueOverflow();
-	else if (tmp < -FLT_MAX)
-		throw ExceptionAVM::ValueUnderflow();
-
-	this->value = static_cast<float >(tmp);
-	type = Float;
-}
-
-template <>
-Operand<float >::Operand(void *value) : type(Float)
-{
-	long double tmp = *reinterpret_cast<long double*>(value);
-
-	if (tmp > FLT_MAX)
-		throw ExceptionAVM::ValueOverflow();
-	else if (tmp < -FLT_MAX)
-		throw ExceptionAVM::ValueUnderflow();
-
-	this->value = static_cast<float>(tmp);
-}
-
-
-template <>
-Operand<double >::Operand(std::string const &value)
-{
-	double tmp;
-
-	try{
-		tmp = std::stod(value);
-	} catch (std::exception &e){
-		if (value[0] == '-')
-			throw ExceptionAVM::ValueUnderflow();
-		else
-			throw ExceptionAVM::ValueOverflow();
-	}
-
-	this->value = tmp;
-	type = Double;
-}
-
-template <>
-Operand<double >::Operand(void *value) : type(Double)
-{
-	long double tmp = *reinterpret_cast<long double*>(value);
-
-	if (tmp > DBL_MAX)
-		throw ExceptionAVM::ValueOverflow();
-	else if (tmp < -DBL_MAX)
-		throw ExceptionAVM::ValueUnderflow();
-
-	this->value = static_cast<double >(tmp);
-}
 
 #endif //ABSTRACTVM_OPERAND_HPP

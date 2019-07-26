@@ -11,7 +11,7 @@ void PrintInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 	if (stack.empty())
 		throw ExceptionAVM::EmptyStack();
 	if (stack.front()->getType() == Int8)
-		std::cout << *reinterpret_cast<char*>(const_cast<void*>(stack.front()->getValue()));
+		std::cout << static_cast<char>(stoi(stack.front()->toString())) << std::endl;
 	else
 		throw ExceptionAVM::ValueIsNotASCII();
 }

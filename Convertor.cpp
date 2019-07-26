@@ -16,18 +16,17 @@ Convertor::~Convertor()
 		delete leftOperand;
 }
 
-
 Convertor::Convertor(IOperand const &lhs, IOperand const &rhs)
 {
 	OperandCreator	*creator = OperandCreator::getInstance();
 
 	if (lhs.getPrecision() > rhs.getPrecision())
 	{
-		leftOperand = &rhs;
-		rightOperand = creator->createOperand(lhs.getType(), rhs.getValue());
+		leftOperand = &lhs;
+		rightOperand = creator->createOperand(lhs.getType(), rhs.toString());
 		delMode = true;
 	} else {
-		leftOperand = creator->createOperand(rhs.getType(), lhs.getValue());
+		leftOperand = creator->createOperand(rhs.getType(), lhs.toString());
 		rightOperand = &rhs;
 		delMode = false;
 	}

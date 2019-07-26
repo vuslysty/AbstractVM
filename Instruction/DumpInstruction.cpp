@@ -8,5 +8,5 @@
 void DumpInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	for (auto item : stack)
-		std::cout << item->toString() << std::endl;
+		std::cout << item->toString(2) << std::endl;
 }
