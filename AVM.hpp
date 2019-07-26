@@ -23,4 +23,6 @@ enum	eNumberType{
 	N, Z
 };
 
+void	checkOverAndUnderFlow(long double v, eOperandType t);
+
 #endif //ABSTRACTVM_AVM_HPP

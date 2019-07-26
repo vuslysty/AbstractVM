@@ -17,26 +17,33 @@
 template <class T>
 class 	Operand : public IOperand
 {
-	eOperandType	type;
-	T				value;
+	eOperandType			type;
+	T						value;
+	mutable std::string		strValue;
 
 	Operand() : type(Int32), value(0) {};
 
 public:
 
-	T getValue()
+	Operand(std::string const &value)
 	{
-		return value;
+		if (typeid(T) == typeid(int8_t))
+			type = Int8;
+		else if (typeid(T) == typeid(int16_t))
+			type = Int16;
+		else if (typeid(T) == typeid(int32_t))
+			type = Int32;
+		else if (typeid(T) == typeid(float))
+			type = Float;
+		else
+			type = Double;
+
+		long double tmp = std::stold(value);
+
+		checkOverAndUnderFlow(tmp, type);
+
+		this->value = static_cast<T>(tmp);
 	}
-
-	explicit Operand(std::string const &value);
-
-	explicit Operand(int8_t value) : type(Int8), value(value) {}
-	explicit Operand(int16_t value) : type(Int16), value(value) {}
-	explicit Operand(int32_t value) : type(Int32), value(value) {}
-	explicit Operand(float value) : type(Float), value(value) {}
-	explicit Operand(double value) : type(Double), value(value) {}
-
 
 	Operand(Operand const &src) : type(src.type), value(src.value) {}
 
@@ -62,25 +69,18 @@ public:
 		return type;
 	}
 
-//	const void				*getValue() const final
-//	{
-//		return (&value);
-//	}
-
 	const std::string	&toString(int n = 20) const final
 	{
-		static bool			wasWriting = false;
-		static std::string	str;
+		std::ostringstream out;
 
-		if (!wasWriting)
-		{
-			std::ostringstream out;
+		if (this->type == Int8)
+			out << std::fixed << std::showpoint << std::setprecision(n) << static_cast<int>(value);
+		else
 			out << std::fixed << std::showpoint << std::setprecision(n) << value;
-			str = out.str();
-			wasWriting = true;
-		}
 
-		return str;
+		strValue = out.str();
+
+		return strValue;
 	}
 
 	bool                operator==(IOperand const &rhs) const final
@@ -102,17 +102,11 @@ public:
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
 			T				value2 = static_cast<T>(stold(rhs.toString()));
-			T 				result = this->value + value2;
+			long double 	result = static_cast<long double>(this->value) + static_cast<long double>(value2);
 
-			if (result - value2 != this->value)
-			{
-				if (this->value < 0 && value2 < 0)
-					throw ExceptionAVM::ValueUnderflow();
-				else
-					throw ExceptionAVM::ValueOverflow();
-			}
+			checkOverAndUnderFlow(result, type);
 
-			return (creator->createOperand(this->type, std::to_string(result)));
+			return (creator->createOperand(this->type, std::to_string(static_cast<T>(result))));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -125,17 +119,11 @@ public:
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
 			T				value2 = static_cast<T>(stold(rhs.toString()));
-			T 				result = this->value - value2;
+			long double 	result = static_cast<long double>(this->value) - static_cast<long double>(value2);
 
-			if (result + value2 != this->value)
-			{
-				if (this->value < 0 && value2 > 0)
-					throw ExceptionAVM::ValueUnderflow();
-				else
-					throw ExceptionAVM::ValueOverflow();
-			}
+			checkOverAndUnderFlow(result, type);
 
-			return (creator->createOperand(this->type, std::to_string(result)));
+			return (creator->createOperand(this->type, std::to_string(static_cast<T>(result))));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -148,17 +136,11 @@ public:
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
 			T				value2 = static_cast<T>(stold(rhs.toString()));
-			T 				result = this->value * value2;
+			long double 	result = static_cast<long double>(this->value) * static_cast<long double>(value2);
 
-			if (result / value2 != this->value)
-			{
-				if ((this->value < 0 && value2 < 0) || (this->value > 0 && (value2 > 0 && value2 <= 1)))
-					throw ExceptionAVM::ValueOverflow();
-				else
-					throw ExceptionAVM::ValueUnderflow();
-			}
+			checkOverAndUnderFlow(result, type);
 
-			return (creator->createOperand(this->type, std::to_string(result)));
+			return (creator->createOperand(this->type, std::to_string(static_cast<T>(result))));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -171,20 +153,14 @@ public:
 		if (this->type == rhs.getType()) {
 			OperandCreator	*creator = OperandCreator::getInstance();
 			T				value2 = static_cast<T>(stold(rhs.toString()));
+			long double 	result = static_cast<long double>(this->value) / static_cast<long double>(value2);
+
 			if (value2 == 0)
 				throw ExceptionAVM::DivisionByZero();
 
-			T 				result = this->value / value2;
+			checkOverAndUnderFlow(result, type);
 
-			if (result * value2 != this->value)
-			{
-				if ((this->value > 0 && (value2 > 0 && value2 <= 1)))
-					throw ExceptionAVM::ValueOverflow();
-				else
-					throw ExceptionAVM::ValueUnderflow();
-			}
-
-			return (creator->createOperand(this->type, std::to_string(result)));
+			return (creator->createOperand(this->type, std::to_string(static_cast<T>(result))));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -194,22 +170,24 @@ public:
 
 	IOperand const		*operator%(IOperand const &rhs) const final
 	{
-		if (type == Float || type == Double || rhs.getType() == Float || rhs.getType() == Double)
+		if (type == Float || type == Double || rhs.getType() == Float ||
+			rhs.getType() == Double)
 			throw ExceptionAVM::InvalidBinaryOperation();
 
+		if (this->type == rhs.getType())
+		{
+			OperandCreator *creator = OperandCreator::getInstance();
+			T value2 = static_cast<T>(stold(rhs.toString()));
+			int result =
+					static_cast<int>(this->value) % static_cast<int>(value2);
 
-		if (this->type == rhs.getType()) {
-			OperandCreator	*creator = OperandCreator::getInstance();
-			T	value2 = static_cast<T>(stold(rhs.toString()));
 			if (value2 == 0)
-				throw ExceptionAVM::ModuloByZero();
-
-			int32_t tmp = static_cast<int32_t >(this->value) % static_cast<int32_t >(value2);
-			T 		result = static_cast<T>(tmp);
+				throw ExceptionAVM::DivisionByZero();
 
 			return (creator->createOperand(this->type, std::to_string(result)));
 		}
-		else {
+		else
+		{
 			Convertor conv(*this, rhs);
 			return (conv.getLeft() % conv.getRight());
 		}
