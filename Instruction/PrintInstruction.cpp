@@ -6,6 +6,8 @@
 #include "PrintInstruction.hpp"
 #include "../ExceptionAVM.hpp"
 
+#include "../IOperand.hpp"
+
 void PrintInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	if (stack.empty())

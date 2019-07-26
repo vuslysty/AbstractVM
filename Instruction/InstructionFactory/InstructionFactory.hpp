@@ -8,6 +8,8 @@
 
 #include "../IInstruction.hpp"
 
+class Fsm;
+
 class InstructionFactory
 {
 private:

@@ -9,6 +9,7 @@
 #include "../IOperand.hpp"
 #include "OperandFactory.hpp"
 
+
 class OperandCreator
 {
 	static OperandCreator		*instance;

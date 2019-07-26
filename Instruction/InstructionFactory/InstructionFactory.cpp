@@ -14,6 +14,8 @@
 #include "MulFactory.hpp"
 #include "PrintFactory.hpp"
 #include "ExitFactory.hpp"
+#include "../../Fsm additions/Fsm.hpp"
+
 
 InstructionFactory *InstructionFactory::factories[11] = {
 		new PushFactory(),

@@ -4,6 +4,7 @@
 
 #include "AddInstruction.hpp"
 #include "../ExceptionAVM.hpp"
+#include "../IOperand.hpp"
 
 void AddInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {

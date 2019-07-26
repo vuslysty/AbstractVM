@@ -7,8 +7,9 @@
 
 
 #include <deque>
-#include "../IOperand.hpp"
-#include "../Fsm additions/Fsm.hpp"
+//#include "../Fsm additions/Fsm.hpp"
+
+class IOperand;
 
 class IInstruction
 {

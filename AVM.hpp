@@ -5,6 +5,9 @@
 #ifndef ABSTRACTVM_AVM_HPP
 #define ABSTRACTVM_AVM_HPP
 
+
+
+
 #define INSTR_COUNT 	11
 #define OPER_TYPE_COUNT 5
 

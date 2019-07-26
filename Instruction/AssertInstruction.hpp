@@ -7,6 +7,8 @@
 
 
 #include "IInstruction.hpp"
+#include "../ExceptionAVM.hpp"
+#include "../OperandFactory/OperandCreator.hpp"
 
 class AssertInstruction : public IInstruction
 {

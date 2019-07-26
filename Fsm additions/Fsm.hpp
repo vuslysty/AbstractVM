@@ -9,7 +9,8 @@
 #include <iterator>
 #include <string>
 #include <map>
-#include "../Instruction/IInstruction.hpp"
+#include "../AVM.hpp"
+//#include "../Instruction/IInstruction.hpp"
 
 enum	eSyntax{
 	Zero = '\0', EndLine = '\n', Comment = ';'
