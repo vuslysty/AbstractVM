@@ -21,46 +21,26 @@ std::vector<std::string> split(const std::string &s, char delim) {
 	return elems;
 }
 
-#include "OperandFactory/OperandCreator.hpp"
-#include "Instruction/IInstruction.hpp"
+#include "Instruction/AInstruction.hpp"
 #include "Instruction/InstructionFactory/InstructionFactory.hpp"
-#include "Instruction/PushInstruction.hpp"
-#include "Instruction/PrintInstruction.hpp"
-#include "Instruction/AddInstruction.hpp"
-#include "Instruction/MulInstruction.hpp"
-#include "Instruction/DivInstruction.hpp"
-#include "Instruction/ModInstruction.hpp"
-#include "Instruction/DumpInstruction.hpp"
-#include "Instruction/SubInstruction.hpp"
-#include "Instruction/AssertInstruction.hpp"
 #include <deque>
 #include <map>
 
-void	test(std::deque<const IOperand *> &stack)
-{
-	OperandCreator *creator = OperandCreator::getInstance();
-
-	const IOperand	*e1 = creator->createOperand(Int32, "45");
-	const IOperand	*e2 = creator->createOperand(Float, "23.54");
-
-	stack.push_front(e1);
-	stack.push_front(e2);
-}
 
 int main ()
 {
 	std::deque<const IOperand *>	stack;
 //
-	std::multimap<int, IInstruction* >	mapInstuctions;
+	std::multimap<int, AInstruction* >	mapInstuctions;
 
-//	mapInstuctions.insert({1, new PushInstruction(Int16, "53")});
-//	mapInstuctions.insert({2, new PushInstruction(Int16, "99")});
+	mapInstuctions.insert({1, new PushInstruction(Double, "99.9943875982374")});
+	mapInstuctions.insert({2, new PushInstruction(Int16, "99")});
 //	mapInstuctions.insert({3, new PushInstruction(Int16, "24")});
 //	mapInstuctions.insert({4, new PushInstruction(Int16, "34")});
 //	mapInstuctions.insert({5, new PushInstruction(Int16, "62.52")});
 //	mapInstuctions.insert({6, new PushInstruction(Int16, "72")});
 
-	mapInstuctions.insert({1, new PushInstruction(Float, "332453")});
+//	mapInstuctions.insert({1, new PushInstruction(Float, "33245312432412342342345243613242346786")});
 //	mapInstuctions.insert({2, new PushInstruction(Int16, "-32767")});
 //	mapInstuctions.insert({3, new PushInstruction(Int32, "24")});
 //	mapInstuctions.insert({4, new PushInstruction(Float, "34")});
@@ -69,14 +49,14 @@ int main ()
 //	mapInstuctions.insert({7, new PrintInstruction()});
 //	mapInstuctions.insert({8, new DumpInstruction()});
 //	mapInstuctions.insert({9, new MulInstruction()});
-//	mapInstuctions.insert({10, new SubInstruction()});
+	mapInstuctions.insert({10, new SubInstruction()});
 //	mapInstuctions.insert({11, new AddInstruction()});
 //	mapInstuctions.insert({12, new DivInstruction()});
 //	mapInstuctions.insert({13, new DivInstruction()});
 //	mapInstuctions.insert({13, new ModInstruction()});
 
 	mapInstuctions.insert({15, new DumpInstruction()});
-//	mapInstuctions.insert({16, new AssertInstruction(Int8, "28")});
+//	mapInstuctions.insert({16, new AssertInstruction(Float, "33245312432412342342345243613242346786")});
 
 //	std::cout << 6272384579228.52 / 76 << std::endl;
 

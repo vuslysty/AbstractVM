@@ -10,7 +10,6 @@
 #include "Fsm additions/Fsm.hpp"
 #include "IOperand.hpp"
 #include "ExceptionAVM.hpp"
-#include "OperandFactory/OperandCreator.hpp"
 #include "Convertor.hpp"
 #include <iomanip>
 
@@ -105,13 +104,12 @@ public:
 	IOperand const		*operator+(IOperand const &rhs) const final
 	{
 		if (this->type == rhs.getType()) {
-			OperandCreator	*creator = OperandCreator::getInstance();
 			T				value2 = static_cast<T>(stold(rhs.toString()));
 			long double 	result = static_cast<long double>(this->value) + static_cast<long double>(value2);
 
 			checkOverAndUnderFlow(result, type);
 
-			return (creator->createOperand(this->type, getStrValueWithPrecision(result, type, true)));
+			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, true)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -122,13 +120,12 @@ public:
 	IOperand const		*operator-(IOperand const &rhs) const final
 	{
 		if (this->type == rhs.getType()) {
-			OperandCreator	*creator = OperandCreator::getInstance();
 			T				value2 = static_cast<T>(stold(rhs.toString()));
 			long double 	result = static_cast<long double>(this->value) - static_cast<long double>(value2);
 
 			checkOverAndUnderFlow(result, type);
 
-			return (creator->createOperand(this->type, getStrValueWithPrecision(result, type, true)));
+			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, true)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -139,13 +136,12 @@ public:
 	IOperand const		*operator*(IOperand const &rhs) const final
 	{
 		if (this->type == rhs.getType()) {
-			OperandCreator	*creator = OperandCreator::getInstance();
 			T				value2 = static_cast<T>(stold(rhs.toString()));
 			long double 	result = static_cast<long double>(this->value) * static_cast<long double>(value2);
 
 			checkOverAndUnderFlow(result, type);
 
-			return (creator->createOperand(this->type, getStrValueWithPrecision(result, type, true)));
+			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, true)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -156,7 +152,6 @@ public:
 	IOperand const		*operator/(IOperand const &rhs) const final
 	{
 		if (this->type == rhs.getType()) {
-			OperandCreator	*creator = OperandCreator::getInstance();
 			T				value2 = static_cast<T>(stold(rhs.toString()));
 			long double 	result = static_cast<long double>(this->value) / static_cast<long double>(value2);
 
@@ -165,7 +160,7 @@ public:
 
 			checkOverAndUnderFlow(result, type);
 
-			return (creator->createOperand(this->type, getStrValueWithPrecision(result, type, true)));
+			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, true)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -181,7 +176,6 @@ public:
 
 		if (this->type == rhs.getType())
 		{
-			OperandCreator *creator = OperandCreator::getInstance();
 			T value2 = static_cast<T>(stold(rhs.toString()));
 			int result =
 					static_cast<int>(this->value) % static_cast<int>(value2);
@@ -189,7 +183,7 @@ public:
 			if (value2 == 0)
 				throw ExceptionAVM::DivisionByZero();
 
-			return (creator->createOperand(this->type, std::to_string(result)));
+			return (OperandFactory::create(this->type, std::to_string(result)));
 		}
 		else
 		{

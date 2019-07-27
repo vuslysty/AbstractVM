@@ -10,7 +10,7 @@
 #include <string>
 #include <map>
 #include "../AVM.hpp"
-//#include "../Instruction/IInstruction.hpp"
+//#include "../AInstruction/AInstruction.hpp"
 
 enum	eSyntax{
 	Zero = '\0', EndLine = '\n', Comment = ';'
@@ -45,7 +45,7 @@ class Fsm
 	int 						tmpVar;
 	std::string					str;
 
-//	std::map<int, *IInstruction>	instructionMap;
+//	std::map<int, *AInstruction>	instructionMap;
 
 	static const std::string sOperandTypes[OPER_TYPE_COUNT];
 	static const std::string sInstrutions[INSTR_COUNT];

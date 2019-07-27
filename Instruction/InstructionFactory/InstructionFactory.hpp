@@ -6,7 +6,7 @@
 #define ABSTRACTVM_INSTRUCTIONFACTORY_HPP
 
 
-#include "../IInstruction.hpp"
+#include "../AInstruction.hpp"
 
 class Fsm;
 
@@ -18,13 +18,13 @@ private:
 
 protected:
 
-	virtual IInstruction	*createInstruction(Fsm const &fsm) = 0;
+	virtual AInstruction	*createInstruction(Fsm const &fsm) = 0;
 
 public:
 
 	virtual ~InstructionFactory() = default;
 
-	static IInstruction	*create(Fsm const &fsm);
+	static AInstruction	*create(Fsm const &fsm);
 
 	static void delFactory();
 };
@@ -33,57 +33,57 @@ public:
 class AddFactory : public InstructionFactory
 {
 public:
-	IInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(Fsm const &fsm) final;
 };
 
 class AssertFactory : public InstructionFactory
 {
-	IInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(Fsm const &fsm) final;
 };
 
 class DivFactory : public InstructionFactory
 {
-	IInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(Fsm const &fsm) final;
 };
 
 class DumpFactory : public InstructionFactory
 {
-	IInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(Fsm const &fsm) final;
 };
 
 class ExitFactory : public InstructionFactory
 {
-	IInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(Fsm const &fsm) final;
 };
 
 class ModFactory : public InstructionFactory
 {
-	IInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(Fsm const &fsm) final;
 };
 
 class MulFactory : public InstructionFactory
 {
-	IInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(Fsm const &fsm) final;
 };
 
 class PopFactory : public InstructionFactory
 {
-	IInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(Fsm const &fsm) final;
 };
 
 class PrintFactory : public InstructionFactory
 {
-	IInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(Fsm const &fsm) final;
 };
 
 class PushFactory : public InstructionFactory
 {
-	IInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(Fsm const &fsm) final;
 };
 
 class SubFactory : public InstructionFactory
 {
-	IInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(Fsm const &fsm) final;
 };
 
 #endif //ABSTRACTVM_INSTRUCTIONFACTORY_HPP

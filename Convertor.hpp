@@ -14,9 +14,9 @@ class Convertor
 	const IOperand	*rightOperand;
 	bool		delMode;
 
-	Convertor();
-	Convertor(Convertor const &src);
-	Convertor &operator=(Convertor const &rhs);
+	Convertor() = default;
+	Convertor(Convertor const &src) = default;
+	Convertor &operator=(Convertor const &rhs) = default;
 
 public:
 

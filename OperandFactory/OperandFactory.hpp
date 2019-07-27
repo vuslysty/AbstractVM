@@ -13,6 +13,7 @@ class OperandFactory
 {
 	static OperandFactory	*factories[5];
 
+protected:
 	virtual const IOperand	*createOperand(std::string) const = 0;
 
 public:

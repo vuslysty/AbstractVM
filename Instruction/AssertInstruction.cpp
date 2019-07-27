@@ -2,7 +2,9 @@
 // Created by Vladyslav USLYSTYI on 2019-07-24.
 //
 
-#include "AssertInstruction.hpp"
+#include "AInstruction.hpp"
+#include "../OperandFactory/OperandFactory.hpp"
+#include "../ExceptionAVM.hpp"
 
 
 void AssertInstruction::doInstruction(std::deque<const IOperand*> &stack) const
@@ -16,7 +18,5 @@ void AssertInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 AssertInstruction::AssertInstruction(eOperandType type,
 									 std::string const &value)
 {
-	OperandCreator	*creator = OperandCreator::getInstance();
-
-	operand = creator->createOperand(type, value);
+	operand = OperandFactory::create(type, value);
 }

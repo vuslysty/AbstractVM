@@ -3,7 +3,7 @@
 //
 
 #include <iostream>
-#include "PrintInstruction.hpp"
+#include "AInstruction.hpp"
 #include "../ExceptionAVM.hpp"
 
 #include "../IOperand.hpp"

@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 14)
 
 add_executable(test main.cpp)
 add_executable(AbstractVM main.cpp IOperand.hpp ExceptionAVM.cpp ExceptionAVM.hpp Operand.hpp Convertor.cpp Convertor.hpp
-        OperandFactory/OperandFactory.hpp OperandFactory/OperandCreator.cpp OperandFactory/OperandCreator.hpp
+        OperandFactory/OperandFactory.hpp
         "Fsm additions/Fsm.cpp" "Fsm additions/Fsm.hpp" "Fsm additions/conditions.cpp" "Fsm additions/states.cpp"
-        Instruction/IInstruction.hpp Instruction/PopInstruction.cpp Instruction/PopInstruction.hpp Instruction/PushInstruction.cpp Instruction/PushInstruction.hpp Instruction/AssertInstruction.cpp Instruction/AssertInstruction.hpp Instruction/ExitInstruction.cpp Instruction/ExitInstruction.hpp Instruction/DumpInstruction.cpp Instruction/DumpInstruction.hpp Instruction/PrintInstruction.cpp Instruction/PrintInstruction.hpp Instruction/AddInstruction.cpp Instruction/AddInstruction.hpp Instruction/SubInstruction.cpp Instruction/SubInstruction.hpp Instruction/MulInstruction.cpp Instruction/MulInstruction.hpp Instruction/DivInstruction.cpp Instruction/DivInstruction.hpp Instruction/ModInstruction.cpp Instruction/ModInstruction.hpp
-        Instruction/InstructionFactory/InstructionFactory.cpp Instruction/InstructionFactory/InstructionFactory.hpp AVM.hpp OperandFactory/OperandFactory.cpp AVM.cpp)
+        Instruction/AInstruction.hpp Instruction/PopInstruction.cpp Instruction/PushInstruction.cpp Instruction/AssertInstruction.cpp Instruction/ExitInstruction.cpp Instruction/DumpInstruction.cpp Instruction/PrintInstruction.cpp Instruction/AddInstruction.cpp Instruction/SubInstruction.cpp Instruction/MulInstruction.cpp Instruction/DivInstruction.cpp Instruction/ModInstruction.cpp
+        Instruction/InstructionFactory/InstructionFactory.cpp Instruction/InstructionFactory/InstructionFactory.hpp AVM.hpp OperandFactory/OperandFactory.cpp AVM.cpp Instruction/AInstruction.cpp)

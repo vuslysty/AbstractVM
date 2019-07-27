@@ -2,7 +2,7 @@
 // Created by Vladyslav USLYSTYI on 2019-07-24.
 //
 
-#include "DumpInstruction.hpp"
+#include "AInstruction.hpp"
 #include "../ExceptionAVM.hpp"
 #include <iostream>
 
