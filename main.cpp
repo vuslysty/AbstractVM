@@ -31,6 +31,8 @@ std::vector<std::string> split(const std::string &s, char delim) {
 #include "Instruction/DivInstruction.hpp"
 #include "Instruction/ModInstruction.hpp"
 #include "Instruction/DumpInstruction.hpp"
+#include "Instruction/SubInstruction.hpp"
+#include "Instruction/AssertInstruction.hpp"
 #include <deque>
 #include <map>
 
@@ -58,16 +60,26 @@ int main ()
 //	mapInstuctions.insert({5, new PushInstruction(Int16, "62.52")});
 //	mapInstuctions.insert({6, new PushInstruction(Int16, "72")});
 
-	mapInstuctions.insert({1, new PushInstruction(Int8, "100")});
-	mapInstuctions.insert({2, new PushInstruction(Int16, "-32767")});
-	mapInstuctions.insert({3, new PushInstruction(Int32, "24")});
-	mapInstuctions.insert({4, new PushInstruction(Float, "34")});
-	mapInstuctions.insert({5, new PushInstruction(Double, "6272384579228.52")});
-	mapInstuctions.insert({6, new PushInstruction(Int8, "76")});
-	mapInstuctions.insert({7, new PrintInstruction()});
-	mapInstuctions.insert({8, new DumpInstruction()});
+	mapInstuctions.insert({1, new PushInstruction(Float, "332453")});
+//	mapInstuctions.insert({2, new PushInstruction(Int16, "-32767")});
+//	mapInstuctions.insert({3, new PushInstruction(Int32, "24")});
+//	mapInstuctions.insert({4, new PushInstruction(Float, "34")});
+//	mapInstuctions.insert({5, new PushInstruction(Double, "6272384579228.52")});
+//	mapInstuctions.insert({6, new PushInstruction(Int8, "28")});
+//	mapInstuctions.insert({7, new PrintInstruction()});
+//	mapInstuctions.insert({8, new DumpInstruction()});
+//	mapInstuctions.insert({9, new MulInstruction()});
+//	mapInstuctions.insert({10, new SubInstruction()});
+//	mapInstuctions.insert({11, new AddInstruction()});
+//	mapInstuctions.insert({12, new DivInstruction()});
+//	mapInstuctions.insert({13, new DivInstruction()});
+//	mapInstuctions.insert({13, new ModInstruction()});
 
-//
+	mapInstuctions.insert({15, new DumpInstruction()});
+//	mapInstuctions.insert({16, new AssertInstruction(Int8, "28")});
+
+//	std::cout << 6272384579228.52 / 76 << std::endl;
+
 	for(auto item : mapInstuctions)
 	{
 		item.second->doInstruction(stack);

@@ -11,45 +11,53 @@
 
 class OperandFactory
 {
-public:
+	static OperandFactory	*factories[5];
 
 	virtual const IOperand	*createOperand(std::string) const = 0;
-	virtual ~OperandFactory() {};
+
+public:
+
+	static const IOperand	*create(eOperandType type,
+							   std::string const &value);
+
+	static void				delFactory();
+
+	virtual ~OperandFactory() = default;
 };
 
 class Int8Factory : public OperandFactory
 {
 public:
 
-	const IOperand	*createOperand(std::string) const;
+	const IOperand	*createOperand(std::string) const final;
 };
 
 class Int16Factory : public OperandFactory
 {
 public:
 
-	const IOperand	*createOperand(std::string) const;
+	const IOperand	*createOperand(std::string) const final;
 };
 
 class Int32Factory : public OperandFactory
 {
 public:
 
-	const IOperand	*createOperand(std::string) const;
+	const IOperand	*createOperand(std::string) const final;
 };
 
 class FloatFactory : public OperandFactory
 {
 public:
 
-	const IOperand	*createOperand(std::string) const;
+	const IOperand	*createOperand(std::string) const final;
 };
 
 class DoubleFactory : public OperandFactory
 {
 public:
 
-	const IOperand	*createOperand(std::string) const;
+	const IOperand	*createOperand(std::string) const final;
 };
 
 

@@ -29,3 +29,25 @@ const IOperand* DoubleFactory::createOperand(std::string value) const
 {
 	return new Operand<double >(value);
 }
+
+
+const IOperand	*OperandFactory::create(eOperandType type, std::string const &value)
+{
+	return factories[type]->createOperand(value);
+}
+
+void OperandFactory::delFactory()
+{
+	for (int i = Int8; i <= Double; i++)
+		delete factories[i];
+}
+
+
+OperandFactory	*OperandFactory::factories[5] =
+		{
+			new Int8Factory(),
+			new Int16Factory(),
+			new Int32Factory(),
+			new FloatFactory(),
+			new DoubleFactory()
+		};

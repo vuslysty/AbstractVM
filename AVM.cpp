@@ -6,6 +6,8 @@
 #include <cfloat>
 #include "AVM.hpp"
 #include "ExceptionAVM.hpp"
+#include <sstream>
+#include <iomanip>
 
 void	checkOverAndUnderFlow(long double v, eOperandType t)
 {
@@ -41,4 +43,19 @@ void	checkOverAndUnderFlow(long double v, eOperandType t)
 		throw ExceptionAVM::ValueOverflow();
 	if (checkFlow < 0)
 		throw ExceptionAVM::ValueUnderflow();
+}
+
+std::string	getStrValueWithPrecision(long double value, eOperandType type,
+										bool mod)
+{
+	std::ostringstream	out;
+
+	if (type >= Int8 && type <= Int32)
+		out << std::fixed << std::setprecision(0) << value;
+	else if (type == Float)
+		out << std::fixed << std::showpoint << std::setprecision(mod ? 7 : 2) << value;
+	else
+		out << std::fixed << std::showpoint << std::setprecision(mod ? 15 : 2) << value;
+
+	return (out.str());
 }

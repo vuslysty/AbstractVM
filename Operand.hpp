@@ -25,7 +25,7 @@ class 	Operand : public IOperand
 
 public:
 
-	Operand(std::string const &value)
+	explicit Operand(std::string const &value)
 	{
 		if (typeid(T) == typeid(int8_t))
 			type = Int8;
@@ -38,7 +38,19 @@ public:
 		else
 			type = Double;
 
-		long double tmp = std::stold(value);
+		long double tmp;
+
+		try
+		{
+			tmp = std::stold(value);
+		}
+		catch (std::exception &e)
+		{
+			if (value[0] == '-')
+				throw ExceptionAVM::ValueUnderflow();
+			else
+				throw ExceptionAVM::ValueOverflow();
+		}
 
 		checkOverAndUnderFlow(tmp, type);
 
@@ -69,16 +81,9 @@ public:
 		return type;
 	}
 
-	const std::string	&toString(int n = 20) const final
+	const std::string	&toString(bool mod = true) const final
 	{
-		std::ostringstream out;
-
-		if (this->type == Int8)
-			out << std::fixed << std::showpoint << std::setprecision(n) << static_cast<int>(value);
-		else
-			out << std::fixed << std::showpoint << std::setprecision(n) << value;
-
-		strValue = out.str();
+		strValue = getStrValueWithPrecision(static_cast<long double>(value), type, mod);
 
 		return strValue;
 	}
@@ -106,7 +111,7 @@ public:
 
 			checkOverAndUnderFlow(result, type);
 
-			return (creator->createOperand(this->type, std::to_string(static_cast<T>(result))));
+			return (creator->createOperand(this->type, getStrValueWithPrecision(result, type, true)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -123,7 +128,7 @@ public:
 
 			checkOverAndUnderFlow(result, type);
 
-			return (creator->createOperand(this->type, std::to_string(static_cast<T>(result))));
+			return (creator->createOperand(this->type, getStrValueWithPrecision(result, type, true)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -140,7 +145,7 @@ public:
 
 			checkOverAndUnderFlow(result, type);
 
-			return (creator->createOperand(this->type, std::to_string(static_cast<T>(result))));
+			return (creator->createOperand(this->type, getStrValueWithPrecision(result, type, true)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -160,7 +165,7 @@ public:
 
 			checkOverAndUnderFlow(result, type);
 
-			return (creator->createOperand(this->type, std::to_string(static_cast<T>(result))));
+			return (creator->createOperand(this->type, getStrValueWithPrecision(result, type, true)));
 		}
 		else {
 			Convertor conv(*this, rhs);

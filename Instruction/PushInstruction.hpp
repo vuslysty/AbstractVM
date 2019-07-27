@@ -17,7 +17,11 @@ public:
 	PushInstruction();
 	PushInstruction(eOperandType type, std::string const &value);
 
-	void doInstruction(std::deque<const IOperand*> &stack) const;
+	PushInstruction(PushInstruction const &);
+	PushInstruction &operator=(PushInstruction const &);
+	~PushInstruction() final;
+
+	void doInstruction(std::deque<const IOperand*> &stack) const final;
 };
 
 

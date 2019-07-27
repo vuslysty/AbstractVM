@@ -11,5 +11,5 @@
 void DumpInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	for (auto item : stack)
-		std::cout << item->toString(2) << std::endl;
+		std::cout << item->toString(false) << std::endl;
 }

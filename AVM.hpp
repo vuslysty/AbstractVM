@@ -6,7 +6,7 @@
 #define ABSTRACTVM_AVM_HPP
 
 
-
+#include <string>
 
 #define INSTR_COUNT 	11
 #define OPER_TYPE_COUNT 5
@@ -23,6 +23,8 @@ enum	eNumberType{
 	N, Z
 };
 
-void	checkOverAndUnderFlow(long double v, eOperandType t);
+void		checkOverAndUnderFlow(long double v, eOperandType t);
+std::string	getStrValueWithPrecision(long double value, eOperandType type,
+										bool mod);
 
 #endif //ABSTRACTVM_AVM_HPP
