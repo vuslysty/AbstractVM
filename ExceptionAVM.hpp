@@ -24,13 +24,13 @@ public:
 	};
 
 
-	class	InvalidInstruction : public std::exception
+	class	UndeclaratedIdentifier : public std::exception
 	{
 	public:
-		InvalidInstruction();
-		InvalidInstruction(InvalidInstruction const &src) throw();
-		InvalidInstruction &operator=(InvalidInstruction const &rhs);
-		~InvalidInstruction() throw();
+		UndeclaratedIdentifier();
+		UndeclaratedIdentifier(UndeclaratedIdentifier const &src) throw();
+		UndeclaratedIdentifier &operator=(UndeclaratedIdentifier const &rhs);
+		~UndeclaratedIdentifier() throw();
 
 		const char 			*what(void) const throw();
 	};
@@ -174,6 +174,17 @@ public:
 		InvalidBinaryOperation(InvalidBinaryOperation const &src) throw();
 		InvalidBinaryOperation &operator=(InvalidBinaryOperation const &rhs);
 		~InvalidBinaryOperation() throw();
+
+		const char 			*what(void) const throw();
+	};
+
+	class	UnknownInstruction : public std::exception
+	{
+	public:
+		UnknownInstruction();
+		UnknownInstruction(UnknownInstruction const &src) throw();
+		UnknownInstruction &operator=(UnknownInstruction const &rhs);
+		~UnknownInstruction() throw();
 
 		const char 			*what(void) const throw();
 	};

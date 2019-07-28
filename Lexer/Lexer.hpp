@@ -11,6 +11,8 @@
 #include "Token.hpp"
 #include "../AVM.hpp"
 
+#define CONDITION_COUNT 11
+
 class Lexer;
 
 typedef bool	(Lexer::*Conditions)(const char c) const;
@@ -46,6 +48,7 @@ class Lexer
 	bool	endLineCondition(const char c) const;
 	bool	commentCondition(const char c) const;
 	bool	zeroCondition(const char c) const;
+	bool	slashCondition(const char c) const;
 
 	void	identifierFS();
 	void	openScopeFS();
@@ -54,19 +57,22 @@ class Lexer
 	void	numZFS();
 	void	endLineFS();
 	void	endFS();
-	void	whiteFS();
+
+	void	moveStartToken();
+	void	countEndLines();
 
 	void	errorMinus();
 	void	errorDot();
 	void	errorIdent();
+	void	errorMultilineComment();
 
-	static Conditions conditions[10];
+	static Conditions conditions[CONDITION_COUNT];
 
 	int 	getCondition() const;
 
 	void	startLexAnalization();
 
-	static const transition		fsmTable[7][11];
+	static const transition		fsmTable[10][12];
 
 public:
 

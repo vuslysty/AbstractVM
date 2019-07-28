@@ -53,3 +53,8 @@ bool Lexer::zeroCondition(const char c) const
 {
 	return (c == '\0');
 }
+
+bool Lexer::slashCondition(const char c) const
+{
+	return (c == '\\');
+}

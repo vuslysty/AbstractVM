@@ -7,15 +7,20 @@
 
 void Lexer::errorMinus()
 {
-	throw ExceptionAVM::InvalidInstruction();
+	throw ExceptionAVM::UndeclaratedIdentifier(); //must change
 }
 
 void Lexer::errorDot()
 {
-	throw ExceptionAVM::InvalidInstruction(); //must change
+	throw ExceptionAVM::UndeclaratedIdentifier(); //must change
 }
 
 void Lexer::errorIdent()
 {
-	throw ExceptionAVM::InvalidInstruction(); //must change
+	throw ExceptionAVM::UndeclaratedIdentifier();
+}
+
+void Lexer::errorMultilineComment()
+{
+	throw ExceptionAVM::UndeclaratedIdentifier(); //must change
 }

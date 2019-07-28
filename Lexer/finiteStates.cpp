@@ -37,7 +37,7 @@ void Lexer::identifierFS()
 			return ;
 		}
 
-	throw ExceptionAVM::InvalidInstruction();
+	throw ExceptionAVM::UnknownInstruction();
 }
 
 void Lexer::openScopeFS()
@@ -89,8 +89,7 @@ void Lexer::endLineFS()
 {
 	std::string	endLine;
 
-	row++;
-	col = 0; // after increment in main cycle it will be 1
+	countEndLines();
 
 	endLine.assign(str, carret, 1);
 	startToken = carret + 1;
@@ -103,13 +102,19 @@ void Lexer::endFS()
 	std::string	end;
 
 	stop = true;
-	end.assign(str, startToken, 1);
+	end.assign(str, carret, 1);
 	startToken = carret + 1;
 
 	tokens.emplace_back(Token(End, end, row, col));
 }
 
-void Lexer::whiteFS()
+void Lexer::moveStartToken()
 {
 	startToken = carret + 1;
+}
+
+void Lexer::countEndLines()
+{
+	row++;
+	col = 0; // after increment in main cycle it will be 1
 }

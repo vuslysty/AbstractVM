@@ -75,7 +75,7 @@ int main ()
 //		std::cout << ++i << ": " << item->getType() << " " << item->toString(2) << std::endl;
 //	}
 
-	Lexer	lexer("()()int8 int32 56.65 34 -34 pop assert exit -32423.245 ;72374982375798 34 -54 push\n push double (  43152.32523 )  ");
+	Lexer	lexer("-4   /;   3  \n\n\n 234234233523;/   2.4	4	;3.3");
 
 	std::deque<Token>	tokens = lexer.getTokens();
 

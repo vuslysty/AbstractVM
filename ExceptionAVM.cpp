@@ -15,15 +15,15 @@ ExceptionAVM::EmptyStack& ExceptionAVM::EmptyStack::operator=(const ExceptionAVM
 ExceptionAVM::EmptyStack::~EmptyStack() throw() {}
 
 
-const char* ExceptionAVM::InvalidInstruction::what() const throw()
+const char* ExceptionAVM::UndeclaratedIdentifier::what() const throw()
 {
 	return ("  ");
 }
 
-ExceptionAVM::InvalidInstruction::InvalidInstruction() {}
-ExceptionAVM::InvalidInstruction::InvalidInstruction(const ExceptionAVM::InvalidInstruction &) throw() {}
-ExceptionAVM::InvalidInstruction& ExceptionAVM::InvalidInstruction::operator=(const ExceptionAVM::InvalidInstruction &){return *this;}
-ExceptionAVM::InvalidInstruction::~InvalidInstruction() throw() {}
+ExceptionAVM::UndeclaratedIdentifier::UndeclaratedIdentifier() {}
+ExceptionAVM::UndeclaratedIdentifier::UndeclaratedIdentifier(const ExceptionAVM::UndeclaratedIdentifier &) throw() {}
+ExceptionAVM::UndeclaratedIdentifier& ExceptionAVM::UndeclaratedIdentifier::operator=(const ExceptionAVM::UndeclaratedIdentifier &){return *this;}
+ExceptionAVM::UndeclaratedIdentifier::~UndeclaratedIdentifier() throw() {}
 
 
 const char* ExceptionAVM::ValueOverflow::what() const throw()
@@ -159,3 +159,14 @@ ExceptionAVM::InvalidBinaryOperation& ExceptionAVM::InvalidBinaryOperation::oper
 
 
 ExceptionAVM::InvalidBinaryOperation::~InvalidBinaryOperation() throw() {}
+
+
+const char* ExceptionAVM::UnknownInstruction::what() const throw()
+{
+	return ("  ");
+}
+
+ExceptionAVM::UnknownInstruction::UnknownInstruction() {}
+ExceptionAVM::UnknownInstruction::UnknownInstruction(const ExceptionAVM::UnknownInstruction &) throw() {}
+ExceptionAVM::UnknownInstruction& ExceptionAVM::UnknownInstruction::operator=(const ExceptionAVM::UnknownInstruction &){return *this;}
+ExceptionAVM::UnknownInstruction::~UnknownInstruction() throw() {}

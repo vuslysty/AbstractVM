@@ -47,7 +47,7 @@ int Lexer::getCondition() const
 {
 	int i;
 
-	for (i = 0; i < 10; i++) // We hahe 10 conditions
+	for (i = 0; i < CONDITION_COUNT; i++)
 		if ((this->*conditions[i])(str[carret]))
 			break ;
 	return (i);
@@ -74,7 +74,7 @@ void Lexer::startLexAnalization()
 	}
 }
 
-Conditions	Lexer::conditions[10] = {
+Conditions	Lexer::conditions[CONDITION_COUNT] = {
 		&Lexer::alphaCondition,
 		&Lexer::numCondition,
 		&Lexer::endLineCondition,
@@ -84,7 +84,8 @@ Conditions	Lexer::conditions[10] = {
 		&Lexer::commentCondition,
 		&Lexer::openScopeCondition,
 		&Lexer::closeScopeCondition,
-		&Lexer::zeroCondition
+		&Lexer::zeroCondition,
+		&Lexer::slashCondition
 };
 //
 //FiniteStates	Lexer::finiteStates[7] = {
@@ -103,43 +104,64 @@ Conditions	Lexer::conditions[10] = {
 //		&Lexer::errorIdent
 //};
 
-const transition	Lexer::fsmTable[7][11] = {
+const transition	Lexer::fsmTable[10][12] = {
+//-------------------- STATE 1 ----------------------------------------
 		[0][0] = {2, nullptr},
 		[0][1] = {4, nullptr},
 		[0][2] = {1, &Lexer::endLineFS},
 		[0][3] = {3, nullptr},
-		[0][4] = {1, &Lexer::whiteFS},
+		[0][4] = {1, &Lexer::moveStartToken},
 		[0][5] = {1, &Lexer::errorIdent},
 		[0][6] = {7, nullptr},
 		[0][7] = {1, &Lexer::openScopeFS},
 		[0][8] = {1, &Lexer::closeScopeFS},
 		[0][9] = {1, &Lexer::endFS},
 		[0][10] = {1, &Lexer::errorIdent},
-
+		[0][11] = {8, nullptr},
+//-------------------- STATE 2 ----------------------------------------
 		[1][0 ... 1] = {2, nullptr},
-		[1][2 ... 10] = {1, &Lexer::identifierFS},
-
+		[1][2 ... 11] = {1, &Lexer::identifierFS},
+//-------------------- STATE 3 ----------------------------------------
 		[2][0] = {1, &Lexer::errorMinus},
-		[2][2 ... 10] = {1, &Lexer::errorMinus},
+		[2][2 ... 11] = {1, &Lexer::errorMinus},
 		[2][1] = {4, nullptr},
-
+//-------------------- STATE 4 ----------------------------------------
 		[3][0] = {1, &Lexer::numNFS},
 		[3][1] = {4, nullptr},
 		[3][2 ... 4] = {1, &Lexer::numNFS},
 		[3][5] = {5, nullptr},
-		[3][6 ... 10] = {1, &Lexer::numNFS},
-
+		[3][6 ... 11] = {1, &Lexer::numNFS},
+//-------------------- STATE 5 ----------------------------------------
 		[4][0] = {1, &Lexer::errorDot},
 		[4][1] = {6, nullptr},
-		[4][2 ... 10] = {1, &Lexer::errorDot},
-
+		[4][2 ... 11] = {1, &Lexer::errorDot},
+//-------------------- STATE 6 ----------------------------------------
 		[5][0] = {1, &Lexer::numZFS},
 		[5][1] = {6, nullptr},
-		[5][2 ... 10] = {1, &Lexer::numZFS},
-
+		[5][2 ... 11] = {1, &Lexer::numZFS},
+//-------------------- STATE 7 ----------------------------------------
 		[6][0 ... 1] = {7, nullptr},
 		[6][2] = {1, &Lexer::endLineFS},
 		[6][3 ... 8] = {7, nullptr},
 		[6][9] = {1, &Lexer::endFS},
-		[6][10] = {7, nullptr}
+		[6][10 ... 11] = {7, nullptr},
+//-------------------- STATE 8 ----------------------------------------
+		[7][0 ... 5] = {1, &Lexer::errorIdent},
+		[7][6] = {9, nullptr},
+		[7][7 ... 11] = {1, &Lexer::errorIdent},
+//-------------------- STATE 9 ----------------------------------------
+		[8][0 ... 1] = {9, nullptr},
+		[8][2] = {9, &Lexer::countEndLines},
+		[8][3 ... 5] = {9, nullptr},
+		[8][6] = {10, nullptr},
+		[8][7 ... 8] = {9, nullptr},
+		[8][9] = {1, &Lexer::errorMultilineComment},
+		[8][10 ... 11] = {9, nullptr},
+//-------------------- STATE 10 ---------------------------------------
+		[9][0 ... 5] = {9, nullptr},
+		[9][6] = {10, nullptr},
+		[9][7 ... 8] = {9, nullptr},
+		[9][9] = {1, &Lexer::errorMultilineComment},
+		[9][10] = {9, nullptr},
+		[9][11] = {1, &Lexer::moveStartToken}
 };
