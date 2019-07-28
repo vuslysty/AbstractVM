@@ -75,7 +75,8 @@ int main ()
 //		std::cout << ++i << ": " << item->getType() << " " << item->toString(2) << std::endl;
 //	}
 
-	Lexer	lexer("-4   /;   3  \n\n\n 234234233523;/   2.4	4	;3.3");
+	Lexer	lexer("-4   /;   3  \n\n\n 234234233523;/   2.4	4	;3.3",
+				   true);
 
 	std::deque<Token>	tokens = lexer.getTokens();
 

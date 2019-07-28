@@ -2,14 +2,51 @@
 // Created by Vladyslav USLYSTYI on 2019-07-28.
 //
 
+#include <sys/stat.h>
+#include <fstream>
+#include <sstream>
 #include "Lexer.hpp"
+#include "../ExceptionAVM.hpp"
 
 Lexer::Lexer() : row(1), col(1), stop(false), carret(0), startToken(0)
 {}
 
-Lexer::Lexer(std::string const &str) : Lexer()
+static bool	fileIsDirectory(std::string const & fileName)
 {
-	this->str = str;
+	bool		is_directory;
+	FILE		*fp = fopen(fileName.c_str(), "r");
+	struct stat	fileInfo;
+
+	fstat(fileno(fp), &fileInfo);
+	if (S_ISREG(fileInfo.st_mode))
+		is_directory = false;
+	else
+		is_directory = true;
+	fclose(fp);
+	return (is_directory);
+}
+
+Lexer::Lexer(std::string const &src, bool file) : Lexer()
+{
+	if (!file)
+		this->str = src;
+	else
+	{
+		std::ifstream		f(src, std::ifstream::in);
+		std::stringstream	stream;
+
+		if (f.is_open())
+			if (!fileIsDirectory(src))
+			{
+				stream << f.rdbuf();
+				str = stream.str();
+			}
+			else
+				throw ("File is directory");
+		else
+			throw ("Can't open file");
+	}
+
 	startLexAnalization();
 }
 

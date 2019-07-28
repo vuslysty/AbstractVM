@@ -76,7 +76,7 @@ class Lexer
 
 public:
 
-	explicit Lexer(std::string const &str);
+	explicit Lexer(std::string const &str, bool file);
 	Lexer(Lexer const &src);
 	Lexer &operator=(Lexer const &rhs);
 	~Lexer();
