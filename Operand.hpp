@@ -7,7 +7,6 @@
 
 #include <cfloat>
 #include <sstream>
-#include "Fsm additions/Fsm.hpp"
 #include "IOperand.hpp"
 #include "ExceptionAVM.hpp"
 #include "Convertor.hpp"
@@ -26,6 +25,8 @@ public:
 
 	explicit Operand(std::string const &value)
 	{
+		long double tmp;
+
 		if (typeid(T) == typeid(int8_t))
 			type = Int8;
 		else if (typeid(T) == typeid(int16_t))
@@ -36,9 +37,6 @@ public:
 			type = Float;
 		else
 			type = Double;
-
-		long double tmp;
-
 		try
 		{
 			tmp = std::stold(value);
@@ -50,9 +48,7 @@ public:
 			else
 				throw ExceptionAVM::ValueOverflow();
 		}
-
 		checkOverAndUnderFlow(tmp, type);
-
 		this->value = static_cast<T>(tmp);
 	}
 

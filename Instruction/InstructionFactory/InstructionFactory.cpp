@@ -3,8 +3,6 @@
 //
 
 #include "InstructionFactory.hpp"
-#include "../../Fsm additions/Fsm.hpp"
-
 
 InstructionFactory *InstructionFactory::factories[11] = {
 		new PushFactory(),
@@ -26,11 +24,12 @@ void InstructionFactory::delFactory()
 		delete factories[i];
 }
 
-AInstruction* InstructionFactory::create(Fsm const &fsm)
+AInstruction* InstructionFactory::create(Fsm const &)
 {
-	eInstruction instructionType = fsm.getInstructionType();
+//	eInstruction instructionType = fsm.getInstructionType();
 
-	return factories[instructionType]->createInstruction(fsm);
+//	return factories[instructionType]->createInstruction(fsm);
+	return (nullptr);
 }
 
 AInstruction* AddFactory::createInstruction(Fsm const &)
@@ -38,9 +37,10 @@ AInstruction* AddFactory::createInstruction(Fsm const &)
 	return new AddInstruction();
 }
 
-AInstruction* AssertFactory::createInstruction(Fsm const &fsm)
+AInstruction* AssertFactory::createInstruction(Fsm const &)
 {
-	return new AssertInstruction(fsm.getOperandType(), fsm.getNumberInString());
+	return (nullptr);
+//	return new AssertInstruction(fsm.getOperandType(), fsm.getNumberInString());
 }
 
 AInstruction* DivFactory::createInstruction(Fsm const &)
@@ -78,9 +78,10 @@ AInstruction* PrintFactory::createInstruction(Fsm const &)
 	return new PrintInstruction();
 }
 
-AInstruction* PushFactory::createInstruction(Fsm const &fsm)
+AInstruction* PushFactory::createInstruction(Fsm const &)
 {
-	return new PushInstruction(fsm.getOperandType(), fsm.getNumberInString());
+	return (nullptr);
+//	return new PushInstruction(fsm.getOperandType(), fsm.getNumberInString());
 }
 
 AInstruction* SubFactory::createInstruction(Fsm const &)

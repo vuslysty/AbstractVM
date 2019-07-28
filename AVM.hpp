@@ -15,8 +15,22 @@ enum	eInstruction{
 	Push, Assert, Pop, Dump, Add, Sub, Mul, Div, Mod, Print, Exit
 };
 
+const std::string sInstrutions[INSTR_COUNT] = {
+		"push", "assert", "pop", "dump", "add", "sub", "mul", "div", "mod", "print", "exit"
+};
+
 enum	eOperandType{
 	Int8, Int16, Int32, Float, Double
+};
+
+const std::string sOperandTypes[OPER_TYPE_COUNT] = {
+		"int8", "int16", "int32", "float", "double"
+};
+
+enum eToken{ InstEmpt, InstValue, OperandType, OpenScope, CloseScope, NumN, NumZ, EndLine, End };
+
+const std::string	sToken[9] = {
+		"InstEmpt", "InstValue", "OperandType", "OpenScope", "CloseScope", "NumN", "NumZ", "EndLine", "End"
 };
 
 enum	eNumberType{

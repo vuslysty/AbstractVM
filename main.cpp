@@ -23,18 +23,20 @@ std::vector<std::string> split(const std::string &s, char delim) {
 
 #include "Instruction/AInstruction.hpp"
 #include "Instruction/InstructionFactory/InstructionFactory.hpp"
+#include "Lexer/Lexer.hpp"
 #include <deque>
 #include <map>
+#include <iomanip>
 
 
 int main ()
 {
-	std::deque<const IOperand *>	stack;
+//	std::deque<const IOperand *>	stack;
 //
-	std::multimap<int, AInstruction* >	mapInstuctions;
+//	std::multimap<int, AInstruction* >	mapInstuctions;
 
-	mapInstuctions.insert({1, new PushInstruction(Double, "99.9943875982374")});
-	mapInstuctions.insert({2, new PushInstruction(Int16, "99")});
+//	mapInstuctions.insert({1, new PushInstruction(Double, "99.9943875982374")});
+//	mapInstuctions.insert({2, new PushInstruction(Int16, "99")});
 //	mapInstuctions.insert({3, new PushInstruction(Int16, "24")});
 //	mapInstuctions.insert({4, new PushInstruction(Int16, "34")});
 //	mapInstuctions.insert({5, new PushInstruction(Int16, "62.52")});
@@ -49,21 +51,21 @@ int main ()
 //	mapInstuctions.insert({7, new PrintInstruction()});
 //	mapInstuctions.insert({8, new DumpInstruction()});
 //	mapInstuctions.insert({9, new MulInstruction()});
-	mapInstuctions.insert({10, new SubInstruction()});
+//	mapInstuctions.insert({10, new SubInstruction()});
 //	mapInstuctions.insert({11, new AddInstruction()});
 //	mapInstuctions.insert({12, new DivInstruction()});
 //	mapInstuctions.insert({13, new DivInstruction()});
 //	mapInstuctions.insert({13, new ModInstruction()});
 
-	mapInstuctions.insert({15, new DumpInstruction()});
+//	mapInstuctions.insert({15, new DumpInstruction()});
 //	mapInstuctions.insert({16, new AssertInstruction(Float, "33245312432412342342345243613242346786")});
 
-//	std::cout << 6272384579228.52 / 76 << std::endl;
+//	std::cout <<  << std::endl;
 
-	for(auto item : mapInstuctions)
-	{
-		item.second->doInstruction(stack);
-	}
+//	for(auto item : mapInstuctions)
+//	{
+//		item.second->doInstruction(stack);
+//	}
 
 //	test(stack);
 //
@@ -72,6 +74,15 @@ int main ()
 //		static int i = 0;
 //		std::cout << ++i << ": " << item->getType() << " " << item->toString(2) << std::endl;
 //	}
+
+	Lexer	lexer("()()int8 int32 56.65 34 -34 pop assert exit -32423.245 ;72374982375798 34 -54 push\n push double (  43152.32523 )  ");
+
+	std::deque<Token>	tokens = lexer.getTokens();
+
+	for (auto item : tokens)
+		std::cout << std::setw(15) << item.getTokenByStr() << ": " << item.getValue() << std::endl;
+
+
 
 	return 0;
 }
