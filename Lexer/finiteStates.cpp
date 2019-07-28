@@ -91,7 +91,9 @@ void Lexer::endLineFS()
 
 	countEndLines();
 
-	endLine.assign(str, carret, 1);
+//	endLine.assign(str, carret, 1);
+	endLine = "\\n";
+
 	startToken = carret + 1;
 
 	tokens.emplace_back(Token(EndLine, endLine, row, col));
@@ -103,6 +105,8 @@ void Lexer::endFS()
 
 	stop = true;
 	end.assign(str, carret, 1);
+	end = "\\0";
+
 	startToken = carret + 1;
 
 	tokens.emplace_back(Token(End, end, row, col));
