@@ -27,14 +27,14 @@ struct transition
 
 class Lexer
 {
-	int 				row;
-	int 				col;
+	unsigned long 		row;
+	unsigned long 		col;
 	bool				stop;
 	unsigned int 		carret;
 	unsigned int 		startToken;
 
 	std::string			str;
-	std::deque<Token>	tokens;
+	std::deque<Token *>	tokens;
 
 	Lexer();
 
@@ -81,7 +81,7 @@ public:
 	Lexer &operator=(Lexer const &rhs);
 	~Lexer();
 
-	std::deque<Token>	getTokens() const;
+	std::deque<Token *>	getTokens() const;
 };
 
 #endif //ABSTRACTVM_LEXER_HPP

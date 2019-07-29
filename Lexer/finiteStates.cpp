@@ -12,28 +12,30 @@ void Lexer::identifierFS()
 
 	identifier.assign(str, startToken, carret - startToken);
 
-	startToken = carret;
-
 	carret -= 1;
+	col -= 1;
 
 	for (int i = Push; i <= Assert; i++)
 		if (sInstrutions[i] == identifier)
 		{
-			tokens.emplace_back(InstValue, identifier, row, col);
+			tokens.emplace_back(new Token(InstValue, identifier, row, col - identifier.size() + 1));
+			startToken = carret + 1;
 			return ;
 		}
 
 	for (int i = Pop; i <= Exit; i++)
 		if (sInstrutions[i] == identifier)
 		{
-			tokens.emplace_back(InstEmpt, identifier, row, col);
+			tokens.emplace_back(new Token(InstEmpt, identifier, row, col - identifier.size() + 1));
+			startToken = carret + 1;
 			return ;
 		}
 
 	for (int i = Int8; i <= Double; i++)
 		if (sOperandTypes[i] == identifier)
 		{
-			tokens.emplace_back(OperandType, identifier, row, col);
+			tokens.emplace_back(new Token(OperandType, identifier, row, col - identifier.size() + 1));
+			startToken = carret + 1;
 			return ;
 		}
 
@@ -45,20 +47,18 @@ void Lexer::openScopeFS()
 	std::string	scope;
 
 	scope.assign(str, startToken, 1);
-	startToken = carret + 1;
 
-	tokens.emplace_back(Token(OpenScope, scope, row, col));
+	tokens.emplace_back(new Token(OpenScope, scope, row, col));
+	startToken = carret + 1;
 }
 
 void Lexer::closeScopeFS()
 {
 	std::string	scope;
 
-
 	scope.assign(str, startToken, 1);
+	tokens.emplace_back(new Token(CloseScope, scope, row, col));
 	startToken = carret + 1;
-
-	tokens.emplace_back(Token(CloseScope, scope, row, col));
 }
 
 void Lexer::numNFS()
@@ -67,10 +67,11 @@ void Lexer::numNFS()
 
 
 	num.assign(str, startToken, carret - startToken);
-	startToken = carret;
 	carret -= 1;
+	col -= 1;
 
-	tokens.emplace_back(Token(NumN, num, row, col));
+	tokens.emplace_back(new Token(NumN, num, row, col - num.size() + 1));
+	startToken = carret + 1;
 }
 
 void Lexer::numZFS()
@@ -79,24 +80,25 @@ void Lexer::numZFS()
 
 
 	num.assign(str, startToken, carret - startToken);
-	startToken = carret;
 	carret -= 1;
+	col -= 1;
 
-	tokens.emplace_back(Token(NumZ, num, row, col));
+	tokens.emplace_back(new Token(NumZ, num, row, col - num.size() + 1));
+	startToken = carret + 1;
 }
 
 void Lexer::endLineFS()
 {
 	std::string	endLine;
 
-	countEndLines();
-
 //	endLine.assign(str, carret, 1);
 	endLine = "\\n";
 
-	startToken = carret + 1;
+	if (!tokens.empty() && tokens.back()->getToken() != EndLine)
+		tokens.emplace_back(new Token(EndLine, endLine, row, col));
 
-	tokens.emplace_back(Token(EndLine, endLine, row, col));
+	countEndLines();
+	startToken = carret + 1;
 }
 
 void Lexer::endFS()
@@ -107,9 +109,8 @@ void Lexer::endFS()
 	end.assign(str, carret, 1);
 	end = "\\0";
 
+	tokens.emplace_back(new Token(End, end, row, col));
 	startToken = carret + 1;
-
-	tokens.emplace_back(Token(End, end, row, col));
 }
 
 void Lexer::moveStartToken()

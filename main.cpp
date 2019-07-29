@@ -78,14 +78,14 @@ int main ()
 //	Lexer	lexer("-4   /;   3  \n\n\n 234234233523;/   2.4	4	;3.3",
 //				   false);
 
-	Lexer	lexer("testLexer", true);
+	Lexer	lexer("millionMAP_", true);
 
-	std::deque<Token>	tokens = lexer.getTokens();
+	std::deque<Token *>	tokens = lexer.getTokens();
+
+	tokens.emplace(++tokens.begin(), new Token(EndLine, "LooooL", 42, 23));
 
 	for (auto item : tokens)
-		std::cout << std::setw(15) << item.getTokenByStr() << ": " << item.getValue() << std::endl;
-
-
+		std::cout << std::setw(15) << item->getTokenByStr() << ": " << item->getValue() << std::endl;
 
 	return 0;
 }

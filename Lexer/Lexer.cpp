@@ -14,7 +14,7 @@ Lexer::Lexer() : row(1), col(1), stop(false), carret(0), startToken(0)
 static bool	fileIsDirectory(std::string const & fileName)
 {
 	bool		is_directory;
-	FILE		*fp = fopen(fileName.c_str(), "r");
+	FILE		*fp = fopen(fileName.c_str(), "rw");
 	struct stat	fileInfo;
 
 	fstat(fileno(fp), &fileInfo);
@@ -75,7 +75,7 @@ Lexer& Lexer::operator=(Lexer const &rhs)
 
 Lexer::~Lexer() {}
 
-std::deque<Token> Lexer::getTokens() const
+std::deque<Token *> Lexer::getTokens() const
 {
 	return tokens;
 }
@@ -124,22 +124,6 @@ Conditions	Lexer::conditions[CONDITION_COUNT] = {
 		&Lexer::zeroCondition,
 		&Lexer::slashCondition
 };
-//
-//FiniteStates	Lexer::finiteStates[7] = {
-//		&Lexer::identifierFS,
-//		&Lexer::openScopeFS,
-//		&Lexer::closeScopeFS,
-//		&Lexer::numNFS,
-//		&Lexer::numZFS,
-//		&Lexer::endLineFS,
-//		&Lexer::endFS
-//};
-//
-//Errors	Lexer::errors[3] = {
-//		&Lexer::errorMinus,
-//		&Lexer::errorDot,
-//		&Lexer::errorIdent
-//};
 
 const transition	Lexer::fsmTable[10][12] = {
 //-------------------- STATE 1 ----------------------------------------
