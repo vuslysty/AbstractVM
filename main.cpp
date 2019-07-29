@@ -80,9 +80,22 @@ int main ()
 
 	Lexer	lexer("millionMAP_", true);
 
-	std::deque<Token *>	tokens = lexer.getTokens();
+	while (lexer.isWork())
+	{
+		try
+		{
+			lexer.doLexAnalization();
+		}
+		catch(std::exception &e)
+		{
+			std::cout << "LexError" << std::endl;
+		}
+	}
 
-	tokens.emplace(++tokens.begin(), new Token(EndLine, "LooooL", 42, 23));
+
+	std::deque<Token *>	tokens = lexer.getTokens();
+	
+//	tokens.emplace(++tokens.begin(), new Token(EndLine, "LooooL", 42, 23));
 
 	for (auto item : tokens)
 		std::cout << std::setw(15) << item->getTokenByStr() << ": " << item->getValue() << std::endl;

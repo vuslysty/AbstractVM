@@ -27,11 +27,12 @@ struct transition
 
 class Lexer
 {
-	unsigned long 		row;
-	unsigned long 		col;
+	unsigned int 		row;
+	unsigned int 		col;
 	bool				stop;
 	unsigned int 		carret;
 	unsigned int 		startToken;
+	unsigned int		startColumn;
 
 	std::string			str;
 	std::deque<Token *>	tokens;
@@ -59,7 +60,9 @@ class Lexer
 	void	endFS();
 
 	void	moveStartToken();
+	void	moveCarretBack();
 	void	countEndLines();
+	void	workBeforeException();
 
 	void	errorMinus();
 	void	errorDot();
@@ -70,8 +73,6 @@ class Lexer
 
 	int 	getCondition() const;
 
-	void	startLexAnalization();
-
 	static const transition		fsmTable[10][12];
 
 public:
@@ -81,6 +82,8 @@ public:
 	Lexer &operator=(Lexer const &rhs);
 	~Lexer();
 
+	void	doLexAnalization();
+	bool	isWork() const;
 	std::deque<Token *>	getTokens() const;
 };
 

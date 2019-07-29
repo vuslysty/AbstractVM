@@ -8,7 +8,7 @@
 #include "Lexer.hpp"
 #include "../ExceptionAVM.hpp"
 
-Lexer::Lexer() : row(1), col(1), stop(false), carret(0), startToken(0)
+Lexer::Lexer() : row(1), col(1), stop(false), carret(0), startToken(0), startColumn(1)
 {}
 
 static bool	fileIsDirectory(std::string const & fileName)
@@ -46,8 +46,6 @@ Lexer::Lexer(std::string const &src, bool file) : Lexer()
 		else
 			throw ("Can't open file");
 	}
-
-	startLexAnalization();
 }
 
 Lexer::Lexer(Lexer const &src)
@@ -90,7 +88,7 @@ int Lexer::getCondition() const
 	return (i);
 }
 
-void Lexer::startLexAnalization()
+void Lexer::doLexAnalization()
 {
 	transition_callback	funk = nullptr;
 	int 				state = 1;
@@ -109,6 +107,11 @@ void Lexer::startLexAnalization()
 		carret++;
 		col++;
 	}
+}
+
+bool Lexer::isWork() const
+{
+	return (!stop);
 }
 
 Conditions	Lexer::conditions[CONDITION_COUNT] = {

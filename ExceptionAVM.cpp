@@ -17,7 +17,7 @@ ExceptionAVM::EmptyStack::~EmptyStack() throw() {}
 
 const char* ExceptionAVM::UndeclaratedIdentifier::what() const throw()
 {
-	return ("  ");
+	return ("undeclared identifier");
 }
 
 ExceptionAVM::UndeclaratedIdentifier::UndeclaratedIdentifier() {}
