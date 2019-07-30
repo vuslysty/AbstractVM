@@ -80,6 +80,8 @@ int main ()
 
 	Lexer	lexer("millionMAP_", true);
 
+	lexer.setFullErrorOutputState(true);
+
 	while (lexer.isWork())
 	{
 		try
@@ -88,13 +90,14 @@ int main ()
 		}
 		catch(std::exception &e)
 		{
-			std::cout << "LexError" << std::endl;
+			std::cout << e.what() << std::endl;
 		}
 	}
+	std::cout << "Expected " << lexer.getErrorCount() << " errors" << std::endl;
 
 
 	std::deque<Token *>	tokens = lexer.getTokens();
-	
+
 //	tokens.emplace(++tokens.begin(), new Token(EndLine, "LooooL", 42, 23));
 
 	for (auto item : tokens)

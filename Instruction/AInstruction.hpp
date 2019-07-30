@@ -31,7 +31,6 @@ public:
 class AssertInstruction : public AInstruction
 {
 	const IOperand	*operand;
-	eNumberType		numType;
 
 public:
 

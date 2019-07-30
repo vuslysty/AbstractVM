@@ -27,14 +27,10 @@ const std::string sOperandTypes[OPER_TYPE_COUNT] = {
 		"int8", "int16", "int32", "float", "double"
 };
 
-enum eToken{ InstEmpt, InstValue, OperandType, OpenScope, CloseScope, NumN, NumZ, EndLine, End };
+enum eToken{ InstEmpt, InstValue, InstBad, OperandType, OpenScope, CloseScope, NumN, NumZ, EndLine, End };
 
-const std::string	sToken[9] = {
-		"InstEmpt", "InstValue", "OperandType", "OpenScope", "CloseScope", "NumN", "NumZ", "EndLine", "End"
-};
-
-enum	eNumberType{
-	N, Z
+const std::string	sToken[10] = {
+		"InstEmpt", "InstValue", "InstBad", "OperandType", "OpenScope", "CloseScope", "NumN", "NumZ", "EndLine", "End"
 };
 
 void		checkOverAndUnderFlow(long double v, eOperandType t);

@@ -5,7 +5,6 @@
 #ifndef ABSTRACTVM_LEXER_HPP
 #define ABSTRACTVM_LEXER_HPP
 
-
 #include <string>
 #include <deque>
 #include "Token.hpp"
@@ -13,27 +12,36 @@
 
 #define CONDITION_COUNT 11
 
+#define MAX_ERROR_OUTPUT 20
+
 class Lexer;
 
 typedef bool	(Lexer::*Conditions)(const char c) const;
 
-typedef void (Lexer::*transition_callback)();
+typedef void (Lexer::*transitionL_callback)();
 
-struct transition
+struct transitionL
 {
-	int 				newState;
-	transition_callback worker;
+	int 					newState;
+	transitionL_callback	worker;
 };
 
 class Lexer
 {
+	int 				state;
+	unsigned int		errorCount;
+
+	bool				fullErrorOutput;
+	bool				stop;
 	unsigned int 		row;
 	unsigned int 		col;
-	bool				stop;
 	unsigned int 		carret;
 	unsigned int 		startToken;
 	unsigned int		startColumn;
+	unsigned int		startRow;
 
+	unsigned int 		startTokenTMP;
+	unsigned int		startColumnTMP;
 	std::string			str;
 	std::deque<Token *>	tokens;
 
@@ -62,7 +70,7 @@ class Lexer
 	void	moveStartToken();
 	void	moveCarretBack();
 	void	countEndLines();
-	void	workBeforeException();
+	void	workBeforeException(unsigned int move_step);
 
 	void	errorMinus();
 	void	errorDot();
@@ -73,7 +81,7 @@ class Lexer
 
 	int 	getCondition() const;
 
-	static const transition		fsmTable[10][12];
+	static const transitionL		fsmTable[10][12];
 
 public:
 
@@ -84,6 +92,10 @@ public:
 
 	void	doLexAnalization();
 	bool	isWork() const;
+	unsigned int	getErrorCount() const;
+
+	void 	setFullErrorOutputState(bool FullErrorOutputMode);
+
 	std::deque<Token *>	getTokens() const;
 };
 
