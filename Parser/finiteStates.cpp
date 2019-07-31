@@ -3,6 +3,7 @@
 //
 
 #include "Parser.hpp"
+#include "../Instruction/InstructionFactory/InstructionFactory.hpp"
 
 int Parser::getCondition() const
 {
@@ -39,5 +40,28 @@ void Parser::saveOperandType()
 
 void Parser::FSnormalInstValue()
 {
-//	if () instruction factory need !!!
+	InstructionFactory::create(*this);
 }
+
+void Parser::FSoptimizatedInstValue()
+{
+	InstructionFactory::create(*this);
+}
+
+void Parser::FSInstEmpt()
+{
+	instructions.push(InstructionFactory::create(*this));
+
+	if (isUnusedInstructions)///
+	;
+	///////fsadf/sad/f/asdf//asdf
+}
+
+void Parser::FSoptimizatedEndLine()
+{
+	InstructionFactory::create(*this);
+	errorNotEndLine();
+}
+
+
+

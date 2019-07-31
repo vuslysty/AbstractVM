@@ -24,67 +24,64 @@ void InstructionFactory::delFactory()
 		delete factories[i];
 }
 
-AInstruction* InstructionFactory::create(Fsm const &)
+AInstruction* InstructionFactory::create(Parser const &parser)
 {
-//	eInstruction instructionType = fsm.getInstructionType();
+	eInstruction instructionType = parser.getInstructionType();
 
-//	return factories[instructionType]->createInstruction(fsm);
-	return (nullptr);
+	return factories[instructionType]->createInstruction(parser);
 }
 
-AInstruction* AddFactory::createInstruction(Fsm const &)
+AInstruction* AddFactory::createInstruction(const Parser &)
 {
 	return new AddInstruction();
 }
 
-AInstruction* AssertFactory::createInstruction(Fsm const &)
+AInstruction* AssertFactory::createInstruction(const Parser &parser)
 {
-	return (nullptr);
-//	return new AssertInstruction(fsm.getOperandType(), fsm.getNumberInString());
+	return new AssertInstruction(parser.getOperandType(), parser.getNumValue());
 }
 
-AInstruction* DivFactory::createInstruction(Fsm const &)
+AInstruction* DivFactory::createInstruction(const Parser &)
 {
 	return new DivInstruction();
 }
 
-AInstruction* DumpFactory::createInstruction(Fsm const &)
+AInstruction* DumpFactory::createInstruction(const Parser &)
 {
 	return new DumpInstruction();
 }
 
-AInstruction* ExitFactory::createInstruction(Fsm const &)
+AInstruction* ExitFactory::createInstruction(const Parser &)
 {
 	return new ExitInstruction();
 }
 
-AInstruction* ModFactory::createInstruction(Fsm const &)
+AInstruction* ModFactory::createInstruction(const Parser &)
 {
 	return new ModInstruction();
 }
 
-AInstruction* MulFactory::createInstruction(Fsm const &)
+AInstruction* MulFactory::createInstruction(const Parser &)
 {
 	return new MulInstruction();
 }
 
-AInstruction* PopFactory::createInstruction(Fsm const &)
+AInstruction* PopFactory::createInstruction(const Parser &)
 {
 	return new PopInstruction();
 }
 
-AInstruction* PrintFactory::createInstruction(Fsm const &)
+AInstruction* PrintFactory::createInstruction(const Parser &)
 {
 	return new PrintInstruction();
 }
 
-AInstruction* PushFactory::createInstruction(Fsm const &)
+AInstruction* PushFactory::createInstruction(const Parser &parser)
 {
-	return (nullptr);
-//	return new PushInstruction(fsm.getOperandType(), fsm.getNumberInString());
+	return new AssertInstruction(parser.getOperandType(), parser.getNumValue());
 }
 
-AInstruction* SubFactory::createInstruction(Fsm const &)
+AInstruction* SubFactory::createInstruction(const Parser &)
 {
 	return new SubInstruction();
 }

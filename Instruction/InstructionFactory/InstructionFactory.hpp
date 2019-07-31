@@ -7,8 +7,7 @@
 
 
 #include "../AInstruction.hpp"
-
-class Fsm;
+#include "../../Parser/Parser.hpp"
 
 class InstructionFactory
 {
@@ -18,13 +17,13 @@ private:
 
 protected:
 
-	virtual AInstruction	*createInstruction(Fsm const &fsm) = 0;
+	virtual AInstruction	*createInstruction(const Parser &parser) = 0;
 
 public:
 
 	virtual ~InstructionFactory() = default;
 
-	static AInstruction	*create(Fsm const &fsm);
+	static AInstruction	*create(Parser const &);
 
 	static void delFactory();
 };
@@ -33,57 +32,57 @@ public:
 class AddFactory : public InstructionFactory
 {
 public:
-	AInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(const Parser &parser) final;
 };
 
 class AssertFactory : public InstructionFactory
 {
-	AInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(const Parser &parser) final;
 };
 
 class DivFactory : public InstructionFactory
 {
-	AInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(const Parser &parser) final;
 };
 
 class DumpFactory : public InstructionFactory
 {
-	AInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(const Parser &parser) final;
 };
 
 class ExitFactory : public InstructionFactory
 {
-	AInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(const Parser &parser) final;
 };
 
 class ModFactory : public InstructionFactory
 {
-	AInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(const Parser &parser) final;
 };
 
 class MulFactory : public InstructionFactory
 {
-	AInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(const Parser &parser) final;
 };
 
 class PopFactory : public InstructionFactory
 {
-	AInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(const Parser &parser) final;
 };
 
 class PrintFactory : public InstructionFactory
 {
-	AInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(const Parser &parser) final;
 };
 
 class PushFactory : public InstructionFactory
 {
-	AInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(const Parser &parser) final;
 };
 
 class SubFactory : public InstructionFactory
 {
-	AInstruction	*createInstruction(Fsm const &fsm) final;
+	AInstruction	*createInstruction(const Parser &parser) final;
 };
 
 #endif //ABSTRACTVM_INSTRUCTIONFACTORY_HPP

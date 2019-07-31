@@ -47,8 +47,9 @@ class Parser
 	void	FSoptimizatedInstValue();
 	void	FSInstEmpt();
 	void	FSoptimizatedEndLine();
-	void	FSstop();
+//	void	FSstop(); // work while not defined END
 
+	//!!! first change state, then call matching function !!!
 
 	void	errorNotValue();
 	void	errorNotOpenScope(); // if Up optimization flag and token N or Z - throw warning and go to 7 state
@@ -57,7 +58,7 @@ class Parser
 	void	errorImplicitConversionZtoN();
 	void	errorImplicitConversionNtoZ();
 	void	errorNotCloseScope();
-	void	errorNotEndLine();
+	void	errorNotEndLine(); // add optimization
 	void	errorUnknownInstruction();
 	void	errorBadLogicPosition();
 	void	warningUnusedInstructions();
@@ -65,6 +66,7 @@ class Parser
 
 	std::deque<Token *>::iterator	iter;
 	std::deque<Token *>::iterator	startInstr;
+	std::deque<Token *>::iterator	endIter;
 
 	std::queue<AInstruction* >		instructions;
 
@@ -78,6 +80,11 @@ public:
 	bool			isWork() const;
 	unsigned int	getErrorCount() const;
 	unsigned int	getWarningCount() const;
+
+	eInstruction 	getInstructionType() const;
+	eOperandType	getOperandType() const;
+	std::string		getNumValue() const;
+
 
 	void 			setFullErrorOutputState(bool FullErrorOutputMode);
 };

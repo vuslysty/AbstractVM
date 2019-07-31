@@ -11,6 +11,7 @@
 #include "ExceptionAVM.hpp"
 #include "Convertor.hpp"
 #include <iomanip>
+#include <typeinfo>
 
 template <class T>
 class 	Operand : public IOperand
