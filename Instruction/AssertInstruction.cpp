@@ -15,8 +15,9 @@ void AssertInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 		throw ExceptionAVM::AssertIsNotTrue();
 }
 
-AssertInstruction::AssertInstruction(eOperandType type,
+AssertInstruction::AssertInstruction(Token *tok, eOperandType type,
 									 std::string const &value)
 {
+	instructionToken = tok;
 	operand = OperandFactory::create(type, value);
 }

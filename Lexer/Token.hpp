@@ -12,23 +12,23 @@ class Token
 {
 	eToken				token;
 	std::string			sValue;
-	unsigned long 		row;
-	unsigned long 		col;
+	unsigned int 		row;
+	unsigned int 		col;
 
 	Token() = default;
 
 public:
 
-	Token(eToken t, std::string value, unsigned long row, unsigned long col);
+	Token(eToken t, std::string value, unsigned int row, unsigned int col);
 	Token(Token const &src);
 	Token &operator=(Token const &rhs);
 	~Token() = default;
 
 	eToken				getToken() const;
 	std::string			getValue() const;
-	std::string			getTokenByStr() const;
-	unsigned long  		getRow() const;
-	unsigned long  		getCol() const;
+//	std::string			getTokenByStr() const;
+	unsigned int  		getRow() const;
+	unsigned int  		getCol() const;
 };
 
 

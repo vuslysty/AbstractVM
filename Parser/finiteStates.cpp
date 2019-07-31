@@ -4,6 +4,7 @@
 
 #include "Parser.hpp"
 #include "../Instruction/InstructionFactory/InstructionFactory.hpp"
+#include "../Exceptions/LimitException.hpp"
 
 int Parser::getCondition() const
 {
@@ -24,9 +25,9 @@ void	Parser::numberState()
 	numberValue = (*iter)->getValue();
 
 	if (isInt(opType) && (*iter)->getToken() == NumZ)
-		errorImplicitConversionNtoZ();
-	else if (!isInt(opType) && (*iter)->getToken() == NumN)
 		errorImplicitConversionZtoN();
+	else if (!isInt(opType) && (*iter)->getToken() == NumN)
+		errorImplicitConversionNtoZ();
 }
 
 void Parser::saveOperandType()
@@ -35,33 +36,39 @@ void Parser::saveOperandType()
 
 	for (int i = Int8; i <= Double; i++)
 		if ((*iter)->getValue() == sOperandTypes[i])
+		{
 			opType = static_cast<eOperandType >(i);
+			return ;
+		}
 }
 
-void Parser::FSnormalInstValue()
+void Parser::FSaddInstruction()
 {
-	InstructionFactory::create(*this);
-}
-
-void Parser::FSoptimizatedInstValue()
-{
-	InstructionFactory::create(*this);
-}
-
-void Parser::FSInstEmpt()
-{
-	instructions.push(InstructionFactory::create(*this));
-
-	if (isUnusedInstructions)///
-	;
-	///////fsadf/sad/f/asdf//asdf
+	if (!(errorCounter != 0 && (*startInstr)->getToken() == InstEmpt))
+	{
+		try
+		{
+			instructions.push(InstructionFactory::create(*this));
+		}
+		catch (ValueOverflow &e)
+		{
+			errorCounter++;
+			throw ValueOverflow(numberValue, (*startInstr)->getRow(),
+								(*startInstr)->getCol());
+		}
+		catch (ValueUnderflow &e)
+		{
+			errorCounter++;
+			throw ValueOverflow(numberValue, (*startInstr)->getRow(),
+								(*startInstr)->getCol());
+		}
+	}
 }
 
 void Parser::FSoptimizatedEndLine()
 {
-	InstructionFactory::create(*this);
+	if (optimizator)
+		FSaddInstruction();
+
 	errorNotEndLine();
 }
-
-
-

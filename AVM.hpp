@@ -10,6 +10,7 @@
 
 #define INSTR_COUNT 	11
 #define OPER_TYPE_COUNT 5
+#define TOKEN_COUNT 	10
 
 enum	eInstruction{
 	Push, Assert, Pop, Dump, Add, Sub, Mul, Div, Mod, Print, Exit
@@ -29,7 +30,7 @@ const std::string sOperandTypes[OPER_TYPE_COUNT] = {
 
 enum eToken{ InstEmpt, InstValue, InstBad, OperandType, OpenScope, CloseScope, NumN, NumZ, EndLine, End };
 
-const std::string	sToken[10] = {
+const std::string	sToken[TOKEN_COUNT] = {
 		"InstEmpt", "InstValue", "InstBad", "OperandType", "OpenScope", "CloseScope", "NumN", "NumZ", "EndLine", "End"
 };
 

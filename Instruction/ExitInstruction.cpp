@@ -4,6 +4,11 @@
 
 #include "AInstruction.hpp"
 
+ExitInstruction::ExitInstruction(Token *tok)
+{
+	instructionToken = tok;
+}
+
 void ExitInstruction::doInstruction(std::deque<const IOperand *> &) const
 {
 

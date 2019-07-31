@@ -8,6 +8,11 @@
 
 #include "../IOperand.hpp"
 
+PrintInstruction::PrintInstruction(Token *tok)
+{
+	instructionToken = tok;
+}
+
 void PrintInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	if (stack.empty())

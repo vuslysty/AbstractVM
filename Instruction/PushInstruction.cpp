@@ -11,9 +11,10 @@ PushInstruction& PushInstruction::operator=(PushInstruction const &) {return *th
 PushInstruction::~PushInstruction() = default;
 
 
-PushInstruction::PushInstruction(eOperandType type,
+PushInstruction::PushInstruction(Token *tok, eOperandType type,
 								 std::string const &value)
 {
+	instructionToken = tok;
 	operand = OperandFactory::create(type, value);
 }
 

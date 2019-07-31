@@ -27,25 +27,22 @@ struct transitionP
 
 class Parser
 {
-	eOperandType	opType;
-
 	bool			fullErrorOutput;
-	bool			isUnusedInstructions;
 	bool			optimizator;
 
 	unsigned int	errorCounter;
 	unsigned int	warningCounter;
-	int 			state;
+	int 			currState;
+	int				prevState;
 
+	eOperandType	opType;
 	std::string		numberValue;
 
 	void	numberState();
 	void	saveOperandType();
 //	void	saveNumber(); // in optimized and normal number
 
-	void	FSnormalInstValue();
-	void	FSoptimizatedInstValue();
-	void	FSInstEmpt();
+	void	FSaddInstruction();
 	void	FSoptimizatedEndLine();
 //	void	FSstop(); // work while not defined END
 
@@ -61,7 +58,6 @@ class Parser
 	void	errorNotEndLine(); // add optimization
 	void	errorUnknownInstruction();
 	void	errorBadLogicPosition();
-	void	warningUnusedInstructions();
 
 
 	std::deque<Token *>::iterator	iter;
@@ -74,7 +70,11 @@ class Parser
 
 	static const transitionP		fsmTable[8][10];
 
+	Parser();
+
 public:
+
+	Parser(std::deque<Token *> tokens);
 
 	void			doParsAnalization();
 	bool			isWork() const;
@@ -84,9 +84,13 @@ public:
 	eInstruction 	getInstructionType() const;
 	eOperandType	getOperandType() const;
 	std::string		getNumValue() const;
+	Token 			*getStartToken() const;
+
+	std::queue<AInstruction* >	getInstructions() const;
 
 
-	void 			setFullErrorOutputState(bool FullErrorOutputMode);
+	void 			setFullErrorOutputState(bool fullErrorOutputMode);
+	void 			setOptimizator(bool optimization);
 };
 
 

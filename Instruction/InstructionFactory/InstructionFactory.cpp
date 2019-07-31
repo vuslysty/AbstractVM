@@ -31,57 +31,59 @@ AInstruction* InstructionFactory::create(Parser const &parser)
 	return factories[instructionType]->createInstruction(parser);
 }
 
-AInstruction* AddFactory::createInstruction(const Parser &)
+AInstruction* AddFactory::createInstruction(const Parser &parser)
 {
-	return new AddInstruction();
+	return new AddInstruction(parser.getStartToken());
 }
 
 AInstruction* AssertFactory::createInstruction(const Parser &parser)
 {
-	return new AssertInstruction(parser.getOperandType(), parser.getNumValue());
+	return new AssertInstruction(parser.getStartToken(), parser.getOperandType(),
+			parser.getNumValue());
 }
 
-AInstruction* DivFactory::createInstruction(const Parser &)
+AInstruction* DivFactory::createInstruction(const Parser &parser)
 {
-	return new DivInstruction();
+	return new DivInstruction(parser.getStartToken());
 }
 
-AInstruction* DumpFactory::createInstruction(const Parser &)
+AInstruction* DumpFactory::createInstruction(const Parser &parser)
 {
-	return new DumpInstruction();
+	return new DumpInstruction(parser.getStartToken());
 }
 
-AInstruction* ExitFactory::createInstruction(const Parser &)
+AInstruction* ExitFactory::createInstruction(const Parser &parser)
 {
-	return new ExitInstruction();
+	return new ExitInstruction(parser.getStartToken());
 }
 
-AInstruction* ModFactory::createInstruction(const Parser &)
+AInstruction* ModFactory::createInstruction(const Parser &parser)
 {
-	return new ModInstruction();
+	return new ModInstruction(parser.getStartToken());
 }
 
-AInstruction* MulFactory::createInstruction(const Parser &)
+AInstruction* MulFactory::createInstruction(const Parser &parser)
 {
-	return new MulInstruction();
+	return new MulInstruction(parser.getStartToken());
 }
 
-AInstruction* PopFactory::createInstruction(const Parser &)
+AInstruction* PopFactory::createInstruction(const Parser &parser)
 {
-	return new PopInstruction();
+	return new PopInstruction(parser.getStartToken());
 }
 
-AInstruction* PrintFactory::createInstruction(const Parser &)
+AInstruction* PrintFactory::createInstruction(const Parser &parser)
 {
-	return new PrintInstruction();
+	return new PrintInstruction(parser.getStartToken());
 }
 
 AInstruction* PushFactory::createInstruction(const Parser &parser)
 {
-	return new AssertInstruction(parser.getOperandType(), parser.getNumValue());
+	return new AssertInstruction(parser.getStartToken(),parser.getOperandType(),
+			parser.getNumValue());
 }
 
-AInstruction* SubFactory::createInstruction(const Parser &)
+AInstruction* SubFactory::createInstruction(const Parser &parser)
 {
-	return new SubInstruction();
+	return new SubInstruction(parser.getStartToken());
 }

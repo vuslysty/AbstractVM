@@ -6,7 +6,7 @@
 
 #include "Token.hpp"
 
-Token::Token(eToken t, std::string value, unsigned long row, unsigned long col) :
+Token::Token(eToken t, std::string value, unsigned int row, unsigned int col) :
 	token(t), sValue(std::move(value)), row(row), col(col)
 {}
 
@@ -35,17 +35,17 @@ std::string Token::getValue() const
 	return sValue;
 }
 
-std::string Token::getTokenByStr() const
-{
-	return (sToken[token]);
-}
+//std::string Token::getTokenByStr() const
+//{
+//	return (sToken[token]);
+//}
 
-unsigned long Token::getRow() const
+unsigned int Token::getRow() const
 {
 	return row;
 }
 
-unsigned long Token::getCol() const
+unsigned int Token::getCol() const
 {
 	return col;
 }

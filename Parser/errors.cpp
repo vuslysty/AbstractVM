@@ -6,90 +6,145 @@
 #include "Parser.hpp"
 #include "../Exceptions/ExceptionAVM.hpp"
 
+//void doBeforeError()
+//{
+//
+//}
+
 void Parser::errorNotValue()
 {
-	std::stringstream	stream;
+	std::stringstream				stream;
+	auto							tmp = iter;
 
 	stream << "After instruction \'" << sInstrutions[getInstructionType()] << "\'";
 	stream << " must follow VALUE";
 
-	throw ParserException(true, stream.str(), startInstr, ++iter);
+	errorCounter++;
+	throw ParserException(true, stream.str(), startInstr, ++tmp);
 }
 
 void Parser::errorNotOpenScope()
 {
+	eToken	token = (*iter)->getToken();
+	auto	tmp = iter;
 
+	if (!optimizator || (optimizator && !(token == NumN || token == NumZ)))
+	{
+		if (prevState == 3)
+			++iter;
+		currState = 1;
+		errorCounter++;
+	}
+	else
+	{
+		numberValue = (*iter)->getValue();
+		++iter;
+		warningCounter++;
+	}
+
+	throw ParserException(!optimizator, "Not open scope after data type", startInstr, ++tmp);
 }
 
 void Parser::errorNotNumber()
 {
 	std::stringstream	stream;
+	auto				tmp = iter;
 
 	stream << "After operand type \'" << sOperandTypes[opType] << "\'";
 	stream << " must follow NUMBER";
 
-	throw ParserException(true, stream.str(), startInstr, ++iter);
+	errorCounter++;
+	throw ParserException(true, stream.str(), startInstr, ++tmp);
 }
 
 void Parser::errorEmptyScopes()
 {
 	std::stringstream	stream;
 
-	stream << "Empty scopes expected, you must add some NUMBER between them";
+	stream << "Detected empty scopes, you must add some NUMBER between them";
 
+	errorCounter++;
 	throw ParserException(true, stream.str(), startInstr, ++iter);
 }
 
 void Parser::errorImplicitConversionNtoZ()
 {
 	std::stringstream	stream;
+	auto				tmp = iter;
+
+	iter++;
 
 	if (!optimizator)
-		state = 1;
+	{
+		currState = 1;
 
-	stream << "expected implicit conversion from integer type " <<
+		if ((*iter)->getToken() == CloseScope)
+			iter++;
+		errorCounter++;
+	}
+	else
+		warningCounter++;
+
+	stream << "Detected implicit conversion from integer type " <<
 	"to floating point type \'" << sOperandTypes[opType] << "\'";
 
-	throw ParserException(!optimizator, stream.str(), startInstr, ++iter);
+
+	throw ParserException(!optimizator, stream.str(), startInstr, ++tmp);
 }
 
 void Parser::errorImplicitConversionZtoN()
 {
 	std::stringstream	stream;
+	auto				tmp = iter;
+
+	iter++;
 
 	if (!optimizator)
-		state = 1;
+	{
+		currState = 1;
 
-	stream << "expected implicit conversion from floating point type " <<
+		if ((*iter)->getToken() == CloseScope)
+			iter++;
+		errorCounter++;
+	}
+	else
+		warningCounter++;
+
+	stream << "Detected implicit conversion from floating point type " <<
 	"to integer type \'" << sOperandTypes[opType] << "\'";
 
-	throw ParserException(!optimizator, stream.str(), startInstr, ++iter);
+	throw ParserException(!optimizator, stream.str(), startInstr, ++tmp);
 }
 
 void Parser::errorNotCloseScope()
 {
 	std::stringstream	stream;
+	auto				tmp = iter;
 
 	stream << "You forgot close scope... Stupid";
 
-	throw ParserException(true, stream.str(), startInstr, ++iter);
+	errorCounter++;
+	throw ParserException(true, stream.str(), startInstr, ++tmp);
 }
 
 void Parser::errorNotEndLine()
 {
 	std::stringstream	stream;
+	auto				tmp = iter;
 
-	stream << "You forgot end line. Remember that one instruction - one line";
+	stream << "You forgot end line. Remember, one instruction on line";
 
-	throw ParserException(!optimizator, stream.str(), startInstr, ++iter);
+	errorCounter++;
+	throw ParserException(!optimizator, stream.str(), startInstr, ++tmp);
 }
 
 void Parser::errorUnknownInstruction()
 {
 	std::stringstream	stream;
 
-	stream << "Expected undeclared instruction";
+	stream << "Detected undeclared instruction";
 
+	errorCounter++;
 	throw ParserException(true, stream.str(), startInstr, ++iter);
 }
 
@@ -97,8 +152,9 @@ void Parser::errorBadLogicPosition()
 {
 	std::stringstream	stream;
 
-	stream << "Expected expression which destroying grammar logic of program";
+	stream << "Detected expression which destroying grammar logic of program";
 
+	errorCounter++;
 	throw ParserException(true, stream.str(), startInstr, ++iter);
 }
 
@@ -108,31 +164,4 @@ bool inline isInstruction(eToken token)
 		return (true);
 	else
 		return (false);
-}
-
-void Parser::warningUnusedInstructions()
-{
-	if (isUnusedInstructions == false)
-	{
-		std::deque<Token *>::iterator tmp = iter;
-
-		tmp++;
-
-		while (tmp != endIter)
-		{
-			if (isInstruction((*tmp)->getToken()))
-			{
-				std::stringstream	stream;
-
-				tmp = iter;
-				tmp++;
-
-				stream << "No one instruction from that position will be executed";
-
-				throw ParserException(true, stream.str(), startInstr, ++iter);
-			}
-			tmp++;
-		}
-		isUnusedInstructions = true;
-	}
 }

@@ -5,6 +5,11 @@
 #include "AInstruction.hpp"
 #include "../ExceptionAVM.hpp"
 
+PopInstruction::PopInstruction(Token *tok)
+{
+	instructionToken = tok;
+}
+
 void PopInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	if (stack.empty())

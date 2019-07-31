@@ -6,6 +6,11 @@
 #include "../ExceptionAVM.hpp"
 #include "../IOperand.hpp"
 
+MulInstruction::MulInstruction(Token *tok)
+{
+	instructionToken = tok;
+}
+
 void MulInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	std::pair<const IOperand *, const IOperand *>	pair;

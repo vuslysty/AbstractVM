@@ -36,28 +36,28 @@ public:
 	};
 
 
-	class	ValueOverflow : public std::exception
-	{
-	public:
-		ValueOverflow();
-		ValueOverflow(ValueOverflow const &src) throw();
-		ValueOverflow &operator=(ValueOverflow const &rhs);
-		~ValueOverflow() throw();
-
-		const char 			*what(void) const throw();
-	};
-
-
-	class	ValueUnderflow : public std::exception
-	{
-	public:
-		ValueUnderflow();
-		ValueUnderflow(ValueUnderflow const &src) throw();
-		ValueUnderflow &operator=(ValueUnderflow const &rhs);
-		~ValueUnderflow() throw();
-
-		const char 			*what(void) const throw();
-	};
+//	class	ValueOverflow : public std::exception
+//	{
+//	public:
+//		ValueOverflow();
+//		ValueOverflow(ValueOverflow const &src) throw();
+//		ValueOverflow &operator=(ValueOverflow const &rhs);
+//		~ValueOverflow() throw();
+//
+//		const char 			*what(void) const throw();
+//	};
+//
+//
+//	class	ValueUnderflow : public std::exception
+//	{
+//	public:
+//		ValueUnderflow();
+//		ValueUnderflow(ValueUnderflow const &src) throw();
+//		ValueUnderflow &operator=(ValueUnderflow const &rhs);
+//		~ValueUnderflow() throw();
+//
+//		const char 			*what(void) const throw();
+//	};
 
 
 	class	PopOnEmptyStack : public std::exception

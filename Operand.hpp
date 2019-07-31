@@ -13,6 +13,9 @@
 #include <iomanip>
 #include <typeinfo>
 
+#include "Exceptions/LimitException.hpp"
+
+
 template <class T>
 class 	Operand : public IOperand
 {
@@ -45,9 +48,9 @@ public:
 		catch (std::exception &e)
 		{
 			if (value[0] == '-')
-				throw ExceptionAVM::ValueUnderflow();
+				throw ValueUnderflow();
 			else
-				throw ExceptionAVM::ValueOverflow();
+				throw ValueOverflow();
 		}
 		checkOverAndUnderFlow(tmp, type);
 		this->value = static_cast<T>(tmp);

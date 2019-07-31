@@ -98,10 +98,28 @@ int main ()
 
 	std::deque<Token *>	tokens = lexer.getTokens();
 
+	Parser	parser(tokens);
+
+	parser.setOptimizator(false);
+
+	while (parser.isWork())
+	{
+		try
+		{
+			parser.doParsAnalization();
+		}
+		catch(std::exception &e)
+		{
+			std::cout << e.what() << std::endl;
+		}
+	}
+
+	std::queue<AInstruction* >	instructions = parser.getInstructions();
+
 //	tokens.emplace(++tokens.begin(), new Token(EndLine, "LooooL", 42, 23));
 
-	for (auto item : tokens)
-		std::cout << std::setw(15) << item->getTokenByStr() << ": " << item->getValue() << std::endl;
+//	for (auto item : tokens)
+//		std::cout << std::setw(15) << item->getTokenByStr() << ": " << item->getValue() << std::endl;
 
 	return 0;
 }

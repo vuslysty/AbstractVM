@@ -20,3 +20,13 @@ std::pair<const IOperand *, const IOperand *> AInstruction::getTwoElemFromStack(
 
 	return pair;
 }
+
+unsigned int AInstruction::getRow() const
+{
+	return instructionToken->getRow();
+}
+
+unsigned int AInstruction::getColumn() const
+{
+	return instructionToken->getCol();
+}

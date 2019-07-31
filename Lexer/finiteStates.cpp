@@ -94,7 +94,7 @@ void Lexer::endLineFS()
 	std::string	endLine;
 
 //	endLine.assign(str, carret, 1);
-	endLine = "\\n";
+	endLine = "";
 
 	if (!tokens.empty() && tokens.back()->getToken() != EndLine && errorCount == 0)
 		tokens.emplace_back(new Token(EndLine, endLine, row, col));
@@ -109,7 +109,7 @@ void Lexer::endFS()
 
 	stop = true;
 	end.assign(str, carret, 1);
-	end = "\\0";
+	end = "";
 	if (errorCount == 0)
 		tokens.emplace_back(new Token(End, end, row, col));
 	moveStartToken();

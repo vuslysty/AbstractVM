@@ -8,6 +8,11 @@
 
 #include "../IOperand.hpp"
 
+DumpInstruction::DumpInstruction(Token *tok)
+{
+	instructionToken = tok;
+}
+
 void DumpInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	for (auto item : stack)

@@ -26,26 +26,26 @@ ExceptionAVM::UndeclaratedIdentifier& ExceptionAVM::UndeclaratedIdentifier::oper
 ExceptionAVM::UndeclaratedIdentifier::~UndeclaratedIdentifier() throw() {}
 
 
-const char* ExceptionAVM::ValueOverflow::what() const throw()
-{
-	return ("  ");
-}
-
-ExceptionAVM::ValueOverflow::ValueOverflow() {}
-ExceptionAVM::ValueOverflow::ValueOverflow(const ExceptionAVM::ValueOverflow &) throw() {}
-ExceptionAVM::ValueOverflow& ExceptionAVM::ValueOverflow::operator=(const ExceptionAVM::ValueOverflow &){return *this;}
-ExceptionAVM::ValueOverflow::~ValueOverflow() throw() {}
-
-
-const char* ExceptionAVM::ValueUnderflow::what() const throw()
-{
-	return ("  ");
-}
-
-ExceptionAVM::ValueUnderflow::ValueUnderflow() {}
-ExceptionAVM::ValueUnderflow::ValueUnderflow(const ExceptionAVM::ValueUnderflow &) throw() {}
-ExceptionAVM::ValueUnderflow& ExceptionAVM::ValueUnderflow::operator=(const ExceptionAVM::ValueUnderflow &){return *this;}
-ExceptionAVM::ValueUnderflow::~ValueUnderflow() throw() {}
+//const char* ExceptionAVM::ValueOverflow::what() const throw()
+//{
+//	return ("  ");
+//}
+//
+//ExceptionAVM::ValueOverflow::ValueOverflow() {}
+//ExceptionAVM::ValueOverflow::ValueOverflow(const ExceptionAVM::ValueOverflow &) throw() {}
+//ExceptionAVM::ValueOverflow& ExceptionAVM::ValueOverflow::operator=(const ExceptionAVM::ValueOverflow &){return *this;}
+//ExceptionAVM::ValueOverflow::~ValueOverflow() throw() {}
+//
+//
+//const char* ExceptionAVM::ValueUnderflow::what() const throw()
+//{
+//	return ("  ");
+//}
+//
+//ExceptionAVM::ValueUnderflow::ValueUnderflow() {}
+//ExceptionAVM::ValueUnderflow::ValueUnderflow(const ExceptionAVM::ValueUnderflow &) throw() {}
+//ExceptionAVM::ValueUnderflow& ExceptionAVM::ValueUnderflow::operator=(const ExceptionAVM::ValueUnderflow &){return *this;}
+//ExceptionAVM::ValueUnderflow::~ValueUnderflow() throw() {}
 
 
 const char* ExceptionAVM::PopOnEmptyStack::what() const throw()

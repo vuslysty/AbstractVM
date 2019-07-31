@@ -8,41 +8,39 @@
 #include "ExceptionAVM.hpp"
 #include <sstream>
 #include <iomanip>
+#include "Exceptions/LimitException.hpp"
 
 void	checkOverAndUnderFlow(long double v, eOperandType t)
 {
-	int		checkFlow = 0; // -1 under, 1 over
-
 	if (t == Int8)
 	{
-		checkFlow = v > INT8_MAX ? 1 : checkFlow;
-		checkFlow = v < INT8_MIN ? -1 : checkFlow;
+		v > INT8_MAX ? throw ValueOverflow() : 0;
+		v < INT8_MIN ? throw ValueUnderflow() : 0;
 	}
 	else if (t == Int16)
 	{
-		checkFlow = v > INT16_MAX ? 1 : checkFlow;
-		checkFlow = v < INT16_MIN ? -1 : checkFlow;
+		v > INT16_MAX ? throw ValueOverflow() : 0;
+		v < INT16_MIN ? throw ValueUnderflow() : 0;
 	}
 	else if (t == Int32)
 	{
-		checkFlow = v > INT32_MAX ? 1 : checkFlow;
-		checkFlow = v < INT32_MIN ? -1 : checkFlow;
+		v > INT32_MAX ? throw ValueOverflow() : 0;
+		v < INT32_MIN ? throw ValueUnderflow() : 0;
 	}
 	else if (t == Float)
 	{
-		checkFlow = v > FLT_MAX ? 1 : checkFlow;
-		checkFlow = v < -FLT_MAX ? -1 : checkFlow;
+		if (v > FLT_MAX || v < -FLT_MAX)
+			throw ValueOverflow();
+		else if ((v > 0 && v < FLT_MIN) || (v < 0 && v > -FLT_MIN))
+			throw ValueUnderflow();
 	}
 	else if (t == Double)
 	{
-		checkFlow = v > DBL_MAX ? 1 : checkFlow;
-		checkFlow = v < -DBL_MAX ? -1 : checkFlow;
+		if (v > DBL_MAX || v < -DBL_MAX)
+			throw ValueOverflow();
+		else if ((v > 0 && v < DBL_MIN) || (v < 0 && v > -DBL_MIN))
+			throw ValueUnderflow();
 	}
-
-	if (checkFlow > 0)
-		throw ExceptionAVM::ValueOverflow();
-	if (checkFlow < 0)
-		throw ExceptionAVM::ValueUnderflow();
 }
 
 std::string	getStrValueWithPrecision(long double value, eOperandType type,
