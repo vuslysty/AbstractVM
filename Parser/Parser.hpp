@@ -74,7 +74,7 @@ class Parser
 
 public:
 
-	Parser(std::deque<Token *> tokens);
+	Parser(std::deque<Token *> *tokens);
 
 	void			doParsAnalization();
 	bool			isWork() const;

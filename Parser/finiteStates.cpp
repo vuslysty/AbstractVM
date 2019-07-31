@@ -8,8 +8,10 @@
 
 int Parser::getCondition() const
 {
-	for (int i = InstEmpt; i < End; i++)
-		if ((*iter)->getToken() == i)
+	eToken tokenType = (*iter)->getToken();
+
+	for (int i = 0; i < TOKEN_COUNT; i++)
+		if (tokenType == i)
 			return (i);
 	return (End);
 }
@@ -44,8 +46,8 @@ void Parser::saveOperandType()
 
 void Parser::FSaddInstruction()
 {
-	if (!(errorCounter != 0 && (*startInstr)->getToken() == InstEmpt))
-	{
+//	if (!(errorCounter != 0 && (*startInstr)->getToken() == InstEmpt))
+//	{
 		try
 		{
 			instructions.push(InstructionFactory::create(*this));
@@ -62,7 +64,7 @@ void Parser::FSaddInstruction()
 			throw ValueOverflow(numberValue, (*startInstr)->getRow(),
 								(*startInstr)->getCol());
 		}
-	}
+//	}
 }
 
 void Parser::FSoptimizatedEndLine()

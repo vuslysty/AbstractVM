@@ -74,7 +74,7 @@ Lexer& Lexer::operator=(Lexer const &rhs)
 
 Lexer::~Lexer() {}
 
-std::deque<Token *> Lexer::getTokens() const
+std::deque<Token *> const &Lexer::getTokens() const
 {
 	return tokens;
 }

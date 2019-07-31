@@ -96,7 +96,7 @@ public:
 
 	void 	setFullErrorOutputState(bool FullErrorOutputMode);
 
-	std::deque<Token *>	getTokens() const;
+	std::deque<Token *>	const &getTokens() const;
 };
 
 #endif //ABSTRACTVM_LEXER_HPP

@@ -96,9 +96,11 @@ int main ()
 	std::cout << "Expected " << lexer.getErrorCount() << " errors" << std::endl;
 
 
-	std::deque<Token *>	tokens = lexer.getTokens();
+//	std::deque<Token *> const	&tokens = lexer.getTokens();
+	std::deque<Token *> 		tokens = lexer.getTokens();
 
-	Parser	parser(tokens);
+
+	Parser	parser(&tokens);
 
 	parser.setOptimizator(false);
 

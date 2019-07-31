@@ -8,10 +8,10 @@ Parser::Parser() : fullErrorOutput(false), optimizator(false), errorCounter(0),
 warningCounter(0), currState(1), prevState(1)
 {}
 
-Parser::Parser(std::deque<Token *> tokens) : Parser()
+Parser::Parser(std::deque<Token *> *tokens) : Parser()
 {
-	iter = tokens.begin();
-	endIter = tokens.end();
+	iter = tokens->begin();
+	endIter = tokens->end();
 }
 
 eInstruction Parser::getInstructionType() const
@@ -62,7 +62,7 @@ unsigned int Parser::getWarningCount() const
 void Parser::doParsAnalization()
 {
 	transitionP_callback	funk = nullptr;
-	int 					condition;
+	int 					condition = 0;
 
 	while (iter != endIter)
 	{
