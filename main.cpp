@@ -31,7 +31,7 @@ std::vector<std::string> split(const std::string &s, char delim) {
 
 int main ()
 {
-//	std::deque<const IOperand *>	stack;
+	std::deque<const IOperand *>	stack;
 //
 //	std::multimap<int, AInstruction* >	mapInstuctions;
 
@@ -117,6 +117,20 @@ int main ()
 	}
 
 	std::queue<AInstruction* >	instructions = parser.getInstructions();
+
+//	instructions.pop();
+//	AInstruction * elem = instructions.front();
+//	elem++;
+
+	AInstruction * elem;
+
+	while (!instructions.empty())
+	{
+		elem = instructions.front();
+		elem->doInstruction(stack);
+		instructions.pop();
+	}
+
 
 //	tokens.emplace(++tokens.begin(), new Token(EndLine, "LooooL", 42, 23));
 

@@ -45,7 +45,7 @@ class AssertInstruction : public AInstruction
 
 public:
 
-	AssertInstruction();
+//	AssertInstruction();
 	AssertInstruction(Token *tok, eOperandType type, std::string const &value);
 
 	void doInstruction(std::deque<const IOperand*> &stack) const final;
