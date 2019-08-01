@@ -31,7 +31,6 @@ class Lexer
 	int 				state;
 	unsigned int		errorCount;
 
-	bool				fullErrorOutput;
 	bool				stop;
 	unsigned int 		row;
 	unsigned int 		col;
@@ -94,9 +93,7 @@ public:
 	bool	isWork() const;
 	unsigned int	getErrorCount() const;
 
-	void 	setFullErrorOutputState(bool FullErrorOutputMode);
-
-	std::deque<Token *>	const &getTokens() const;
+	std::deque<Token *> &getTokens();
 };
 
 #endif //ABSTRACTVM_LEXER_HPP

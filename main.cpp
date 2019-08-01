@@ -83,8 +83,6 @@ int main ()
 
 	Lexer	lexer("millionMAP_", true);
 
-	lexer.setFullErrorOutputState(true);
-
 	while (lexer.isWork())
 	{
 		try
@@ -99,13 +97,12 @@ int main ()
 	std::cout << "Expected " << lexer.getErrorCount() << " errors" << std::endl;
 
 
-//	std::deque<Token *> const	&tokens = lexer.getTokens();
-	std::deque<Token *> 		tokens = lexer.getTokens();
+	std::deque<Token *> 		&tokens = lexer.getTokens();
 
 
 	Parser	parser(&tokens);
 
-	parser.setOptimizator(false);
+	parser.setOptimizator(true);
 
 	while (parser.isWork())
 	{
@@ -119,11 +116,7 @@ int main ()
 		}
 	}
 
-	std::queue<AInstruction* >	instructions = parser.getInstructions();
-
-//	instructions.pop();
-//	AInstruction * elem = instructions.front();
-//	elem++;
+	std::queue<AInstruction* >	&instructions = parser.getInstructions();
 
 	AInstruction * elem;
 

@@ -39,7 +39,7 @@ Token* Parser::getStartToken() const
 	return *startInstr;
 }
 
-std::queue<AInstruction* > Parser::getInstructions() const
+std::queue<AInstruction* > &Parser::getInstructions()
 {
 	return instructions;
 }

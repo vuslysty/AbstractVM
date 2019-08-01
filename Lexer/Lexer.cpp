@@ -8,7 +8,7 @@
 #include "Lexer.hpp"
 #include "../ExceptionAVM.hpp"
 
-Lexer::Lexer() : errorCount(0), fullErrorOutput(false), stop(false), row(1), col(1), carret(0),
+Lexer::Lexer() : errorCount(0), stop(false), row(1), col(1), carret(0),
 	startToken(0), startColumn(1), startRow(1)
 {}
 
@@ -74,7 +74,7 @@ Lexer& Lexer::operator=(Lexer const &rhs)
 
 Lexer::~Lexer() {}
 
-std::deque<Token *> const &Lexer::getTokens() const
+std::deque<Token *> &Lexer::getTokens()
 {
 	return tokens;
 }
@@ -118,11 +118,6 @@ bool Lexer::isWork() const
 unsigned int Lexer::getErrorCount() const
 {
 	return errorCount;
-}
-
-void Lexer::setFullErrorOutputState(bool fullOutputMod)
-{
-	this->fullErrorOutput = fullOutputMod;
 }
 
 Conditions	Lexer::conditions[CONDITION_COUNT] = {

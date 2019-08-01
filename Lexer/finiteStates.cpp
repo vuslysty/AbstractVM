@@ -145,7 +145,4 @@ void Lexer::workBeforeException(unsigned int move)
 	startColumnTMP = startColumn;
 	startToken = carret;
 	startColumn = col;
-
-	if (!fullErrorOutput && errorCount == MAX_ERROR_OUTPUT)
-		stop = true;
 }

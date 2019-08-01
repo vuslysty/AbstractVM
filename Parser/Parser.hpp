@@ -13,8 +13,6 @@
 #include "../Instruction/AInstruction.hpp"
 #include <iterator>
 
-#define MAX_ERROR_OUTPUT 20
-
 class Parser;
 
 typedef void (Parser::*transitionP_callback)();
@@ -38,37 +36,33 @@ class Parser
 	eOperandType	opType;
 	std::string		numberValue;
 
-	void	numberState();
-	void	saveOperandType();
-//	void	saveNumber(); // in optimized and normal number
-
-	void	FSaddInstruction();
-	void	FSoptimizatedEndLine();
-//	void	FSstop(); // work while not defined END
-
-	//!!! first change state, then call matching function !!!
-
-	void	errorNotValue();
-	void	errorNotOpenScope(); // if Up optimization flag and token N or Z - throw warning and go to 7 state
-	void	errorNotNumber();
-	void	errorEmptyScopes();
-	void	errorImplicitConversionZtoN();
-	void	errorImplicitConversionNtoZ();
-	void	errorNotCloseScope();
-	void	errorNotEndLine(); // add optimization
-	void	errorUnknownInstruction();
-	void	errorBadLogicPosition();
-
-
 	std::deque<Token *>::iterator	iter;
 	std::deque<Token *>::iterator	startInstr;
 	std::deque<Token *>::iterator	endIter;
 
 	std::queue<AInstruction* >		instructions;
 
+	static const transitionP		fsmTable[8][10];
+
+	void	numberState();
+	void	saveOperandType();
+
+	void	FSaddInstruction();
+	void	FSoptimizatedEndLine();
+
+	void	errorNotValue();
+	void	errorNotOpenScope();
+	void	errorNotNumber();
+	void	errorEmptyScopes();
+	void	errorImplicitConversionZtoN();
+	void	errorImplicitConversionNtoZ();
+	void	errorNotCloseScope();
+	void	errorNotEndLine();
+	void	errorUnknownInstruction();
+	void	errorBadLogicPosition();
+
 	int 	getCondition() const;
 
-	static const transitionP		fsmTable[8][10];
 
 	Parser();
 
@@ -87,10 +81,8 @@ public:
 	std::string		getNumValue() const;
 	Token 			*getStartToken() const;
 
-	std::queue<AInstruction* >	getInstructions() const;
+	std::queue<AInstruction* >	&getInstructions();
 
-
-	void 			setFullErrorOutputState(bool fullErrorOutputMode);
 	void 			setOptimizator(bool optimization);
 };
 

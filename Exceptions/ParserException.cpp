@@ -41,7 +41,7 @@ ParserException::ParserException()
 }
 
 ParserException::ParserException(bool isError, std::string const &m,
-								 std::deque<Token *>::iterator start, std::deque<Token *>::iterator end) : ParserException()
+		std::deque<Token *>::iterator start, std::deque<Token *>::iterator end) : ParserException()
 {
 	std::stringstream	stream;
 

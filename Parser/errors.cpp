@@ -6,11 +6,6 @@
 #include "Parser.hpp"
 #include "../Exceptions/ExceptionAVM.hpp"
 
-//void doBeforeError()
-//{
-//
-//}
-
 void Parser::errorNotValue()
 {
 	std::stringstream				stream;
@@ -134,7 +129,11 @@ void Parser::errorNotEndLine()
 
 	stream << "You forgot end line. Remember, one instruction on line";
 
-	errorCounter++;
+	if (!optimizator)
+		errorCounter++;
+	else
+		warningCounter++;
+
 	throw ParserException(!optimizator, stream.str(), startInstr, ++tmp);
 }
 
