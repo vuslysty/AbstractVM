@@ -79,7 +79,7 @@ AInstruction* PrintFactory::createInstruction(const Parser &parser)
 
 AInstruction* PushFactory::createInstruction(const Parser &parser)
 {
-	return new AssertInstruction(parser.getStartToken(),parser.getOperandType(),
+	return new PushInstruction(parser.getStartToken(),parser.getOperandType(),
 			parser.getNumValue());
 }
 

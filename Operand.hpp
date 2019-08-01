@@ -12,8 +12,10 @@
 #include "Convertor.hpp"
 #include <iomanip>
 #include <typeinfo>
+#include <iostream>
 
 #include "Exceptions/LimitException.hpp"
+#include "OperandFactory/OperandFactory.hpp"
 
 
 template <class T>
@@ -25,32 +27,25 @@ class 	Operand : public IOperand
 
 	Operand() : type(Int32), value(0) {};
 
+	void	setType();
+
 public:
 
 	explicit Operand(std::string const &value)
 	{
 		long double tmp;
 
-		if (typeid(T) == typeid(int8_t))
-			type = Int8;
-		else if (typeid(T) == typeid(int16_t))
-			type = Int16;
-		else if (typeid(T) == typeid(int32_t))
-			type = Int32;
-		else if (typeid(T) == typeid(float))
-			type = Float;
-		else
-			type = Double;
+		setType();
+
 		try
 		{
+//			std::cout << value << std::endl;
 			tmp = std::stold(value);
+//			tmp = 10;
 		}
 		catch (std::exception &e)
 		{
-			if (value[0] == '-')
-				throw ValueUnderflow();
-			else
-				throw ValueOverflow();
+			longDoubleOverUnderFlow(value);
 		}
 		checkOverAndUnderFlow(tmp, type);
 		this->value = static_cast<T>(tmp);

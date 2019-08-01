@@ -36,6 +36,7 @@ ExceptionAVM::UndeclaratedIdentifier::~UndeclaratedIdentifier() throw() {}
 //ExceptionAVM::ValueOverflow& ExceptionAVM::ValueOverflow::operator=(const ExceptionAVM::ValueOverflow &){return *this;}
 //ExceptionAVM::ValueOverflow::~ValueOverflow() throw() {}
 //
+
 //
 //const char* ExceptionAVM::ValueUnderflow::what() const throw()
 //{

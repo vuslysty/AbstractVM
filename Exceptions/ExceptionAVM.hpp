@@ -13,14 +13,14 @@
 class ExceptionAVM : public std::exception
 {
 protected:
-	std::string	message;
+	static std::string	message;
 
 	ExceptionAVM() = default;
-	ExceptionAVM(ExceptionAVM const &src) = default;
+	ExceptionAVM(ExceptionAVM const &src)  = default;
 	ExceptionAVM &operator=(ExceptionAVM const &rhs) = default;
 
 public:
-	virtual const char 			*what() const _NOEXCEPT; // just one what
+	const char 			*what() const _NOEXCEPT final; // just one what
 	virtual ~ExceptionAVM() = default;
 };
 

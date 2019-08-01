@@ -46,25 +46,31 @@ void Parser::saveOperandType()
 
 void Parser::FSaddInstruction()
 {
-//	if (!(errorCounter != 0 && (*startInstr)->getToken() == InstEmpt))
-//	{
-		try
+	AInstruction	*instruction = nullptr;
+	try
+	{
+		if (errorCounter == 0 ||
+			(errorCounter != 0 && (*startInstr)->getToken() == InstValue))
 		{
-			instructions.push(InstructionFactory::create(*this));
+			instruction = InstructionFactory::create(*this);
+			if (errorCounter == 0)
+				instructions.push(instruction);
 		}
-		catch (ValueOverflow &e)
-		{
-			errorCounter++;
-			throw ValueOverflow(numberValue, (*startInstr)->getRow(),
-								(*startInstr)->getCol());
-		}
-		catch (ValueUnderflow &e)
-		{
-			errorCounter++;
-			throw ValueOverflow(numberValue, (*startInstr)->getRow(),
-								(*startInstr)->getCol());
-		}
-//	}
+	}
+	catch (ValueOverflow &e)
+	{
+		delete instruction;
+		errorCounter++;
+		throw ValueOverflow(numberValue, (*startInstr)->getRow(),
+				(*startInstr)->getCol());
+	}
+	catch (ValueUnderflow &e)
+	{
+		delete instruction;
+		errorCounter++;
+		throw ValueUnderflow(numberValue, (*startInstr)->getRow(),
+				(*startInstr)->getCol());
+	}
 }
 
 void Parser::FSoptimizatedEndLine()

@@ -12,15 +12,15 @@ LexerException::LexerException()
 	message = "Lexical error";
 }
 
-LexerException::LexerException(std::string const &message, std::string const &value, unsigned int row,
+LexerException::LexerException(std::string const &m, std::string const &value, unsigned int row,
 							   unsigned int col) : LexerException()
 {
 	std::stringstream	stream;
 
-	stream << this->message << " at [" << row << ":" << col << "] : " << message;
+	stream << message << " at [" << row << ":" << col << "] : " << m;
 
 	if (value.size() != 0)
 		stream << "; bad value: \"" << value << "\"";
 
-	this->message = stream.str();
+	message = stream.str();
 }

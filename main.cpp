@@ -24,6 +24,7 @@ std::vector<std::string> split(const std::string &s, char delim) {
 #include "Instruction/AInstruction.hpp"
 #include "Instruction/InstructionFactory/InstructionFactory.hpp"
 #include "Lexer/Lexer.hpp"
+#include "Exceptions/ExceptionAVM.hpp"
 #include <deque>
 #include <map>
 #include <iomanip>
@@ -78,6 +79,8 @@ int main ()
 //	Lexer	lexer("-4   /;   3  \n\n\n 234234233523;/   2.4	4	;3.3",
 //				   false);
 
+//--------------------------------------
+
 	Lexer	lexer("millionMAP_", true);
 
 	lexer.setFullErrorOutputState(true);
@@ -124,18 +127,28 @@ int main ()
 
 	AInstruction * elem;
 
-	while (!instructions.empty())
+	try
 	{
-		elem = instructions.front();
-		elem->doInstruction(stack);
-		instructions.pop();
+		while (!instructions.empty())
+		{
+			elem = instructions.front();
+			elem->doInstruction(stack);
+			instructions.pop();
+		}
 	}
+	catch (ExceptionAVM &e)
+	{
+		std::cout << e.what() << std::endl <<
+		instructions.front()->getRow() << ":" << instructions.front()->getColumn();
+	}
+
 
 
 //	tokens.emplace(++tokens.begin(), new Token(EndLine, "LooooL", 42, 23));
 
 //	for (auto item : tokens)
 //		std::cout << std::setw(15) << item->getTokenByStr() << ": " << item->getValue() << std::endl;
+
 
 	return 0;
 }

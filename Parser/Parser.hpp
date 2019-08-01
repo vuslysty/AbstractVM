@@ -74,10 +74,11 @@ class Parser
 
 public:
 
-	Parser(std::deque<Token *> *tokens);
+	explicit Parser(std::deque<Token *> *tokens);
 
 	void			doParsAnalization();
 	bool			isWork() const;
+
 	unsigned int	getErrorCount() const;
 	unsigned int	getWarningCount() const;
 

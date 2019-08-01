@@ -40,19 +40,19 @@ ParserException::ParserException()
 	message = "Syntax";
 }
 
-ParserException::ParserException(bool isError, std::string const &message,
+ParserException::ParserException(bool isError, std::string const &m,
 								 std::deque<Token *>::iterator start, std::deque<Token *>::iterator end) : ParserException()
 {
 	std::stringstream	stream;
 
-	stream << this->message << " ";
+	stream << message << " ";
 	if (isError)
 		stream << "error";
 	else
 		stream << "warning";
 
-	stream << " at " << getPosition(end) << " : " << message << "; ";
+	stream << " at " << getPosition(end) << " : " << m << "; ";
 	stream << "The expression we got \"" << getExpression(start, end) << "\"";
 
-	this->message = stream.str();
+	message = stream.str();
 }

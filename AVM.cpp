@@ -43,6 +43,22 @@ void	checkOverAndUnderFlow(long double v, eOperandType t)
 	}
 }
 
+void	longDoubleOverUnderFlow(std::string const &value)
+{
+	auto	i = value.begin();
+
+	if (*i == '-')
+		i++;
+
+	while (*i == '0')
+		i++;
+
+	if (*i == '.')
+		throw ValueUnderflow();
+	else
+		throw ValueOverflow();
+}
+
 std::string	getStrValueWithPrecision(long double value, eOperandType type,
 										bool mod)
 {

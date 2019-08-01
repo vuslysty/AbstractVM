@@ -6,5 +6,7 @@
 
 const char* ExceptionAVM::what() const _NOEXCEPT
 {
-	return (message.c_str());
+	return message.c_str();
 }
+
+std::string ExceptionAVM::message = "";
