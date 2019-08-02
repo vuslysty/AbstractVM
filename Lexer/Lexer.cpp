@@ -12,41 +12,9 @@ Lexer::Lexer() : errorCount(0), stop(false), row(1), col(1), carret(0),
 	startToken(0), startColumn(1), startRow(1)
 {}
 
-static bool	fileIsDirectory(std::string const & fileName)
+Lexer::Lexer(std::string const &src) : Lexer()
 {
-	bool		is_directory;
-	FILE		*fp = fopen(fileName.c_str(), "rw");
-	struct stat	fileInfo;
-
-	fstat(fileno(fp), &fileInfo);
-	if (S_ISREG(fileInfo.st_mode))
-		is_directory = false;
-	else
-		is_directory = true;
-	fclose(fp);
-	return (is_directory);
-}
-
-Lexer::Lexer(std::string const &src, bool file) : Lexer()
-{
-	if (!file)
-		this->str = src;
-	else
-	{
-		std::ifstream		f(src, std::ifstream::in);
-		std::stringstream	stream;
-
-		if (f.is_open())
-			if (!fileIsDirectory(src))
-			{
-				stream << f.rdbuf();
-				str = stream.str();
-			}
-			else
-				throw FileException("Error: File is directory");
-		else
-			throw FileException("Error: Can't open file");
-	}
+	str = src;
 }
 
 Lexer::Lexer(Lexer const &src)

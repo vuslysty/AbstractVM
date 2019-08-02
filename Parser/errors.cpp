@@ -156,11 +156,3 @@ void Parser::errorBadLogicPosition()
 	errorCounter++;
 	throw ParserException(true, stream.str(), startInstr, ++iter);
 }
-
-bool inline isInstruction(eToken token)
-{
-	if (token == InstValue || token == InstBad || token == InstEmpt)
-		return (true);
-	else
-		return (false);
-}
