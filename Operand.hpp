@@ -13,6 +13,7 @@
 #include <iomanip>
 #include <typeinfo>
 #include <iostream>
+#include <cmath>
 
 #include "Exceptions/LimitException.hpp"
 #include "Exceptions/RunTimeExceptions.hpp"
@@ -148,10 +149,12 @@ public:
 	{
 		if (this->type == rhs.getType()) {
 			T				value2 = static_cast<T>(stold(rhs.toString()));
-			long double 	result = static_cast<long double>(this->value) / static_cast<long double>(value2);
+			long double 	result;
 
 			if (value2 == 0)
 				throw DivisionByZeroException();
+
+			result = static_cast<long double>(this->value) / static_cast<long double>(value2);
 
 			checkOverAndUnderFlow(result, type);
 
@@ -165,18 +168,19 @@ public:
 
 	IOperand const		*operator%(IOperand const &rhs) const final
 	{
-		if (type == Float || type == Double || rhs.getType() == Float ||
-			rhs.getType() == Double)
-			throw InvalidBinaryOperationException();
+//		if (type == Float || type == Double || rhs.getType() == Float ||
+//			rhs.getType() == Double)
+//			throw InvalidBinaryOperationException();
 
 		if (this->type == rhs.getType())
 		{
-			T value2 = static_cast<T>(stold(rhs.toString()));
-			int result =
-					static_cast<int>(this->value) % static_cast<int>(value2);
+			T 			value2 = static_cast<T>(stold(rhs.toString()));
+			long double	result;
 
 			if (value2 == 0)
-				throw DivisionByZeroException();
+				throw ModuloByZeroException();
+
+			result = fmod(static_cast<double>(this->value), value2);
 
 			return (OperandFactory::create(this->type, std::to_string(result)));
 		}

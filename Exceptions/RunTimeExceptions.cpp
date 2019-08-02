@@ -5,9 +5,6 @@
 #include <sstream>
 #include "RunTimeExceptions.hpp"
 
-RunTimeExceptions::RunTimeExceptions()
-{}
-
 RunTimeExceptions::RunTimeExceptions(std::string const &mes, AInstruction *inst)
 {
 	std::stringstream	stream;

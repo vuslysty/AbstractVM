@@ -13,7 +13,7 @@ class RunTimeExceptions : public ExceptionAVM
 {
 public:
 
-	RunTimeExceptions();
+	RunTimeExceptions() = default;
 	RunTimeExceptions(std::string const &mes, AInstruction *inst);
 };
 
