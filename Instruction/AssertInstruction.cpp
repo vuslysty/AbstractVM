@@ -5,14 +5,15 @@
 #include "AInstruction.hpp"
 #include "../OperandFactory/OperandFactory.hpp"
 #include "../ExceptionAVM.hpp"
+#include "../Exceptions/RunTimeExceptions.hpp"
 
 
 void AssertInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	if (stack.empty())
-		throw ExceptionAVM::EmptyStack();
+		throw EmptyStackException();
 	if (*operand != *stack.front())
-		throw ExceptionAVM::AssertIsNotTrue();
+		throw AssertIsNotTrueException();
 }
 
 AssertInstruction::AssertInstruction(Token *tok, eOperandType type,

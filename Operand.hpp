@@ -15,6 +15,8 @@
 #include <iostream>
 
 #include "Exceptions/LimitException.hpp"
+#include "Exceptions/RunTimeExceptions.hpp"
+
 #include "OperandFactory/OperandFactory.hpp"
 
 
@@ -39,9 +41,7 @@ public:
 
 		try
 		{
-//			std::cout << value << std::endl;
 			tmp = std::stold(value);
-//			tmp = 10;
 		}
 		catch (std::exception &e)
 		{
@@ -151,7 +151,7 @@ public:
 			long double 	result = static_cast<long double>(this->value) / static_cast<long double>(value2);
 
 			if (value2 == 0)
-				throw ExceptionAVM::DivisionByZero();
+				throw DivisionByZeroException();
 
 			checkOverAndUnderFlow(result, type);
 
@@ -167,7 +167,7 @@ public:
 	{
 		if (type == Float || type == Double || rhs.getType() == Float ||
 			rhs.getType() == Double)
-			throw ExceptionAVM::InvalidBinaryOperation();
+			throw InvalidBinaryOperationException();
 
 		if (this->type == rhs.getType())
 		{
@@ -176,7 +176,7 @@ public:
 					static_cast<int>(this->value) % static_cast<int>(value2);
 
 			if (value2 == 0)
-				throw ExceptionAVM::DivisionByZero();
+				throw DivisionByZeroException();
 
 			return (OperandFactory::create(this->type, std::to_string(result)));
 		}

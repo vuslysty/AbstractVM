@@ -4,6 +4,7 @@
 
 #include "AInstruction.hpp"
 #include "../ExceptionAVM.hpp"
+#include "../Exceptions/RunTimeExceptions.hpp"
 
 PopInstruction::PopInstruction(Token *tok)
 {
@@ -13,7 +14,7 @@ PopInstruction::PopInstruction(Token *tok)
 void PopInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	if (stack.empty())
-		throw ExceptionAVM::PopOnEmptyStack();
+		throw PopOnEmptyStackException();
 	else
 		stack.pop_front();
 }

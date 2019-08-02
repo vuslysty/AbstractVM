@@ -3,13 +3,13 @@
 //
 
 #include "AInstruction.hpp"
-#include "../ExceptionAVM.hpp"
+#include "../Exceptions/RunTimeExceptions.hpp"
 
 std::pair<const IOperand *, const IOperand *> AInstruction::getTwoElemFromStack(
 		std::deque<const IOperand *> &stack) const
 {
 	if (stack.size() < 2)
-		throw ExceptionAVM::LessThanTwoElem();
+		throw LessThanTwoElemException();
 
 	std::pair<const IOperand *, const IOperand *>	pair;
 

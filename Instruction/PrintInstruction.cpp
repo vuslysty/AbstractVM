@@ -7,6 +7,7 @@
 #include "../ExceptionAVM.hpp"
 
 #include "../IOperand.hpp"
+#include "../Exceptions/RunTimeExceptions.hpp"
 
 PrintInstruction::PrintInstruction(Token *tok)
 {
@@ -16,9 +17,9 @@ PrintInstruction::PrintInstruction(Token *tok)
 void PrintInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	if (stack.empty())
-		throw ExceptionAVM::EmptyStack();
+		throw EmptyStackException();
 	if (stack.front()->getType() == Int8)
-		std::cout << static_cast<char>(stoi(stack.front()->toString())) << std::endl;
+		std::cout << static_cast<char>(stoi(stack.front()->toString(true))) << std::endl;
 	else
-		throw ExceptionAVM::ValueIsNotASCII();
+		throw ValueIsNotASCIIException();
 }

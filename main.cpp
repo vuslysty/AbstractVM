@@ -25,6 +25,7 @@ std::vector<std::string> split(const std::string &s, char delim) {
 #include "Instruction/InstructionFactory/InstructionFactory.hpp"
 #include "Lexer/Lexer.hpp"
 #include "Exceptions/ExceptionAVM.hpp"
+#include "Exceptions/RunTimeExceptions.hpp"
 #include <deque>
 #include <map>
 #include <iomanip>
@@ -131,8 +132,15 @@ int main ()
 	}
 	catch (ExceptionAVM &e)
 	{
-		std::cout << e.what() << std::endl <<
-		instructions.front()->getRow() << ":" << instructions.front()->getColumn();
+		try
+		{
+			throw RunTimeExceptions(e.what(), elem);
+		}
+		catch (RunTimeExceptions &e)
+		{
+			std::cout << e.what() << std::endl;
+		}
+
 	}
 
 
