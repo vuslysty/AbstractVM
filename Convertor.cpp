@@ -15,7 +15,7 @@ Convertor::~Convertor()
 
 Convertor::Convertor(IOperand const &lhs, IOperand const &rhs)
 {
-	if (lhs.getPrecision() > rhs.getPrecision())
+	if (lhs.getType() > rhs.getType())
 	{
 		leftOperand = &lhs;
 		rightOperand = OperandFactory::create(lhs.getType(), rhs.toString());

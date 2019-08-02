@@ -22,7 +22,7 @@ void PrintInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 		throw EmptyStackException();
 	if (stack.front()->getType() == Int8)
 	{
-		c = static_cast<char>(stoi(stack.front()->toString(true)));
+		c = static_cast<char>(stoi(stack.front()->toString()));
 
 		if (isprint(c))
 			std::cout << c;

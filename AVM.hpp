@@ -36,7 +36,7 @@ const std::string	sToken[TOKEN_COUNT] = {
 
 void		checkOverAndUnderFlow(long double v, eOperandType t);
 std::string	getStrValueWithPrecision(long double value, eOperandType type,
-										bool mod);
+										int precision);
 void		longDoubleOverUnderFlow(std::string const &value);
 
 #endif //ABSTRACTVM_AVM_HPP

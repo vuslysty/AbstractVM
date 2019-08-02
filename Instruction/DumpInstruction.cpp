@@ -16,5 +16,5 @@ DumpInstruction::DumpInstruction(Token *tok)
 void DumpInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
 	for (auto item : stack)
-		std::cout << item->toString(false) << std::endl;
+		std::cout << item->toString() << std::endl;
 }

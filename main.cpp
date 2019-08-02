@@ -144,7 +144,6 @@ int main ()
 	}
 
 
-
 //	tokens.emplace(++tokens.begin(), new Token(EndLine, "LooooL", 42, 23));
 
 //	for (auto item : tokens)

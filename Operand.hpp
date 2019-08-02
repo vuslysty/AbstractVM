@@ -27,10 +27,32 @@ class 	Operand : public IOperand
 	eOperandType			type;
 	T						value;
 	mutable std::string		strValue;
+	int						precision;
 
 	Operand() : type(Int32), value(0) {};
 
 	void	setType();
+
+	int		getPrecisionOfNumber(std::string const &str)
+	{
+		size_t	found;
+		int 	counter;
+
+		counter = 0;
+
+		if (type == Float || type == Double)
+		{
+			found = str.find_first_of('.');
+
+			if (found == ULONG_LONG_MAX)
+				counter = 2;
+			else
+				while (str[++found] != '\0')
+					counter++;
+		}
+
+		return counter;
+	}
 
 public:
 
@@ -39,6 +61,7 @@ public:
 		long double tmp;
 
 		setType();
+		precision = getPrecisionOfNumber(value);
 
 		try
 		{
@@ -60,6 +83,7 @@ public:
 		{
 			this->value = *reinterpret_cast<T*>(const_cast<void*>(rhs.getValue()));
 			this->type = rhs.getType();
+			this->precision = rhs.getPrecision();
 		}
 		return (*this);
 	}
@@ -68,7 +92,7 @@ public:
 
 	int 				getPrecision() const final
 	{
-		return static_cast<int>(type);
+		return precision;
 	}
 
 	eOperandType 		getType() const final
@@ -76,9 +100,9 @@ public:
 		return type;
 	}
 
-	const std::string	&toString(bool mod = true) const final
+	const std::string	&toString() const final
 	{
-		strValue = getStrValueWithPrecision(static_cast<long double>(value), type, mod);
+		strValue = getStrValueWithPrecision(static_cast<long double>(value), type, precision);
 
 		return strValue;
 	}
@@ -102,10 +126,16 @@ public:
 		if (this->type == rhs.getType()) {
 			T				value2 = static_cast<T>(stold(rhs.toString()));
 			long double 	result = static_cast<long double>(this->value) + static_cast<long double>(value2);
+			int 			newPrecision;
 
 			checkOverAndUnderFlow(result, type);
 
-			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, true)));
+			if (this->precision > rhs.getPrecision())
+				newPrecision = this->precision;
+			else
+				newPrecision = rhs.getPrecision();
+
+			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, newPrecision)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -118,10 +148,16 @@ public:
 		if (this->type == rhs.getType()) {
 			T				value2 = static_cast<T>(stold(rhs.toString()));
 			long double 	result = static_cast<long double>(this->value) - static_cast<long double>(value2);
+			int 			newPrecision;
 
 			checkOverAndUnderFlow(result, type);
 
-			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, true)));
+			if (this->precision > rhs.getPrecision())
+				newPrecision = this->precision;
+			else
+				newPrecision = rhs.getPrecision();
+
+			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, newPrecision)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -134,10 +170,16 @@ public:
 		if (this->type == rhs.getType()) {
 			T				value2 = static_cast<T>(stold(rhs.toString()));
 			long double 	result = static_cast<long double>(this->value) * static_cast<long double>(value2);
+			int 			newPrecision;
 
 			checkOverAndUnderFlow(result, type);
 
-			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, true)));
+			if (this->precision > rhs.getPrecision())
+				newPrecision = this->precision;
+			else
+				newPrecision = rhs.getPrecision();
+
+			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, newPrecision)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -150,6 +192,7 @@ public:
 		if (this->type == rhs.getType()) {
 			T				value2 = static_cast<T>(stold(rhs.toString()));
 			long double 	result;
+			int 			newPrecision;
 
 			if (value2 == 0)
 				throw DivisionByZeroException();
@@ -158,7 +201,12 @@ public:
 
 			checkOverAndUnderFlow(result, type);
 
-			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, true)));
+			if (this->precision > rhs.getPrecision())
+				newPrecision = this->precision;
+			else
+				newPrecision = rhs.getPrecision();
+
+			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, newPrecision)));
 		}
 		else {
 			Convertor conv(*this, rhs);
@@ -168,21 +216,22 @@ public:
 
 	IOperand const		*operator%(IOperand const &rhs) const final
 	{
-//		if (type == Float || type == Double || rhs.getType() == Float ||
-//			rhs.getType() == Double)
-//			throw InvalidBinaryOperationException();
-
-		if (this->type == rhs.getType())
-		{
-			T 			value2 = static_cast<T>(stold(rhs.toString()));
-			long double	result;
+		if (this->type == rhs.getType()) {
+			T 				value2 = static_cast<T>(stold(rhs.toString()));
+			long double		result;
+			int 			newPrecision;
 
 			if (value2 == 0)
 				throw ModuloByZeroException();
 
 			result = fmod(static_cast<double>(this->value), value2);
 
-			return (OperandFactory::create(this->type, std::to_string(result)));
+			if (this->precision > rhs.getPrecision())
+				newPrecision = this->precision;
+			else
+				newPrecision = rhs.getPrecision();
+
+			return (OperandFactory::create(this->type, getStrValueWithPrecision(result, type, newPrecision)));
 		}
 		else
 		{

@@ -18,7 +18,7 @@ public:
 
 	virtual int 				getPrecision(void) const = 0;
 	virtual eOperandType		getType() const = 0;
-	virtual	const std::string	&toString(bool mod = true) const = 0;
+	virtual	const std::string	&toString() const = 0;
 	virtual	IOperand const		*operator+(IOperand const &rhs) const = 0;
 	virtual	IOperand const		*operator-(IOperand const &rhs) const = 0;
 	virtual	IOperand const		*operator*(IOperand const &rhs) const = 0;

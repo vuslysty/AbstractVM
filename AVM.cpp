@@ -60,16 +60,16 @@ void	longDoubleOverUnderFlow(std::string const &value)
 }
 
 std::string	getStrValueWithPrecision(long double value, eOperandType type,
-										bool mod)
+										int precision)
 {
 	std::ostringstream	out;
 
 	if (type >= Int8 && type <= Int32)
 		out << std::fixed << std::setprecision(0) << value;
 	else if (type == Float)
-		out << std::fixed << std::showpoint << std::setprecision(mod ? 7 : 2) << value;
+		out << std::fixed << std::showpoint << std::setprecision(precision) << value;
 	else
-		out << std::fixed << std::showpoint << std::setprecision(mod ? 15 : 2) << value;
+		out << std::fixed << std::showpoint << std::setprecision(precision) << value;
 
 	return (out.str());
 }
