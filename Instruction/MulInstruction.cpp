@@ -3,7 +3,6 @@
 //
 
 #include "AInstruction.hpp"
-#include "../ExceptionAVM.hpp"
 #include "../IOperand.hpp"
 
 MulInstruction::MulInstruction(Token *tok)

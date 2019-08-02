@@ -6,7 +6,7 @@
 #include <fstream>
 #include <sstream>
 #include "Lexer.hpp"
-#include "../ExceptionAVM.hpp"
+#include "../Exceptions/ExceptionAVM.hpp"
 
 Lexer::Lexer() : errorCount(0), stop(false), row(1), col(1), carret(0),
 	startToken(0), startColumn(1), startRow(1)
@@ -43,9 +43,9 @@ Lexer::Lexer(std::string const &src, bool file) : Lexer()
 				str = stream.str();
 			}
 			else
-				throw ("File is directory");
+				throw FileException("Error: File is directory");
 		else
-			throw ("Can't open file");
+			throw FileException("Error: Can't open file");
 	}
 }
 

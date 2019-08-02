@@ -4,8 +4,6 @@
 
 #include <iostream>
 #include "AInstruction.hpp"
-#include "../ExceptionAVM.hpp"
-
 #include "../IOperand.hpp"
 #include "../Exceptions/RunTimeExceptions.hpp"
 

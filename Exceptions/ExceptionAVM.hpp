@@ -41,4 +41,10 @@ public:
 					std::deque<Token *>::iterator end);
 };
 
+class FileException : public ExceptionAVM
+{
+public:
+	FileException(std::string const &fileName);
+};
+
 #endif //ABSTRACTVM_EXCEPTIONAVM_HPP

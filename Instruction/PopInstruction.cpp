@@ -3,7 +3,6 @@
 //
 
 #include "AInstruction.hpp"
-#include "../ExceptionAVM.hpp"
 #include "../Exceptions/RunTimeExceptions.hpp"
 
 PopInstruction::PopInstruction(Token *tok)

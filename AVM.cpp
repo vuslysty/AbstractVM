@@ -5,7 +5,6 @@
 #include <cstdint>
 #include <cfloat>
 #include "AVM.hpp"
-#include "ExceptionAVM.hpp"
 #include <sstream>
 #include <iomanip>
 #include "Exceptions/LimitException.hpp"

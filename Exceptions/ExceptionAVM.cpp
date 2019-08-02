@@ -10,3 +10,4 @@ const char* ExceptionAVM::what() const _NOEXCEPT
 }
 
 std::string ExceptionAVM::message = "";
+

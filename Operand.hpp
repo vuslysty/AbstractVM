@@ -8,7 +8,6 @@
 #include <cfloat>
 #include <sstream>
 #include "IOperand.hpp"
-#include "ExceptionAVM.hpp"
 #include "Convertor.hpp"
 #include <iomanip>
 #include <typeinfo>

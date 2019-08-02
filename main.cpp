@@ -82,7 +82,7 @@ int main ()
 
 //--------------------------------------
 
-	Lexer	lexer("millionMAP_", true);
+	Lexer	lexer("millionMAP_2", true);
 
 	while (lexer.isWork())
 	{

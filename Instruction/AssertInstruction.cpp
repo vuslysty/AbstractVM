@@ -4,7 +4,6 @@
 
 #include "AInstruction.hpp"
 #include "../OperandFactory/OperandFactory.hpp"
-#include "../ExceptionAVM.hpp"
 #include "../Exceptions/RunTimeExceptions.hpp"
 
 
