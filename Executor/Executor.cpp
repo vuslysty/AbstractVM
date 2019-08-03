@@ -23,13 +23,17 @@ static bool	fileIsDirectory(std::string const & fileName)
 	return (is_directory);
 }
 
-Executor::Executor() : lexAnalysDone(false), parsAnalysDone(false)
+Executor::Executor() : lexAnalysDone(false), parsAnalysDone(false),
+	isFile(true)
 {}
 
 Executor::Executor(std::string const &src, bool isFile) : Executor()
 {
 	if (!isFile)
+	{
 		this->str = src;
+		this->isFile = false;
+	}
 	else
 	{
 		std::ifstream		f(src, std::ifstream::in);
@@ -40,11 +44,19 @@ Executor::Executor(std::string const &src, bool isFile) : Executor()
 			{
 				stream << f.rdbuf();
 				str = stream.str();
+				fileName = src;
 			}
 			else
+			{
+				f.close();
 				throw FileException("Error: File is directory");
+			}
 		else
+		{
+			f.close();
 			throw FileException("Error: Can't open file");
+		}
+		f.close();
 	}
 }
 
@@ -119,13 +131,14 @@ void Executor::startExecution()
 
 	try
 	{
-		// add start execution
 		while (!instructions.empty())
 		{
 			elem = instructions.front();
 			elem->doInstruction(stack);
 			instructions.pop();
+//			delete elem; /// also I have to del concrete Instructions' data
 		}
+		std::cout << "Galochki\n";
 	}
 	catch (ExceptionAVM &e)
 	{
@@ -136,6 +149,7 @@ void Executor::startExecution()
 		catch (RunTimeExceptions &e)
 		{
 			std::cout << e.what() << std::endl;
+			std::cout << "Kresyky\n";
 		}
 	}
 
@@ -156,6 +170,17 @@ void Executor::doExecution()
 	}
 	if (parsAnalysDone)
 	{
+		std::cout << "Source: "; // add that before lex analys
+		if (isFile)
+			std::cout << fileName << std::endl;
+		else
+			std::cout << "standart input" << std::endl;
+		std::cout << "-------- START --------\n";
+//		std::cout << "| | | | | | | | | | | |\n";
+//		std::cout << "˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅\n";
 
+		startExecution();
+
+		std::cout << "--------- END ---------\n";
 	}
 }

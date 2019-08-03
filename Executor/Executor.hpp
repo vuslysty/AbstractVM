@@ -32,14 +32,16 @@ private:
 
 	bool							lexAnalysDone;
 	bool							parsAnalysDone;
+	bool 							isFile;
+
+	std::string						fileName;
 
 	static bool 					optimizationFlag;
 	static bool						fullErrorOutputFlag;
 
 	std::string						str;
 	std::deque<const IOperand *>	stack;
-	std::deque<Token *> 			tokens;
-
+	std::deque<Token *> 			tokens;//del ok
 	std::queue<AInstruction* >		instructions;
 
 	Executor();
