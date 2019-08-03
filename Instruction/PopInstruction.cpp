@@ -12,8 +12,13 @@ PopInstruction::PopInstruction(Token *tok)
 
 void PopInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 {
+	const IOperand	*tmp = stack.front();
+
 	if (stack.empty())
 		throw PopOnEmptyStackException();
 	else
+	{
 		stack.pop_front();
+		delete &tmp;
+	}
 }

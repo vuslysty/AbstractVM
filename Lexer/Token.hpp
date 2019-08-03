@@ -26,7 +26,6 @@ public:
 
 	eToken				getToken() const;
 	std::string			getValue() const;
-//	std::string			getTokenByStr() const;
 	unsigned int  		getRow() const;
 	unsigned int  		getCol() const;
 };

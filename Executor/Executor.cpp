@@ -31,6 +31,7 @@ Executor::Executor(std::string const &src, bool isFile) : Executor()
 {
 	if (!isFile)
 	{
+		this->fileName = "stdin";
 		this->str = src;
 		this->isFile = false;
 	}
@@ -62,7 +63,35 @@ Executor::Executor(std::string const &src, bool isFile) : Executor()
 
 Executor::Executor(Executor const &) {}
 Executor& Executor::operator=(Executor const &) {return *this;}
-Executor::~Executor() {}
+Executor::~Executor()
+{
+	while (!tokens.empty())
+	{
+		Token			*tok;
+
+		tok = tokens.front();
+		tokens.pop_front();
+		delete tok;
+	}
+
+	while (!instructions.empty())
+	{
+		AInstruction	*inst;
+
+		inst = instructions.front();
+		instructions.pop();
+		delete inst;
+	}
+
+	while (!stack.empty())
+	{
+		const IOperand		*operand;
+
+		operand = stack.front();
+		stack.pop_front();
+		delete &operand;
+	}
+}
 
 void Executor::setOptimizationFlag(bool flag)
 {
@@ -136,9 +165,9 @@ void Executor::startExecution()
 			elem = instructions.front();
 			elem->doInstruction(stack);
 			instructions.pop();
-//			delete elem; /// also I have to del concrete Instructions' data
+			delete elem;
 		}
-		std::cout << "Galochki\n";
+		std::cout << "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔\n";
 	}
 	catch (ExceptionAVM &e)
 	{
@@ -149,16 +178,18 @@ void Executor::startExecution()
 		catch (RunTimeExceptions &e)
 		{
 			std::cout << e.what() << std::endl;
-			std::cout << "Kresyky\n";
+			std::cout << "✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘\n";
+			std::cout << "༝\n";
 		}
 	}
-
 }
 
 void Executor::doExecution()
 {
 	Lexer	*lexer = nullptr;
 	Parser	*parser = nullptr;
+
+	std::cout << "Source: " << fileName << std::endl;
 
 	lexer = new Lexer(str);
 	doLexicalAnalys(lexer);
@@ -170,14 +201,8 @@ void Executor::doExecution()
 	}
 	if (parsAnalysDone)
 	{
-		std::cout << "Source: "; // add that before lex analys
-		if (isFile)
-			std::cout << fileName << std::endl;
-		else
-			std::cout << "standart input" << std::endl;
 		std::cout << "-------- START --------\n";
-//		std::cout << "| | | | | | | | | | | |\n";
-//		std::cout << "˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅\n";
+		std::cout << "˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅\n";
 
 		startExecution();
 

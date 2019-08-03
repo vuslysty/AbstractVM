@@ -26,6 +26,11 @@ int main ()
 {
 	std::deque<const IOperand *>	stack;
 
+	const IOperand *pointer = stack.front();
+
+
+	delete pointer;
+
 	Lexer	lexer("millionMAP_2", true);
 
 	while (lexer.isWork())
@@ -85,6 +90,10 @@ int main ()
 			std::cout << e.what() << std::endl;
 		}
 	}
+
+	const IOperand *pointer = stack.front();
+	delete pointer;
+
 
 	return 0;
 }

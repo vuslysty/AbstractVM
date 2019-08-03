@@ -42,11 +42,16 @@ public:
 class AssertInstruction : public AInstruction
 {
 	const IOperand	*operand;
+	mutable bool	wasAddedToStack;
+
+	AssertInstruction();
+	AssertInstruction(AssertInstruction const &);
+	AssertInstruction &operator=(AssertInstruction const &);
 
 public:
 
-//	AssertInstruction();
 	AssertInstruction(Token *tok, eOperandType type, std::string const &value);
+	~AssertInstruction() final;
 
 	void doInstruction(std::deque<const IOperand*> &stack) const final;
 };
@@ -110,6 +115,7 @@ public:
 class PushInstruction : public AInstruction
 {
 	const IOperand	*operand;
+	mutable bool	wasAddedToStack;
 
 	PushInstruction();
 	PushInstruction(PushInstruction const &);

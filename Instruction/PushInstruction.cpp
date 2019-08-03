@@ -8,17 +8,23 @@
 PushInstruction::PushInstruction() : operand(nullptr) {}
 PushInstruction::PushInstruction(PushInstruction const &) {}
 PushInstruction& PushInstruction::operator=(PushInstruction const &) {return *this;}
-PushInstruction::~PushInstruction() = default;
+PushInstruction::~PushInstruction()
+{
+	if (!wasAddedToStack)
+		delete operand;
+}
 
 
 PushInstruction::PushInstruction(Token *tok, eOperandType type,
 								 std::string const &value)
 {
 	instructionToken = tok;
+	wasAddedToStack = false;
 	operand = OperandFactory::create(type, value);
 }
 
 void PushInstruction::doInstruction(std::deque<const IOperand *> &stack) const
 {
+	wasAddedToStack = true;
 	stack.push_front(operand);
 }

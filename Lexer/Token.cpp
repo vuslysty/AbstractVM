@@ -35,11 +35,6 @@ std::string Token::getValue() const
 	return sValue;
 }
 
-//std::string Token::getTokenByStr() const
-//{
-//	return (sToken[token]);
-//}
-
 unsigned int Token::getRow() const
 {
 	return row;

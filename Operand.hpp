@@ -87,7 +87,7 @@ public:
 		return (*this);
 	}
 
-	~Operand() final = default;
+	~Operand() final {};
 
 	int 				getPrecision() const final
 	{
