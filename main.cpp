@@ -30,18 +30,18 @@ void del_files()
 
 	i = 1;
 	str = str + "Source " + std::to_string(i++);
-	std::cout << str << std::endl;
 
 	while (remove(str.c_str()) >= 0)
 	{
 		str = ERROR_PATH;
 		str = str + "Source " + std::to_string(i++);
-		std::cout << str << std::endl;
 	}
 }
 
 int main ()
 {
+
+	system("chmod 777 errors &> /dev/null");
 	del_files();
 
 	Executor	*exec = new Executor("millionMAP_", true);
@@ -51,19 +51,16 @@ int main ()
 	exec->startExecution();
 
 	delete exec;
+	
 
-	exec = new Executor("millionMAP_", true);
 
-	exec->setOptimizationFlag(true);
-
-	exec->startExecution();
-
-	delete exec;
 
 
 
 
 	system("leaks -q AbstractVM");
+
+	system("chmod 555 errors &> /dev/null");
 
 	return 0;
 }
