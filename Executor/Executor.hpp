@@ -24,6 +24,7 @@
 #include <map>
 #include <iomanip>
 
+#define ERROR_PATH "errors/";
 #define MAX_ERROR_OUTPUT 20
 
 class Executor
@@ -39,6 +40,8 @@ private:
 	static bool 					optimizationFlag;
 	static bool						fullErrorOutputFlag;
 
+	static int						numSource;
+
 	std::string						str;
 	std::deque<const IOperand *>	stack;
 	std::deque<Token *> 			tokens;//del ok
@@ -48,7 +51,7 @@ private:
 
 	void	doLexicalAnalys(Lexer *lexer);
 	void	doSyntaxAnalys(Parser *parser);
-	void 	startExecution();
+	void	doExecution();
 
 public:
 
@@ -60,7 +63,7 @@ public:
 	void	setOptimizationFlag(bool flag);
 	void	setFullErrorOutputFlag(bool flag);
 
-	void	doExecution();
+	void 	startExecution();
 };
 
 

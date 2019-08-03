@@ -55,6 +55,8 @@ void Parser::FSaddInstruction()
 			instruction = InstructionFactory::create(*this);
 			if (errorCounter == 0)
 				instructions.push(instruction);
+			else
+				delete instruction;
 		}
 	}
 	catch (ValueOverflow &e)

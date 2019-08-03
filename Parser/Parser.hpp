@@ -25,6 +25,8 @@ struct transitionP
 
 class Parser
 {
+	std::queue<AInstruction* >	&instructions;
+
 	bool			fullErrorOutput;
 	bool			optimizator;
 
@@ -39,8 +41,6 @@ class Parser
 	std::deque<Token *>::iterator	iter;
 	std::deque<Token *>::iterator	startInstr;
 	std::deque<Token *>::iterator	endIter;
-
-	std::queue<AInstruction* >		instructions;
 
 	static const transitionP		fsmTable[8][10];
 
@@ -64,11 +64,11 @@ class Parser
 	int 	getCondition() const;
 
 
-	Parser();
+//	Parser() = delete;
 
 public:
 
-	explicit Parser(std::deque<Token *> *tokens);
+	explicit Parser(std::deque<Token *> *tokens, std::queue<AInstruction* > &inst);
 
 	void			doParsAnalization();
 	bool			isWork() const;

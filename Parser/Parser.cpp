@@ -4,11 +4,10 @@
 
 #include "Parser.hpp"
 
-Parser::Parser() : fullErrorOutput(false), optimizator(false), errorCounter(0),
-warningCounter(0), currState(1), prevState(1)
-{}
-
-Parser::Parser(std::deque<Token *> *tokens) : Parser()
+Parser::Parser(std::deque<Token *> *tokens, std::queue<AInstruction* > &inst) :
+		instructions(inst),
+		fullErrorOutput(false), optimizator(false), errorCounter(0),
+		warningCounter(0), currState(1), prevState(1)
 {
 	iter = tokens->begin();
 	endIter = tokens->end();

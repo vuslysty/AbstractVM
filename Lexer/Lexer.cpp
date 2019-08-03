@@ -8,16 +8,14 @@
 #include "Lexer.hpp"
 #include "../Exceptions/ExceptionAVM.hpp"
 
-Lexer::Lexer() : errorCount(0), stop(false), row(1), col(1), carret(0),
-	startToken(0), startColumn(1), startRow(1)
-{}
-
-Lexer::Lexer(std::string const &src) : Lexer()
+Lexer::Lexer(std::string const &src, std::deque<Token *> &toks) :
+		tokens(toks), errorCount(0), stop(false), row(1), col(1), carret(0),
+		startToken(0), startColumn(1), startRow(1)
 {
 	str = src;
 }
 
-Lexer::Lexer(Lexer const &src)
+Lexer::Lexer(Lexer const &src) : tokens(src.tokens)
 {
 	*this = src;
 }
@@ -26,16 +24,18 @@ Lexer& Lexer::operator=(Lexer const &rhs)
 {
 	if (this != &rhs)
 	{
+		this->state = rhs.state;
+		this->errorCount = rhs.errorCount;
+		this->stop = rhs.stop;
 		this->row = rhs.row;
 		this->col = rhs.col;
-
-		this->stop = rhs.stop;
-
 		this->carret = rhs.carret;
-
-		this->str = rhs.str;
 		this->startToken = rhs.startToken;
-		this->tokens = rhs.tokens;
+		this->startColumn = rhs.startColumn;
+		this->startRow = rhs.startRow;
+		this->startTokenTMP = rhs.startTokenTMP;
+		this->startColumnTMP = rhs.startColumnTMP;
+		this->str = rhs.str;
 	}
 	return *this;
 }

@@ -16,4 +16,7 @@ void SubInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 
 	pair = getTwoElemFromStack(stack);
 	stack.push_front(*pair.second - *pair.first);
+
+	delete pair.first;
+	delete pair.second;
 }

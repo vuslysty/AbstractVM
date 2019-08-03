@@ -28,23 +28,21 @@ struct transitionL
 
 class Lexer
 {
+	std::deque<Token *>	&tokens;
 	int 				state;
-	unsigned int		errorCount;
 
+	unsigned int		errorCount;
 	bool				stop;
 	unsigned int 		row;
 	unsigned int 		col;
 	unsigned int 		carret;
 	unsigned int 		startToken;
 	unsigned int		startColumn;
-	unsigned int		startRow;
 
+	unsigned int		startRow;
 	unsigned int 		startTokenTMP;
 	unsigned int		startColumnTMP;
 	std::string			str;
-	std::deque<Token *>	tokens;
-
-	Lexer();
 
 	bool	whiteCondition(const char c) const;
 	bool	alphaCondition(const char c) const;
@@ -84,7 +82,7 @@ class Lexer
 
 public:
 
-	explicit Lexer(std::string const &str);
+	explicit Lexer(std::string const &src, std::deque<Token *> &toks);
 	Lexer(Lexer const &src);
 	Lexer &operator=(Lexer const &rhs);
 	~Lexer();

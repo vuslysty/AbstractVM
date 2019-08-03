@@ -11,15 +11,13 @@ AssertInstruction::AssertInstruction(AssertInstruction const &) {}
 AssertInstruction& AssertInstruction::operator=(AssertInstruction const &) {return *this;}
 AssertInstruction::~AssertInstruction()
 {
-	if (!wasAddedToStack)
-		delete operand;
+	delete operand;
 }
 
 AssertInstruction::AssertInstruction(Token *tok, eOperandType type,
 									 std::string const &value)
 {
 	instructionToken = tok;
-	wasAddedToStack = false;
 	operand = OperandFactory::create(type, value);
 }
 
@@ -29,5 +27,4 @@ void AssertInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 		throw EmptyStackException();
 	if (*operand != *stack.front())
 		throw AssertIsNotTrueException();
-	wasAddedToStack = true;
 }

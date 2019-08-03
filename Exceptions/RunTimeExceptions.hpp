@@ -7,7 +7,8 @@
 
 
 #include "ExceptionAVM.hpp"
-#include "../Instruction/AInstruction.hpp"
+//#include "../Instruction/AInstruction.hpp"
+class AInstruction;
 
 class RunTimeExceptions : public ExceptionAVM
 {

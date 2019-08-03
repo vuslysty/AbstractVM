@@ -4,6 +4,7 @@
 
 #include <sstream>
 #include "RunTimeExceptions.hpp"
+#include "../Instruction/AInstruction.hpp"
 
 RunTimeExceptions::RunTimeExceptions(std::string const &mes, AInstruction *inst)
 {

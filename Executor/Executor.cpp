@@ -29,33 +29,37 @@ Executor::Executor() : lexAnalysDone(false), parsAnalysDone(false),
 
 Executor::Executor(std::string const &src, bool isFile) : Executor()
 {
+	numSource++;
+
 	if (!isFile)
 	{
 		this->fileName = "stdin";
 		this->str = src;
 		this->isFile = false;
+		std::cout << BLUE_COLOR << "Source: " << STD_COLOR << fileName << std::endl;
 	}
 	else
 	{
 		std::ifstream		f(src, std::ifstream::in);
 		std::stringstream	stream;
 
+		fileName = src;
+		std::cout << BLUE_COLOR << "Source: " << STD_COLOR << fileName << std::endl;
 		if (f.is_open())
 			if (!fileIsDirectory(src))
 			{
 				stream << f.rdbuf();
 				str = stream.str();
-				fileName = src;
 			}
 			else
 			{
 				f.close();
-				throw FileException("Error: File is directory");
+				throw FileException("\033[01;38;05;196mError:\033[m File is directory");
 			}
 		else
 		{
 			f.close();
-			throw FileException("Error: Can't open file");
+			throw FileException("\033[01;38;05;196mError:\033[m Can't open file");
 		}
 		f.close();
 	}
@@ -89,7 +93,7 @@ Executor::~Executor()
 
 		operand = stack.front();
 		stack.pop_front();
-		delete &operand;
+		delete operand;
 	}
 }
 
@@ -119,12 +123,10 @@ void Executor::doLexicalAnalys(Lexer *lexer)
 	}
 
 	if (lexer->getErrorCount() > 0)
-		std::cout << "Detected " << lexer->getErrorCount() << " errors" << std::endl;
+		std::cout << "Detected " << RED_COLOR << lexer->getErrorCount() <<
+		" errors" << STD_COLOR << std::endl;
 	else
-	{
-		tokens = lexer->getTokens();
 		lexAnalysDone = true;
-	}
 }
 
 void Executor::doSyntaxAnalys(Parser *parser)
@@ -143,18 +145,17 @@ void Executor::doSyntaxAnalys(Parser *parser)
 	}
 
 	if (parser->getWarningCount() > 0)
-		std::cout << "Detected " << parser->getWarningCount() << " warning(s)" << std::endl;
+		std::cout << "Detected " << VIOLET_COLOR << parser->getWarningCount()
+		<< " warning(s)" << STD_COLOR << std::endl;
 
 	if (parser->getErrorCount() > 0)
-		std::cout << "Detected " << parser->getErrorCount() << " error(s)" << std::endl;
+		std::cout << "Detected " << RED_COLOR << parser->getErrorCount() <<
+		" error(s)" << STD_COLOR << std::endl;
 	else
-	{
-		instructions = parser->getInstructions();
 		parsAnalysDone = true;
-	}
 }
 
-void Executor::startExecution()
+void Executor::doExecution()
 {
 	AInstruction	*elem;
 
@@ -167,7 +168,7 @@ void Executor::startExecution()
 			instructions.pop();
 			delete elem;
 		}
-		std::cout << "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔\n";
+		std::cout << GREEN_COLOR << "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔" << STD_COLOR << std::endl;
 	}
 	catch (ExceptionAVM &e)
 	{
@@ -178,34 +179,40 @@ void Executor::startExecution()
 		catch (RunTimeExceptions &e)
 		{
 			std::cout << e.what() << std::endl;
-			std::cout << "✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘\n";
-			std::cout << "༝\n";
+			std::cout << RED_COLOR << "✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘" << STD_COLOR << std::endl;
 		}
 	}
 }
 
-void Executor::doExecution()
+void Executor::startExecution()
 {
 	Lexer	*lexer = nullptr;
 	Parser	*parser = nullptr;
 
-	std::cout << "Source: " << fileName << std::endl;
-
-	lexer = new Lexer(str);
+	lexer = new Lexer(str, tokens);
 	doLexicalAnalys(lexer);
 
 	if (lexAnalysDone)
 	{
-		parser = new Parser(&tokens);
+		parser = new Parser(&tokens, instructions);
+		parser->setOptimizator(optimizationFlag);
 		doSyntaxAnalys(parser);
 	}
 	if (parsAnalysDone)
 	{
-		std::cout << "-------- START --------\n";
-		std::cout << "˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅\n";
+		std::cout << "---------- START ----------\n";
+		std::cout << "˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅ ˅\n";
 
-		startExecution();
+		doExecution();
 
-		std::cout << "--------- END ---------\n";
+		std::cout << "----------- END -----------\n";
 	}
+
+	delete lexer;
+	delete parser;
 }
+
+bool Executor::optimizationFlag = false;
+bool Executor::fullErrorOutputFlag = false;
+
+int Executor::numSource = 0;

@@ -9,7 +9,7 @@
 #include <deque>
 #include "../AVM.hpp"
 #include "../Lexer/Token.hpp"
-//#include "../Fsm additions/Fsm.hpp"
+#include "../Operand.hpp"
 
 class IOperand;
 
@@ -42,7 +42,6 @@ public:
 class AssertInstruction : public AInstruction
 {
 	const IOperand	*operand;
-	mutable bool	wasAddedToStack;
 
 	AssertInstruction();
 	AssertInstruction(AssertInstruction const &);
