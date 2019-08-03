@@ -24,7 +24,7 @@
 #include <map>
 #include <iomanip>
 
-#define ERROR_PATH "errors/";
+#define ERROR_PATH "errors/"
 #define MAX_ERROR_OUTPUT 20
 
 class Executor
@@ -44,14 +44,21 @@ private:
 
 	std::string						str;
 	std::deque<const IOperand *>	stack;
-	std::deque<Token *> 			tokens;//del ok
+	std::deque<Token *> 			tokens;
 	std::queue<AInstruction* >		instructions;
+
+	std::ofstream					*errorFile;
+	std::string						errorFileName;
 
 	Executor();
 
 	void	doLexicalAnalys(Lexer *lexer);
 	void	doSyntaxAnalys(Parser *parser);
 	void	doExecution();
+
+	void	writeErrorToFile(std::string const &src);
+	void	writeErrorToConsole(std::string src);
+	void	readTextFromFile(std::string const &src);
 
 public:
 

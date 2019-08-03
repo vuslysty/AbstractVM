@@ -7,6 +7,17 @@
 #include <sstream>
 #include "Executor.hpp"
 #include "../Exceptions/ExceptionAVM.hpp"
+#include <zconf.h>
+#include <ftw.h>
+
+static void	replace(std::string &str, std::string const &s1, std::string const &s2)
+{
+	std::size_t 	found = 0;
+
+	found = str.find(s1, found);
+	if (found != std::string::npos)
+		str.replace(found, s1.length(), s2);
+}
 
 static bool	fileIsDirectory(std::string const & fileName)
 {
@@ -23,46 +34,74 @@ static bool	fileIsDirectory(std::string const & fileName)
 	return (is_directory);
 }
 
+void Executor::readTextFromFile(std::string const &src)
+{
+	std::ifstream		f(src, std::ifstream::in);
+	std::stringstream	stream;
+
+	mkdir(ERROR_PATH, 0777);
+
+	fileName = src;
+	std::cout << BLUE_COLOR << errorFileName << ": " << STD_COLOR << fileName << std::endl;
+	if (f.is_open())
+		if (!fileIsDirectory(src))
+		{
+			stream << f.rdbuf();
+			str = stream.str();
+		}
+		else
+		{
+			f.close();
+			throw FileException("\033[01;38;05;196mError:\033[m File is directory");
+		}
+	else
+	{
+		f.close();
+		throw FileException("\033[01;38;05;196mError:\033[m Can't open file");
+	}
+	f.close();
+}
+
+void Executor::writeErrorToFile(std::string const &src)
+{
+	*errorFile << src << std::endl;
+}
+
+void Executor::writeErrorToConsole(std::string src)
+{
+	static std::string	colorWarning = "\033[01;38;05;139mwarning\033[m";
+	static std::string	colorError = "\033[01;38;05;174merror\033[m";
+
+	replace(src, "warning", colorWarning);
+	replace(src, "error", colorError);
+
+	std::cout << src << std::endl;
+}
+
 Executor::Executor() : lexAnalysDone(false), parsAnalysDone(false),
 	isFile(true)
 {}
 
 Executor::Executor(std::string const &src, bool isFile) : Executor()
 {
+	std::stringstream	stream;
+
 	numSource++;
+	stream << "Source " << numSource;
+	errorFileName = stream.str();
 
 	if (!isFile)
 	{
-		this->fileName = "stdin";
+		this->fileName = "standard input";
 		this->str = src;
 		this->isFile = false;
-		std::cout << BLUE_COLOR << "Source: " << STD_COLOR << fileName << std::endl;
+		std::cout << BLUE_COLOR << errorFileName << ": " << STD_COLOR << fileName << std::endl;
 	}
 	else
-	{
-		std::ifstream		f(src, std::ifstream::in);
-		std::stringstream	stream;
+		readTextFromFile(src);
 
-		fileName = src;
-		std::cout << BLUE_COLOR << "Source: " << STD_COLOR << fileName << std::endl;
-		if (f.is_open())
-			if (!fileIsDirectory(src))
-			{
-				stream << f.rdbuf();
-				str = stream.str();
-			}
-			else
-			{
-				f.close();
-				throw FileException("\033[01;38;05;196mError:\033[m File is directory");
-			}
-		else
-		{
-			f.close();
-			throw FileException("\033[01;38;05;196mError:\033[m Can't open file");
-		}
-		f.close();
-	}
+	errorFile = new std::ofstream;
+	errorFile->open(ERROR_PATH + errorFileName, std::ofstream::trunc);
 }
 
 Executor::Executor(Executor const &) {}
@@ -95,6 +134,8 @@ Executor::~Executor()
 		stack.pop_front();
 		delete operand;
 	}
+
+	delete errorFile;
 }
 
 void Executor::setOptimizationFlag(bool flag)
@@ -117,8 +158,9 @@ void Executor::doLexicalAnalys(Lexer *lexer)
 		}
 		catch(std::exception &e)
 		{
-			//I must to add writing errors to file;
-			std::cout << e.what() << std::endl;
+			writeErrorToFile(e.what());
+			if (fullErrorOutputFlag || lexer->getErrorCount() < MAX_ERROR_OUTPUT)
+				writeErrorToConsole(e.what());
 		}
 	}
 
@@ -139,8 +181,9 @@ void Executor::doSyntaxAnalys(Parser *parser)
 		}
 		catch(std::exception &e)
 		{
-			//I must to add writing errors to file;
-			std::cout << e.what() << std::endl;
+			writeErrorToFile(e.what());
+			if (fullErrorOutputFlag || parser->getErrorCount() < MAX_ERROR_OUTPUT)
+				writeErrorToConsole(e.what());
 		}
 	}
 
@@ -207,6 +250,8 @@ void Executor::startExecution()
 
 		std::cout << "----------- END -----------\n";
 	}
+
+	std::cout << std::endl;
 
 	delete lexer;
 	delete parser;

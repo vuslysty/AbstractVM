@@ -13,9 +13,9 @@
 #define TOKEN_COUNT 	10
 
 #define STD_COLOR "\033[m"
-#define RED_COLOR "\033[01;38;05;196m"
+#define RED_COLOR "\033[01;38;05;174m"
 #define GREEN_COLOR "\033[01;38;05;46m"
-#define VIOLET_COLOR "\033[01;38;05;129m"
+#define VIOLET_COLOR "\033[01;38;05;139m"
 #define BLUE_COLOR "\033[01;38;05;110m"
 
 enum	eInstruction{

@@ -22,78 +22,27 @@
 #include <map>
 #include <iomanip>
 
+void del_files()
+{
+	std::stringstream	stream;
+	int 				i;
+	std::string			str = ERROR_PATH;
+
+	i = 1;
+	str = str + "Source " + std::to_string(i++);
+	std::cout << str << std::endl;
+
+	while (remove(str.c_str()) >= 0)
+	{
+		str = ERROR_PATH;
+		str = str + "Source " + std::to_string(i++);
+		std::cout << str << std::endl;
+	}
+}
 
 int main ()
 {
-//	std::deque<const IOperand *>	stack;
-//
-//	const IOperand *pointer = stack.front();
-//
-//
-//	delete pointer;
-//
-//	Lexer	lexer("millionMAP_2", true);
-//
-//	while (lexer.isWork())
-//	{
-//		try
-//		{
-//			lexer.doLexAnalization();
-//		}
-//		catch(std::exception &e)
-//		{
-//			std::cout << e.what() << std::endl;
-//		}
-//	}
-//	std::cout << "Expected " << lexer.getErrorCount() << " errors" << std::endl;
-//
-//
-//	std::deque<Token *> 		tokens = lexer.getTokens();
-//
-//
-//	Parser	parser(&tokens);
-//
-//	parser.setOptimizator(true);
-//
-//	while (parser.isWork())
-//	{
-//		try
-//		{
-//			parser.doParsAnalization();
-//		}
-//		catch(std::exception &e)
-//		{
-//			std::cout << e.what() << std::endl;
-//		}
-//	}
-//
-//	std::queue<AInstruction* >	instructions = parser.getInstructions();
-//
-//	AInstruction * elem;
-//
-//	try
-//	{
-//		while (!instructions.empty())
-//		{
-//			elem = instructions.front();
-//			elem->doInstruction(stack);
-//			instructions.pop();
-//		}
-//	}
-//	catch (ExceptionAVM &e)
-//	{
-//		try
-//		{
-//			throw RunTimeExceptions(e.what(), elem);
-//		}
-//		catch (RunTimeExceptions &e)
-//		{
-//			std::cout << e.what() << std::endl;
-//		}
-//	}
-//
-//	const IOperand *pointer = stack.front();
-//	delete pointer;
+	del_files();
 
 	Executor	*exec = new Executor("millionMAP_", true);
 
@@ -102,6 +51,17 @@ int main ()
 	exec->startExecution();
 
 	delete exec;
+
+	exec = new Executor("millionMAP_", true);
+
+	exec->setOptimizationFlag(true);
+
+	exec->startExecution();
+
+	delete exec;
+
+
+
 
 	system("leaks -q AbstractVM");
 
