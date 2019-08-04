@@ -18,7 +18,7 @@
 #include "Exceptions/RunTimeExceptions.hpp"
 
 #include "OperandFactory/OperandFactory.hpp"
-
+#include <limits.h>
 
 template <class T>
 class 	Operand : public IOperand
@@ -43,7 +43,7 @@ class 	Operand : public IOperand
 		{
 			found = str.find_first_of('.');
 
-			if (found == ULONG_LONG_MAX)
+			if (found == (__LONG_LONG_MAX__*2ULL+1ULL))
 				counter = 2;
 			else
 				while (str[++found] != '\0')

@@ -67,22 +67,25 @@ INC =	./srcs/AVM.hpp\
 		./srcs/Exceptions/LimitException.hpp\
 		./srcs/Parser/Parser.hpp
 
+.PHONY : all
 all: $(NAME)
 
-#.PHONY : libft
 
 $(NAME): $(OBJS)
 	@echo "Building of $(NAME)..."
-	@gcc -o $(NAME) $(OBJS)
+	@clang++ -o $(NAME) $(OBJS)
 
-%.o: %.c $(INC)
-	gcc $(FLAGS) -o $@ -c $<
+%.o: %.cpp $(INC)
+	clang++ $(FLAGS) -o $@ -c $<
 
+.PHONY : clean
 clean:
-	rm -f $(OBJS)
+	@rm -f $(OBJS)
 
+.PHONY : fclean
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
+.PHONY : re
 re: fclean all
 
