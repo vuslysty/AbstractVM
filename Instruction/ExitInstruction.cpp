@@ -11,5 +11,5 @@ ExitInstruction::ExitInstruction(Token *tok)
 
 void ExitInstruction::doInstruction(std::deque<const IOperand *> &) const
 {
-
+	throw ExitException();
 }

@@ -31,6 +31,7 @@ class Executor
 {
 private:
 
+	std::ofstream					*errorFile;
 	bool							lexAnalysDone;
 	bool							parsAnalysDone;
 	bool 							isFile;
@@ -47,7 +48,6 @@ private:
 	std::deque<Token *> 			tokens;
 	std::queue<AInstruction* >		instructions;
 
-	std::ofstream					*errorFile;
 	std::string						errorFileName;
 
 	Executor();
@@ -67,8 +67,8 @@ public:
 	Executor &operator=(Executor const &rhs);
 	~Executor();
 
-	void	setOptimizationFlag(bool flag);
-	void	setFullErrorOutputFlag(bool flag);
+	static void	setOptimizationFlag(bool flag);
+	static void	setFullErrorOutputFlag(bool flag);
 
 	void 	startExecution();
 };

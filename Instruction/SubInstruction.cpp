@@ -15,8 +15,16 @@ void SubInstruction::doInstruction(std::deque<const IOperand*> &stack) const
 	std::pair<const IOperand *, const IOperand *>	pair;
 
 	pair = getTwoElemFromStack(stack);
-	stack.push_front(*pair.second - *pair.first);
-
-	delete pair.first;
-	delete pair.second;
+	try
+	{
+		stack.push_front(*pair.second - *pair.first);
+		delete pair.first;
+		delete pair.second;
+	}
+	catch (ExceptionAVM &e)
+	{
+		delete pair.first;
+		delete pair.second;
+		throw e;
+	}
 }

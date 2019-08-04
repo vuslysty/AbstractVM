@@ -10,75 +10,7 @@
 #include <zconf.h>
 #include <ftw.h>
 
-static void	replace(std::string &str, std::string const &s1, std::string const &s2)
-{
-	std::size_t 	found = 0;
-
-	found = str.find(s1, found);
-	if (found != std::string::npos)
-		str.replace(found, s1.length(), s2);
-}
-
-static bool	fileIsDirectory(std::string const & fileName)
-{
-	bool		is_directory;
-	FILE		*fp = fopen(fileName.c_str(), "rw");
-	struct stat	fileInfo;
-
-	fstat(fileno(fp), &fileInfo);
-	if (S_ISREG(fileInfo.st_mode))
-		is_directory = false;
-	else
-		is_directory = true;
-	fclose(fp);
-	return (is_directory);
-}
-
-void Executor::readTextFromFile(std::string const &src)
-{
-	std::ifstream		f(src, std::ifstream::in);
-	std::stringstream	stream;
-
-	mkdir(ERROR_PATH, 0777);
-
-	fileName = src;
-	std::cout << BLUE_COLOR << errorFileName << ": " << STD_COLOR << fileName << std::endl;
-	if (f.is_open())
-		if (!fileIsDirectory(src))
-		{
-			stream << f.rdbuf();
-			str = stream.str();
-		}
-		else
-		{
-			f.close();
-			throw FileException("\033[01;38;05;196mError:\033[m File is directory");
-		}
-	else
-	{
-		f.close();
-		throw FileException("\033[01;38;05;196mError:\033[m Can't open file");
-	}
-	f.close();
-}
-
-void Executor::writeErrorToFile(std::string const &src)
-{
-	*errorFile << src << std::endl;
-}
-
-void Executor::writeErrorToConsole(std::string src)
-{
-	static std::string	colorWarning = "\033[01;38;05;139mwarning\033[m";
-	static std::string	colorError = "\033[01;38;05;174merror\033[m";
-
-	replace(src, "warning", colorWarning);
-	replace(src, "error", colorError);
-
-	std::cout << src << std::endl;
-}
-
-Executor::Executor() : lexAnalysDone(false), parsAnalysDone(false),
+Executor::Executor() : errorFile(nullptr), lexAnalysDone(false), parsAnalysDone(false),
 	isFile(true)
 {}
 
@@ -202,25 +134,26 @@ void Executor::doExecution()
 {
 	AInstruction	*elem;
 
-	try
-	{
-		while (!instructions.empty())
-		{
-			elem = instructions.front();
-			elem->doInstruction(stack);
-			instructions.pop();
-			delete elem;
+	try {
+		try {
+			while (!instructions.empty())
+			{
+				elem = instructions.front();
+				elem->doInstruction(stack);
+				instructions.pop();
+				delete elem;
+			}
+			std::cout << RED_COLOR << "Error: " << STD_COLOR << "Not detected 'exit' instruction" << std::endl;
+			std::cout << RED_COLOR << "✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘" << STD_COLOR << std::endl;
+		} catch (ExitException &e) {
+			std::cout << GREEN_COLOR << "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔"
+					  << STD_COLOR << std::endl;
 		}
-		std::cout << GREEN_COLOR << "✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔ ✔" << STD_COLOR << std::endl;
-	}
-	catch (ExceptionAVM &e)
-	{
-		try
-		{
+	} catch (ExceptionAVM &e) {
+		try {
 			throw RunTimeExceptions(e.what(), elem);
 		}
-		catch (RunTimeExceptions &e)
-		{
+		catch (RunTimeExceptions &e) {
 			std::cout << e.what() << std::endl;
 			std::cout << RED_COLOR << "✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘ ✘" << STD_COLOR << std::endl;
 		}
@@ -250,8 +183,6 @@ void Executor::startExecution()
 
 		std::cout << "----------- END -----------\n";
 	}
-
-	std::cout << std::endl;
 
 	delete lexer;
 	delete parser;

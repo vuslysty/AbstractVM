@@ -50,8 +50,3 @@ ValueIsNotASCIIException::ValueIsNotASCIIException()
 {
 	message = "Value is not ASCII symbol";
 }
-
-InvalidBinaryOperationException::InvalidBinaryOperationException()
-{
-	message = "Invalid binary operation";
-}

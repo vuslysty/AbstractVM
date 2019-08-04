@@ -61,13 +61,6 @@ public:
 	ValueIsNotASCIIException();
 };
 
-class InvalidBinaryOperationException : public RunTimeExceptions
-{
-public:
-	InvalidBinaryOperationException();
-};
-
-
 
 
 #endif //ABSTRACTVM_RUNTIMEEXCEPTIONS_HPP

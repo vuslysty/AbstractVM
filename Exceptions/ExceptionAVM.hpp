@@ -15,11 +15,11 @@ class ExceptionAVM : public std::exception
 protected:
 	static std::string	message;
 
+public:
 	ExceptionAVM() = default;
 	ExceptionAVM(ExceptionAVM const &src)  = default;
 	ExceptionAVM &operator=(ExceptionAVM const &rhs) = default;
 
-public:
 	const char 			*what() const _NOEXCEPT final; // just one what
 	virtual ~ExceptionAVM() = default;
 };
@@ -41,10 +41,13 @@ public:
 					std::deque<Token *>::iterator end);
 };
 
-class FileException : public ExceptionAVM
+class InvalidFlagException : public ExceptionAVM
 {
 public:
-	FileException(std::string const &fileName);
+	explicit InvalidFlagException(char c);
 };
+
+class ExitException : public ExceptionAVM
+{};
 
 #endif //ABSTRACTVM_EXCEPTIONAVM_HPP

@@ -18,6 +18,7 @@
 #include "Exceptions/ExceptionAVM.hpp"
 #include "Exceptions/RunTimeExceptions.hpp"
 #include "Executor/Executor.hpp"
+#include "Exceptions/FileException.hpp"
 #include <deque>
 #include <map>
 #include <iomanip>
@@ -38,29 +39,82 @@ void del_files()
 	}
 }
 
-int main ()
+std::string readFromSTDIN()
 {
+	std::stringstream	stream;
+	std::string line;
 
-	system("chmod 777 errors &> /dev/null");
-	del_files();
+	while (line != ";;")
+	{
+		if (std::cin.eof())
+			break ;
+		std::getline(std::cin, line, '\n');
+		stream << line << '\n';
+	}
+	return stream.str();
+}
 
-	Executor	*exec = new Executor("millionMAP_", true);
+int check_flags(int argc, char **argv)
+{
+	int 		i = 0;
+	std::string arg;
 
-	exec->setOptimizationFlag(true);
+	while (++i < argc)
+	{
+		arg = argv[i];
+		if (arg[0] != '-')
+			break ;
+		for (auto c = ++arg.begin(); c != arg.end(); ++c)
+		{
+			if (*c == 'o')
+				Executor::setOptimizationFlag(true);
+			else if (*c == 'f')
+				Executor::setFullErrorOutputFlag(true);
+			else
+				throw InvalidFlagException(*c);
+		}
+	}
+	return (i);
+}
 
-	exec->startExecution();
+int main (int argc, char **argv)
+{
+	Executor	*exec;
+	int 		i;
 
-	delete exec;
-	
+	try
+	{
+		del_files();
+		i = check_flags(argc, argv);
 
+		if (i == argc)
+		{
+			exec = new Executor(readFromSTDIN(), false);
+			exec->startExecution();
+			delete exec;
+		}
+		else
+			while (i < argc)
+			{
+				try
+				{
+					exec = new Executor(argv[i], true);
+					exec->startExecution();delete exec;
+				} catch (FileException &e) {
+					std::cout << e.what() << std::endl;
+				}
+				std::cout << std::endl;
+				i++;
+			}
 
-
-
-
+	} catch (ExceptionAVM &e){
+		std::cout << e.what() << std::endl;
+	}
+	catch (...) {
+		std::cout << "strange exception" << std::endl;
+	}
 
 	system("leaks -q AbstractVM");
-
-	system("chmod 555 errors &> /dev/null");
 
 	return 0;
 }

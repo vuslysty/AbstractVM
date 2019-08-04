@@ -20,7 +20,7 @@ LexerException::LexerException(std::string const &m, std::string const &value, u
 	stream << message << " at [" << row << ":" << col << "] : " << m;
 
 	if (value.size() != 0)
-		stream << "; bad value: \"" << value << "\"";
+		stream << "; The value we got: \"" << value << "\"";
 
 	message = stream.str();
 }
