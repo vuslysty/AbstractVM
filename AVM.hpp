@@ -8,7 +8,7 @@
 
 #include <string>
 
-#define INSTR_COUNT 	11
+#define INSTR_COUNT 	15
 #define OPER_TYPE_COUNT 5
 #define TOKEN_COUNT 	10
 
@@ -19,11 +19,12 @@
 #define BLUE_COLOR "\033[01;38;05;110m"
 
 enum	eInstruction{
-	Push, Assert, Pop, Dump, Add, Sub, Mul, Div, Mod, Print, Exit
+	Push, Assert, Pop, Dump, Add, Sub, Mul, Div, Mod, Print, Min, Max, Front, Back, Exit
 };
 
 const std::string sInstrutions[INSTR_COUNT] = {
-		"push", "assert", "pop", "dump", "add", "sub", "mul", "div", "mod", "print", "exit"
+		"push", "assert", "pop", "dump", "add", "sub", "mul", "div", "mod",
+		"print", "min", "max", "front", "back", "exit"
 };
 
 enum	eOperandType{
@@ -35,10 +36,6 @@ const std::string sOperandTypes[OPER_TYPE_COUNT] = {
 };
 
 enum eToken{ InstEmpt, InstValue, InstBad, OperandType, OpenScope, CloseScope, NumN, NumZ, EndLine, End };
-
-//const std::string	sToken[TOKEN_COUNT] = {
-//		"InstEmpt", "InstValue", "InstBad", "OperandType", "OpenScope", "CloseScope", "NumN", "NumZ", "EndLine", "End"
-//};
 
 void		checkOverAndUnderFlow(long double v, eOperandType t);
 std::string	getStrValueWithPrecision(long double value, eOperandType type,

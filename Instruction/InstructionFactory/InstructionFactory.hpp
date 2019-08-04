@@ -13,7 +13,7 @@ class InstructionFactory
 {
 private:
 
-	static InstructionFactory	*factories[11];
+	static InstructionFactory	*factories[INSTR_COUNT];
 
 protected:
 
@@ -81,6 +81,26 @@ class PushFactory : public InstructionFactory
 };
 
 class SubFactory : public InstructionFactory
+{
+	AInstruction	*createInstruction(const Parser &parser) final;
+};
+
+class MinFactory : public InstructionFactory
+{
+	AInstruction	*createInstruction(const Parser &parser) final;
+};
+
+class MaxFactory : public InstructionFactory
+{
+	AInstruction	*createInstruction(const Parser &parser) final;
+};
+
+class FrontFactory : public InstructionFactory
+{
+	AInstruction	*createInstruction(const Parser &parser) final;
+};
+
+class BackFactory : public InstructionFactory
 {
 	AInstruction	*createInstruction(const Parser &parser) final;
 };

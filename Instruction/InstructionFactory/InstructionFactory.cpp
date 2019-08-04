@@ -4,7 +4,7 @@
 
 #include "InstructionFactory.hpp"
 
-InstructionFactory *InstructionFactory::factories[11] = {
+InstructionFactory *InstructionFactory::factories[INSTR_COUNT] = {
 		new PushFactory(),
 		new AssertFactory(),
 		new PopFactory(),
@@ -15,6 +15,12 @@ InstructionFactory *InstructionFactory::factories[11] = {
 		new DivFactory(),
 		new ModFactory(),
 		new PrintFactory(),
+
+		new MinFactory(),
+		new MaxFactory(),
+		new FrontFactory(),
+		new BackFactory(),
+
 		new ExitFactory()
 };
 
@@ -86,4 +92,24 @@ AInstruction* PushFactory::createInstruction(const Parser &parser)
 AInstruction* SubFactory::createInstruction(const Parser &parser)
 {
 	return new SubInstruction(parser.getStartToken());
+}
+
+AInstruction* MinFactory::createInstruction(const Parser &parser)
+{
+	return new MinInstruction(parser.getStartToken());
+}
+
+AInstruction* MaxFactory::createInstruction(const Parser &parser)
+{
+	return new MaxInstruction(parser.getStartToken());
+}
+
+AInstruction* FrontFactory::createInstruction(const Parser &parser)
+{
+	return new FrontInstruction(parser.getStartToken());
+}
+
+AInstruction* BackFactory::createInstruction(const Parser &parser)
+{
+	return new BackInstruction(parser.getStartToken());
 }

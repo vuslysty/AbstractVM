@@ -136,6 +136,38 @@ public:
 	void doInstruction(std::deque<const IOperand*> &stack) const final;
 };
 
+class MinInstruction : public AInstruction
+{
+public:
+	MinInstruction(Token *tok);
+
+	void doInstruction(std::deque<const IOperand*> &stack) const final;
+};
+
+class MaxInstruction : public AInstruction
+{
+public:
+	MaxInstruction(Token *tok);
+
+	void doInstruction(std::deque<const IOperand*> &stack) const final;
+};
+
+class FrontInstruction : public AInstruction
+{
+public:
+	FrontInstruction(Token *tok);
+
+	void doInstruction(std::deque<const IOperand*> &stack) const final;
+};
+
+class BackInstruction : public AInstruction
+{
+public:
+	BackInstruction(Token *tok);
+
+	void doInstruction(std::deque<const IOperand*> &stack) const final;
+};
+
 
 
 
