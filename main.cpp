@@ -2,29 +2,12 @@
 // Created by Vladyslav USLYSTYI on 2019-07-15.
 //
 
-#include <iostream>
-#include <string>
-#include <regex>
-#include <iterator>
-
-#include <string>
-#include <sstream>
-#include <vector>
-
-
-#include "Instruction/AInstruction.hpp"
-#include "Instruction/InstructionFactory/InstructionFactory.hpp"
-#include "Lexer/Lexer.hpp"
 #include "Exceptions/ExceptionAVM.hpp"
-#include "Exceptions/RunTimeExceptions.hpp"
 #include "Executor/Executor.hpp"
 #include "Exceptions/FileException.hpp"
-#include <deque>
-#include <map>
-#include <iomanip>
 #include <sys/stat.h>
 
-void del_files()
+static void del_files()
 {
 	std::stringstream	stream;
 	int 				i;
@@ -37,12 +20,12 @@ void del_files()
 	while (remove(str.c_str()) >= 0)
 	{
 		str = ERROR_PATH;
-		str = str + "Source " + std::to_string(i++);
+		str.append("Source " + std::to_string(i++));
 	}
 	chmod(ERROR_PATH, 0555);
 }
 
-std::string readFromSTDIN()
+static std::string readFromSTDIN()
 {
 	std::stringstream	stream;
 	std::string line;
@@ -57,7 +40,7 @@ std::string readFromSTDIN()
 	return stream.str();
 }
 
-int check_flags(int argc, char **argv)
+static int check_flags(int argc, char **argv)
 {
 	int 		i = 0;
 	std::string arg;
@@ -102,7 +85,8 @@ int main (int argc, char **argv)
 				try
 				{
 					exec = new Executor(argv[i], true);
-					exec->startExecution();delete exec;
+					exec->startExecution();
+					delete exec;
 				} catch (FileException &e) {
 					std::cout << e.what() << std::endl;
 				}
@@ -110,7 +94,7 @@ int main (int argc, char **argv)
 				i++;
 			}
 
-	} catch (ExceptionAVM &e){
+	} catch (ExceptionAVM &e) {
 		std::cout << e.what() << std::endl;
 	}
 	catch (...) {

@@ -9,20 +9,18 @@
 #include <string>
 #include <regex>
 #include <iterator>
-
 #include <string>
 #include <sstream>
 #include <vector>
-
+#include <deque>
+#include <map>
+#include <iomanip>
 
 #include "../Instruction/AInstruction.hpp"
 #include "../Instruction/InstructionFactory/InstructionFactory.hpp"
 #include "../Lexer/Lexer.hpp"
 #include "../Exceptions/ExceptionAVM.hpp"
 #include "../Exceptions/RunTimeExceptions.hpp"
-#include <deque>
-#include <map>
-#include <iomanip>
 
 #define ERROR_PATH "errorsAVM/"
 #define MAX_ERROR_OUTPUT 20
