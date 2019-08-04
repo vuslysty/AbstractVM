@@ -24,7 +24,7 @@
 #include <map>
 #include <iomanip>
 
-#define ERROR_PATH "errors/"
+#define ERROR_PATH "errorsAVM/"
 #define MAX_ERROR_OUTPUT 20
 
 class Executor

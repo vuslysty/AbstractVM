@@ -2,6 +2,7 @@
 // Created by Vladyslav USLYSTYI on 2019-08-02.
 //
 
+#include <aio.h>
 #include <sys/stat.h>
 #include <fstream>
 #include <sstream>
@@ -21,6 +22,9 @@ Executor::Executor(std::string const &src, bool isFile) : Executor()
 	numSource++;
 	stream << "Source " << numSource;
 	errorFileName = stream.str();
+
+	mkdir(ERROR_PATH, 0755);
+	chmod(ERROR_PATH, 0755);
 
 	if (!isFile)
 	{
@@ -67,6 +71,7 @@ Executor::~Executor()
 		delete operand;
 	}
 
+	chmod(ERROR_PATH, 0555);
 	delete errorFile;
 }
 

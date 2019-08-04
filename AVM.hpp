@@ -42,4 +42,10 @@ std::string	getStrValueWithPrecision(long double value, eOperandType type,
 										int precision);
 void		longDoubleOverUnderFlow(std::string const &value);
 
+void	checkInt8Limits(long double value);
+void	checkInt16Limits(long double value);
+void	checkInt32Limits(long double value);
+void	checkFloatLimits(long double value);
+void	checkDoubleLimits(long double value);
+
 #endif //ABSTRACTVM_AVM_HPP

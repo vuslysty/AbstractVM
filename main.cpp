@@ -22,6 +22,7 @@
 #include <deque>
 #include <map>
 #include <iomanip>
+#include <sys/stat.h>
 
 void del_files()
 {
@@ -29,6 +30,7 @@ void del_files()
 	int 				i;
 	std::string			str = ERROR_PATH;
 
+	chmod(ERROR_PATH, 0777);
 	i = 1;
 	str = str + "Source " + std::to_string(i++);
 
@@ -37,6 +39,7 @@ void del_files()
 		str = ERROR_PATH;
 		str = str + "Source " + std::to_string(i++);
 	}
+	chmod(ERROR_PATH, 0555);
 }
 
 std::string readFromSTDIN()
@@ -113,8 +116,6 @@ int main (int argc, char **argv)
 	catch (...) {
 		std::cout << "strange exception" << std::endl;
 	}
-
-	system("leaks -q AbstractVM");
 
 	return 0;
 }

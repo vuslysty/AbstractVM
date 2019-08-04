@@ -53,8 +53,6 @@ void Executor::readTextFromFile(std::string const &src)
 	std::ifstream		f(src, std::ifstream::in);
 	std::stringstream	stream;
 
-	mkdir(ERROR_PATH, 0755);
-
 	fileName = src;
 	std::cout << BLUE_COLOR << errorFileName << ": " << STD_COLOR << fileName << std::endl;
 	if (f.is_open())

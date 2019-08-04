@@ -11,35 +11,15 @@
 
 void	checkOverAndUnderFlow(long double v, eOperandType t)
 {
-	if (t == Int8)
-	{
-		v > INT8_MAX ? throw ValueOverflow() : 0;
-		v < INT8_MIN ? throw ValueUnderflow() : 0;
-	}
-	else if (t == Int16)
-	{
-		v > INT16_MAX ? throw ValueOverflow() : 0;
-		v < INT16_MIN ? throw ValueUnderflow() : 0;
-	}
-	else if (t == Int32)
-	{
-		v > INT32_MAX ? throw ValueOverflow() : 0;
-		v < INT32_MIN ? throw ValueUnderflow() : 0;
-	}
-	else if (t == Float)
-	{
-		if (v > FLT_MAX || v < -FLT_MAX)
-			throw ValueOverflow();
-		else if ((v > 0 && v < FLT_MIN) || (v < 0 && v > -FLT_MIN))
-			throw ValueUnderflow();
-	}
-	else if (t == Double)
-	{
-		if (v > DBL_MAX || v < -DBL_MAX)
-			throw ValueOverflow();
-		else if ((v > 0 && v < DBL_MIN) || (v < 0 && v > -DBL_MIN))
-			throw ValueUnderflow();
-	}
+	static void (*limits[5])(long double) = {
+		checkInt8Limits,
+		checkInt16Limits,
+		checkInt32Limits,
+		checkFloatLimits,
+		checkDoubleLimits
+	};
+
+	limits[t](v);
 }
 
 void	longDoubleOverUnderFlow(std::string const &value)
