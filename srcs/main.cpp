@@ -48,7 +48,7 @@ static int check_flags(int argc, char **argv)
 	while (++i < argc)
 	{
 		arg = argv[i];
-		if (arg[0] != '-')
+		if (arg[0] != '-' || (arg[0] == '-' && arg[1] == '\0'))
 			break ;
 		for (auto c = ++arg.begin(); c != arg.end(); ++c)
 		{
@@ -63,11 +63,65 @@ static int check_flags(int argc, char **argv)
 	return (i);
 }
 
-int main (int argc, char **argv)
+void	getHelp()
+{
+	std::cout << "usage: ./abstractVM [-o][-f] [file_1 ... file_N]" << std::endl;
+	std::cout << "-o	- optimization flag" << std::endl;
+	std::cout << "1. You can write more than one instruction per line" << std::endl;
+	std::cout << "2. You can skip the brackets" << std::endl;
+	std::cout << "3. You can skip the explicit conversion during addition value" << std::endl;
+	std::cout << std::endl;
+	std::cout << "-f	- full error output" << std::endl << std::endl;
+	std::cout << "*Abstract VM GRAMMAR*" << std::endl;
+
+	std::cout << "S := INSTR [SEP INSTR]* #" << std::endl << std::endl;
+
+	std::cout << "INSTR :=" << std::endl;
+	std::cout << "	  push VALUE" << std::endl;
+	std::cout << "	| pop" << std::endl;
+	std::cout << "	| dump" << std::endl;
+	std::cout << "	| assert VALUE" << std::endl;
+	std::cout << "	| add" << std::endl;
+	std::cout << "	| sub" << std::endl;
+	std::cout << "	| mul" << std::endl;
+	std::cout << "	| div" << std::endl;
+	std::cout << "	| mod" << std::endl;
+	std::cout << "	| exit" << std::endl;
+	std::cout << "BONUS INSTRUCTION:" << std::endl;
+	std::cout << "	| min" << std::endl;
+	std::cout << "	| max" << std::endl;
+	std::cout << "	| front" << std::endl;
+	std::cout << "	| back" << std::endl << std::endl;
+
+	std::cout << "VALUE :=" << std::endl;
+	std::cout << "	  int8(N)" << std::endl;
+	std::cout << "	| int16(N)" << std::endl;
+	std::cout << "	| int32(N)" << std::endl;
+	std::cout << "	| float(Z)" << std::endl;
+	std::cout << "	| double(Z)" << std::endl << std::endl;
+
+	std::cout << "N := [-]?[0..9]+" << std::endl << std::endl;
+
+	std::cout << "Z := [-]?[0..9]+.[0..9]+" << std::endl << std::endl;
+
+	std::cout << "SEP := '\\n'+" << std::endl << std::endl;
+
+	std::cout << "SIMPLE COMMENT := ';'" << std::endl << std::endl;
+
+	std::cout << "BONUS:" << std::endl;
+	std::cout << "MULTI-LINE COMMENT :=  /; *some text* ;/" << std::endl;
+}
+
+int		main (int argc, char **argv)
 {
 	Executor	*exec;
 	int 		i;
 
+	if (argc == 2 && strcmp(argv[1], "--help") == 0)
+	{
+		getHelp();
+		return (0);
+	}
 	try
 	{
 		del_files();

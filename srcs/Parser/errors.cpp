@@ -37,7 +37,7 @@ void Parser::errorNotOpenScope()
 		warningCounter++;
 	}
 
-	throw ParserException(!optimizator, "Not open scope after data type", startInstr, ++tmp);
+	throw ParserException(!optimizator, "Not open bracket after data type", startInstr, ++tmp);
 }
 
 void Parser::errorNotNumber()
@@ -56,7 +56,7 @@ void Parser::errorEmptyScopes()
 {
 	std::stringstream	stream;
 
-	stream << "Detected empty scopes, you must add some NUMBER between them";
+	stream << "Detected empty brackets, you must add some NUMBER between them";
 
 	errorCounter++;
 	throw ParserException(true, stream.str(), startInstr, ++iter);
@@ -116,7 +116,7 @@ void Parser::errorNotCloseScope()
 	std::stringstream	stream;
 	auto				tmp = iter;
 
-	stream << "You forgot close scope... Stupid";
+	stream << "You forgot close the brackets... Stupid";
 
 	errorCounter++;
 	throw ParserException(true, stream.str(), startInstr, ++tmp);
